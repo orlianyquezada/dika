@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Customers\RegisterCustomerRequest;
 use App\Http\Requests\Customers\UpdateCustomerRequest;
 use App\Models\Customer;
-use DB;
 
 class CustomersController extends Controller
 {
@@ -27,12 +26,11 @@ class CustomersController extends Controller
      */
     public function index()
     {
-        return view('customers');
+        return view('customers.customers');
     }
 
     public function GetCustomers(){
-        $customers = DB::table('customers')
-                    ->get();
+        $customers = Customer::all();
         $forDtt['data'] = $customers;
         return response()->json($forDtt);
     }
@@ -48,8 +46,8 @@ class CustomersController extends Controller
     }
 
     public function viewCustomer($idCustomer){
-        $customer = DB::table('customers')->where('id',$idCustomer)->first();
-        return get_object_vars($customer);
+        $customer = Customer::find($idCustomer);
+        return $customer;
     }
 
     public function updateCustomer(Request $request){
