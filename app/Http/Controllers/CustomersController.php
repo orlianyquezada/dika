@@ -32,7 +32,7 @@ class CustomersController extends Controller
     public function GetCustomers(){
         $customers = Customer::all();
         $forDtt['data'] = $customers;
-        return response()->json($forDtt);
+        return response()->json([$forDtt], 200);
     }
 
     public function store(RegisterCustomerRequest $request)
@@ -47,7 +47,7 @@ class CustomersController extends Controller
 
     public function viewCustomer($idCustomer){
         $customer = Customer::find($idCustomer);
-        return $customer;
+        return response()->json([$customer], 200);
     }
 
     public function updateCustomer(Request $request){
@@ -56,18 +56,18 @@ class CustomersController extends Controller
             $customer->name_cu = $request->name_cu;
             $customer->phone_cu = $request->phone_cu;
             $customer->save();
-            return response()->json(1);
+            return response()->json([1], 200);
         }else{
-            return response()->json(0);
+            return response()->json([0], 200);
         }
     }
 
     public function deleteCustomer($idCustomer){
         Customer::destroy($idCustomer);
         if (Customer::find($idCustomer) == null){
-            return response()->json(1);
+            return response()->json([1], 200);
         }else{
-            return response()->json(0);
+            return response()->json([0], 200);
         }
     }
 }
