@@ -32,7 +32,7 @@ class CustomersController extends Controller
     public function GetCustomers(){
         $customers = Customer::all();
         $forDtt['data'] = $customers;
-        return response()->json($forDtt);
+        return response()->json([$forDtt], 200);
     }
 
     public function store(RegisterCustomerRequest $request)
@@ -47,7 +47,7 @@ class CustomersController extends Controller
 
     public function viewCustomer($idCustomer){
         $customer = Customer::find($idCustomer);
-        return $customer;
+        return response()->json([$customer], 200);
     }
 
     public function updateCustomer(UpdateCustomerRequest $request){
