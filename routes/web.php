@@ -23,10 +23,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Customers
 Route::get('/customers', 'CustomersController@index')->name('customers');
 Route::get('allCustomers', 'CustomersController@GetCustomers');
-Route::post('/customers', 'CustomersController@store')->name('customerRegisterPost');
+Route::post('/customers', 'CustomersController@store')->name('customer-register');
 Route::get('/viewCustomer/{idCustomer}', 'CustomersController@viewCustomer');
 Route::post('/{idCustomer}', 'CustomersController@updateCustomer');
 Route::get('/deleteCustomer/{idCustomer}', 'CustomersController@deleteCustomer');
 //Movements
 Route::get('/movements', 'MovementsController@index')->name('movements');
-Route::post('/movements', 'MovementsController@store')->name('movementsRegister');
+Route::post('/movements', 'MovementsController@store');

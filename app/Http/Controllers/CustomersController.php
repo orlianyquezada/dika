@@ -50,25 +50,17 @@ class CustomersController extends Controller
         return $customer;
     }
 
-    public function updateCustomer(Request $request){
+    public function updateCustomer(UpdateCustomerRequest $request){
         $customer = Customer::find($request->id);
         if ($customer){
             $customer->name_cu = $request->name_cu;
             $customer->phone_cu = $request->phone_cu;
             $customer->save();
-            return response()->json(1);
-        }else{
-            return response()->json(0);
         }
     }
 
     public function deleteCustomer($idCustomer){
         Customer::destroy($idCustomer);
-        if (Customer::find($idCustomer) == null){
-            return response()->json(1);
-        }else{
-            return response()->json(0);
-        }
     }
 }
 

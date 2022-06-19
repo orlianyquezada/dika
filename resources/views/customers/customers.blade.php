@@ -7,10 +7,17 @@
     <div class="container mt-3 col-lg-8">
         <!-- Messages alert -->
         @if (session('flash'))
-            <x-adminlte-alert theme="success" title="{{ session('flash') }}" dismissable></x-adminlte-alert>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('flash') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @else
+            <div id="alertSuccess"></div>
         @endif
         @if ($errors->any())
-            <x-adminlte-alert theme="danger" titlle="Error" dismissable>
+            <x-adminlte-alert theme="danger" title="Errors" dismissable>
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -67,19 +74,21 @@
                         <h5 class="modal-title" id="insertCustomerLabel"><strong>Customer Registration</strong></h5>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('customerRegisterPost') }}" method="post" autocomplete="off" id="customerRegister">
+                        <form action="{{ route('customer-register') }}" method="post" autocomplete="off" id="customerRegister">
                             @csrf
                             <div class="row">
                                 <div class="col-12 col-lg-7">
                                     <div class="form-group">
                                         <label for="name">Name</label>
                                         <input type="text" name="name_cu" id="name" class="form-control shadow-sm" placeholder="Name">
+                                        <div class="invalid-feedback">{{ $errors->formulario->first('name_cu') }}</div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-5">
                                     <div class="form-group">
                                         <label for="phone">Phone number</label>
                                         <input type="tel" name="phone_cu" id="phone" class="form-control shadow-sm" placeholder="Phone number">
+                                        <div class="invalid-feedback">{{ $errors->formulario->first('phone_cu') }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -199,9 +208,21 @@
                 type: "POST",
                 url: $('#idCustomerEdit').val(),
                 data: $('form#updateCustomer').serialize(),
+                error: function(data){
+                    $('#editCustomer').modal('hide');
+                    $('#dtCustomers').DataTable().ajax.reload();
+                    alert('error');
+                    console.log(data.responseJSON);
+                },
                 success: function(data){
                     $('#editCustomer').modal('hide');
                     $('#dtCustomers').DataTable().ajax.reload();
+                    $('#alertSuccess').append('<div id="messageAlertSuccess" class="alert-dismissible fade show"></div>');
+                    $('#messageAlertSuccess').text('¡The customer has been successfully edited!');
+                    $('#messageAlertSuccess').addClass('alert alert-success');
+                    $('#messageAlertSuccess').append('<button type="button" id="dimissibleAlertSuccess" data-dismiss="alert" aria-label="Close"></button>');
+                    $('#dimissibleAlertSuccess').addClass('close');
+                    $('#dimissibleAlertSuccess').append('<span aria-hidden="true">&times;</span>');
                 }
             });
         }

@@ -32,13 +32,7 @@ class MovementsController extends Controller
         return view('movements', compact('customers','conditions','status'));
     }
 
-    public function store(RegisterMovementRequest $request){
-        return redirect('home');
-        // $saved = Movement::create($request->all());
-        // if ($saved){
-        //     return redirect('/movements')->with('flash','¡The movement has been successfully registered!');
-        // }else{
-        //     return redirect()->back()->withInput()->withError('¡You have not saved the movement!');
-        // }
-    }
+    // public function store(){
+    //     return view('home');
+    // }
 }
