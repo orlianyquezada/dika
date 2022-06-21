@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterCustomerRequest extends FormRequest
 {
-    protected $redirect = 'customers';
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,7 +25,7 @@ class RegisterCustomerRequest extends FormRequest
     {
         return [
             'name_cu' => 'required|min:10|max:120|regex:/^[a-z ]+$/i',
-            'phone_cu' => 'required|unique:customers,phone_cu|numeric|min:10'
+            'phone_cu' => 'required|numeric|min:10'
         ];
     }
 
@@ -37,7 +36,6 @@ class RegisterCustomerRequest extends FormRequest
             'name_cu.max' => 'The maximum number of letters must be 120',
             'name_cu.regex' => 'The name field only accepts letters',
             'phone_cu.required' => 'Customer phone is required',
-            'phone_cu.unique' => 'Another customer has that phone number.',
             'phone_cu.min' => 'The minimun of phone numbers must be 10',
             'phone_cu.numeric' => 'The phone field only accepts numbers'
         ];

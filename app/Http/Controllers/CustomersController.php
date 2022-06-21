@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Customers\RegisterCustomerRequest;
 use App\Http\Requests\Customers\UpdateCustomerRequest;
 use App\Models\Customer;
+use DB;
 
 class CustomersController extends Controller
 {
@@ -29,25 +30,25 @@ class CustomersController extends Controller
         return view('customers.customers');
     }
 
-    public function GetCustomers(){
+    public function getCustomers(){
         $customers = Customer::all();
         $forDtt['data'] = $customers;
-        return response()->json([$forDtt], 200);
+        return response()->json($forDtt, 200);
     }
 
     public function store(RegisterCustomerRequest $request)
     {
         $saved = Customer::create($request->all());
         if ($saved){
-            return redirect('/customers')->with('flash','¡The customer has been successfully registered!');
+            return redirect('/customers/customers')->with('flash','¡The customer has been successfully registered!');
         }else{
-            return redirect()->back()->withInput()->withError('¡You have not saved the customer!');
+            return view('home');
         }
     }
 
     public function viewCustomer($idCustomer){
         $customer = Customer::find($idCustomer);
-        return response()->json([$customer], 200);
+        return response()->json($customer, 200);
     }
 
     public function updateCustomer(UpdateCustomerRequest $request){

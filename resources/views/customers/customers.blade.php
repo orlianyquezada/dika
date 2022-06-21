@@ -4,7 +4,7 @@
 
 @section('content_header')
     <!-- Container's info -->
-    <div class="container mt-3 col-lg-8">
+    <div class="container mt-3 col-lg-9">
         <!-- Messages alert -->
         @if (session('flash'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -17,13 +17,18 @@
             <div id="alertSuccess"></div>
         @endif
         @if ($errors->any())
-            <x-adminlte-alert theme="danger" title="Errors" dismissable>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-            </x-adminlte-alert>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @else
+            <div id="alertDanger"></div>
         @endif
         <div class="card border-white shadow">
             <div class="card-body">
@@ -44,10 +49,10 @@
 @stop
 
 @section('content')
-    <div class="container col-lg-8">
+    <div class="container col-lg-9">
         <!-- Customer's table -->
         <div class="card shadow border-white">
-            <div class="card-body">
+           <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover" id="dtCustomers" class="display">
                         <thead>
@@ -55,8 +60,7 @@
                                 <th>ID</th>
                                 <th>Customer</th>
                                 <th>Phone</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -166,9 +170,8 @@
     <script>
         $(document).ready( function () {
             confirmDelete();
-
+            
             $('#dtCustomers').DataTable({
-                responsive: true,
                 ajax:{
                     url: 'allCustomers',
                     method: "GET",
@@ -179,11 +182,7 @@
                     {data: 'phone_cu'},
                     {data: 'id',
                     render: function(data,t,w,meta){
-                        return '<button onclick="editCustomer('+data+');" class="btn btn-xs btn-ligth text-dark mx-1" title="Edit"><i class="fa fa-lg fa-fw fa-pen"></i></button>';
-                    }},
-                    {data: 'id',
-                    render: function(data,t,w,meta){
-                        return '<button class="btn btn-xs btn-ligth text-dark mx-1" title="Delete"><i class="fa fa-lg fa-fw fa-trash" onclick="deleteCustomer('+data+')"></i></button>';
+                        return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="editCustomer('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Delete"><i class="fa fa-fw fa-trash" onclick="deleteCustomer('+data+')"></i></button></div>';
                     }}
                 ]
             });
@@ -197,8 +196,11 @@
                     $('#nameEdit').val(data.name_cu);
                     $('#phoneEdit').val(data.phone_cu);
                     $('#idCustomerEdit').val(data.id);
+                },
+                error: function(data){
+                    alert('no funciona');
                 }
-            })
+            });
             $('#editCustomer').modal('show');
         }
 
@@ -206,20 +208,30 @@
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('input[name=_token]').val()},
                 type: "POST",
-                url: $('#idCustomerEdit').val(),
+                url: +$('#idCustomerEdit').val(),
                 data: $('form#updateCustomer').serialize(),
                 error: function(data){
                     $('#editCustomer').modal('hide');
                     $('#dtCustomers').DataTable().ajax.reload();
-                    alert('error');
-                    console.log(data.responseJSON);
+                    $('#alertDanger').append('<div id="messageAlertDanger"></div>');
+                    $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
+                    $('#messageAlertDanger').append('<ul id="listAlert"></ul>');
+                    var resultado = data.responseJSON.errors;
+                    var contenido = '';
+                    $.each(resultado, function(index, value) {
+                        contenido += '<li>'+value+'</li>';
+                    });
+                    $("#listAlert").html(contenido);
+                    $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
+                    $('#dimissibleAlertDanger').addClass('close');
+                    $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
                 },
                 success: function(data){
                     $('#editCustomer').modal('hide');
                     $('#dtCustomers').DataTable().ajax.reload();
-                    $('#alertSuccess').append('<div id="messageAlertSuccess" class="alert-dismissible fade show"></div>');
+                    $('#alertSuccess').append('<div id="messageAlertSuccess"></div>');
                     $('#messageAlertSuccess').text('¡The customer has been successfully edited!');
-                    $('#messageAlertSuccess').addClass('alert alert-success');
+                    $('#messageAlertSuccess').addClass('alert alert-success alert-dismissible fade show');
                     $('#messageAlertSuccess').append('<button type="button" id="dimissibleAlertSuccess" data-dismiss="alert" aria-label="Close"></button>');
                     $('#dimissibleAlertSuccess').addClass('close');
                     $('#dimissibleAlertSuccess').append('<span aria-hidden="true">&times;</span>');
@@ -240,6 +252,12 @@
                 }).then(function(d){
                     $('#deleteCustomer').modal('hide');
                     $('#dtCustomers').DataTable().ajax.reload();
+                    $('#alertSuccess').append('<div id="messageAlertDanger"></div>');
+                    $('#messageAlertDanger').text('¡The customer has been successfully deleted!');
+                    $('#messageAlertDanger').addClass('alert alert-success alert-dismissible fade show');
+                    $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
+                    $('#dimissibleAlertDanger').addClass('close');
+                    $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
                 });
             });
         }
