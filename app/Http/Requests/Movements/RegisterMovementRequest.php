@@ -24,19 +24,19 @@ class RegisterMovementRequest extends FormRequest
     public function rules()
     {
         return [
-            'date_mo' => 'required|datetime',
-            'item_mo' => 'required|text',
-            'quanty_mo' => 'required|numeric',
-            'qty_mo' => 'required|numeric',
-            'ubication_mo' => 'required',
-            'observation_mo' => 'required',
-            'customer_id' => 'required',
-            'condition_id' => 'required',
-            'status_id' => 'required',
-            'shipment_id' => '',
-            'employee_id' => '',
-            'movement_id' => '',
-            'user_id' => 'required'
+            'date_mo' => 'required|date',
+            'item_mo' => 'required|regex:/^[a-z ]+$/i|min:10|max:255',
+            'quanty_mo' => 'required|numeric|min:1',
+            'qty_mo' => 'required|numeric|min:1',
+            'ubication_mo' => 'required|regex:/^[a-z ]+$/i|min:10|max:255',
+            'observation_mo' => 'required|regex:/^[a-z ]+$/i|min:10|max:255',
+            'customer_id' => 'required|numeric',
+            'condition_id' => 'required|numeric',
+            'status_id' => 'required|numeric',
+            'shipment_id' => 'numeric|nullable',
+            'employee_id' => 'numeric|nullable',
+            'movement_id' => 'numeric|nullable',
+            'user_id' => 'required|numeric'
         ];
     }
 }

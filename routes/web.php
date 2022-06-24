@@ -31,7 +31,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/customers/deleteCustomer/{idCustomer}', 'CustomersController@deleteCustomer');
     
     //Movements
-    Route::get('/movements', 'MovementsController@index')->name('movements');
+    Route::get('/movements/movements', 'MovementsController@index')->name('movements');
+    Route::post('/movements/movements', 'MovementsController@store')->name('movements-register');
+    Route::get('/movements/allMovements', 'MovementsController@getMovements');
+    Route::get('/movements/viewMovement/{idMovement}', 'MovementsController@viewMovement');
+    Route::post('/movements/{idMovement}', 'MovementsController@updateMovement');
+    Route::get('/movements/deleteMovement/{idMovement}', 'MovementsController@deleteMovement');
     
     //Users
     Route::get('user/get-list', 'UserController@getList')->name('user.get-list');
