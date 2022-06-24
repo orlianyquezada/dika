@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Customers\RegisterCustomerRequest;
 use App\Http\Requests\Customers\UpdateCustomerRequest;
 use App\Models\Customer;
+use App\Models\Movement;
 use DB;
 
 class CustomersController extends Controller
@@ -61,7 +62,13 @@ class CustomersController extends Controller
     }
 
     public function deleteCustomer($idCustomer){
-        Customer::destroy($idCustomer);
+        $verify = Movement::where('customer_id',$idCustomer)->where('status_id','!=',2)->get()->first();
+        if ($verify){
+            return response()->json(1);
+        }else{
+            Customer::destroy($idCustomer);
+            return response()->json(0);
+        }
     }
 }
 

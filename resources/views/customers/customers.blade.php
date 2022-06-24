@@ -53,20 +53,18 @@
         <!-- Customer's table -->
         <div class="card shadow border-white">
            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover" id="dtCustomers" class="display">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Customer</th>
-                                <th>Phone</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table table-hover dt-responsive nowrap" id="dtCustomers" class="display">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -114,7 +112,7 @@
                         <h5 class="modal-title" id="editCustomerLabel"><strong>Edit Customer</strong></h5>
                     </div>
                     <div class="modal-body">
-                        <form id="updateCustomer">
+                        <form id="updateCustomer" autocomplete="off">
                             <input type="hidden" name="id" id="idCustomerEdit">
                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                             <div class="row">
@@ -153,7 +151,7 @@
                         <p class="lead">Do you want to delete the customer?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnDelete" class="btn btn-warning">Delete</button>
+                        <button type="button" class="btn btn-warning" onclick="confirmDelete();">Delete</button>
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -164,14 +162,18 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap4.min.css">
 @stop
 
 @section('js')
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap4.min.js"></script>
     <script>
-        $(document).ready( function () {
-            confirmDelete();
-            
+        $(document).ready( function () {            
             $('#dtCustomers').DataTable({
+                responsive: true,
+                autoWidth: false,
                 ajax:{
                     url: 'allCustomers',
                     method: "GET",
@@ -182,7 +184,7 @@
                     {data: 'phone_cu'},
                     {data: 'id',
                     render: function(data,t,w,meta){
-                        return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="editCustomer('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Delete"><i class="fa fa-fw fa-trash" onclick="deleteCustomer('+data+')"></i></button></div>';
+                        return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="editCustomer('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteCustomer('+data+')"><i class="fa fa-fw fa-trash"></i></button></div>';
                     }}
                 ]
             });
@@ -198,7 +200,13 @@
                     $('#idCustomerEdit').val(data.id);
                 },
                 error: function(data){
-                    alert('no funciona');
+                    $('#editCustomer').modal('hide');
+                    $('#alertDanger').append('<div id="messageAlertDanger"></div>');
+                    $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
+                    $('#messageAlertDanger').text('¡Information not available!');
+                    $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
+                    $('#dimissibleAlertDanger').addClass('close');
+                    $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
                 }
             });
             $('#editCustomer').modal('show');
@@ -245,20 +253,40 @@
         }
 
         function confirmDelete(){
-            $('#btnDelete').on('click', function(e){
-                e.preventDefault();
-                fetch('deleteCustomer/'+$('#idCustomerDelete').val(),{
-                    method: "GET"
-                }).then(function(d){
+            $.ajax({
+                type: "GET",
+                url: 'deleteCustomer/'+$('#idCustomerDelete').val(),
+                error: function(data){
                     $('#deleteCustomer').modal('hide');
                     $('#dtCustomers').DataTable().ajax.reload();
-                    $('#alertSuccess').append('<div id="messageAlertDanger"></div>');
-                    $('#messageAlertDanger').text('¡The customer has been successfully deleted!');
-                    $('#messageAlertDanger').addClass('alert alert-success alert-dismissible fade show');
+                    $('#alertDanger').append('<div id="messageAlertDanger"></div>');
+                    $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
+                    $('#messageAlertDanger').text('¡Information not available!');
                     $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
                     $('#dimissibleAlertDanger').addClass('close');
                     $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
-                });
+                },
+                success: function(data){
+                    if (data == 1){
+                        $('#deleteCustomer').modal('hide');
+                        $('#dtCustomers').DataTable().ajax.reload();
+                        $('#alertDanger').append('<div id="messageAlertDanger"></div>');
+                        $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
+                        $('#messageAlertDanger').text('¡The customer cannot be deleted because it has open movements!');
+                        $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
+                        $('#dimissibleAlertDanger').addClass('close');
+                        $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
+                    }else{
+                        $('#deleteCustomer').modal('hide');
+                        $('#dtCustomers').DataTable().ajax.reload();
+                        $('#alertSuccess').append('<div id="messageAlertDanger"></div>');
+                        $('#messageAlertDanger').text('¡The customer has been successfully deleted!');
+                        $('#messageAlertDanger').addClass('alert alert-success alert-dismissible fade show');
+                        $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
+                        $('#dimissibleAlertDanger').addClass('close');
+                        $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
+                    }
+                }
             });
         }
     </script>
