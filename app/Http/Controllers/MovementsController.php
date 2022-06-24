@@ -63,11 +63,9 @@ class MovementsController extends Controller
         $movement = Movement::join('customers','customers.id','=','movements.customer_id')
                             ->join('conditions','conditions.id','=','movements.condition_id')
                             ->join('status','status.id','=','movements.status_id')
-                            ->join('movements','movements.id','=','movements.movement_id')
                             ->where('movements.id','=',$idMovement)
                             ->select('customers.*','conditions.condition_co','status.status_st','movements.*')
                             ->get();
-        
         return response()->json($movement, 200);
     }
 
