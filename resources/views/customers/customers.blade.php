@@ -238,7 +238,6 @@
                 url: +$('#idCustomerEdit').val(),
                 data: $('form#updateCustomer').serialize(),
                 error: function(data){
-                    console.log(data);
                     $('#editCustomer').modal('hide');
                     $('#dtCustomers').DataTable().ajax.reload();
                     $('#alertDanger').append('<div id="messageAlertDanger"></div>');

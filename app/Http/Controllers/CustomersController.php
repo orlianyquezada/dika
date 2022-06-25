@@ -40,7 +40,7 @@ class CustomersController extends Controller
     public function store(RegisterCustomerRequest $request){
         $saved = Customer::create($request->all());
         if ($saved){
-            return redirect('/customers/customers')->with('flash','¡The customer has been successfully registered!');
+            return redirect()->route('customers')->with('flash','¡The customer has been successfully registered!');
         }else{
             return view('home');
         }
@@ -51,7 +51,7 @@ class CustomersController extends Controller
         return response()->json($customer, 200);
     }
 
-    public function updateCustomer(Request $request){
+    public function updateCustomer(UpdateCustomerRequest $request){
         $verify = Customer::where('id','!=',$request->input('id'))->where('email_cu',$request->input('email_cu'))->get()->first();
         if ($verify){
             return 0;
@@ -71,7 +71,9 @@ class CustomersController extends Controller
         if ($verify){
             return response()->json(1);
         }else{
-            Customer::destroy($idCustomer);
+            $customer = Customer::find($idCustomer);
+            $customer->delete();
+            //Customer::destroy($idCustomer);
             return response()->json(0);
         }
     }
