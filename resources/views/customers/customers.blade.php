@@ -4,7 +4,7 @@
 
 @section('content_header')
     <!-- Container's info -->
-    <div class="container mt-3 col-lg-9">
+    <div class="container mt-3">
         <!-- Messages alert -->
         @if (session('flash'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -49,7 +49,7 @@
 @stop
 
 @section('content')
-    <div class="container col-lg-9">
+    <div class="container">
         <!-- Customer's table -->
         <div class="card shadow border-white">
            <div class="card-body">
@@ -59,6 +59,7 @@
                             <th>ID</th>
                             <th>Customer</th>
                             <th>Phone</th>
+                            <th>Email</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -94,6 +95,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-12 col-lg-7">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" name="email_cu" id="email" class="form-control shadow-sm" placeholder="Email">
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -118,14 +127,22 @@
                             <div class="row">
                                 <div class="col-12 col-lg-7">
                                     <div class="form-group">
-                                        <label for="name_cu">Name</label>
+                                        <label for="phoneEdit">Name</label>
                                         <input type="text" id="nameEdit" name="name_cu" class="form-control shadow-sm">
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-5">
                                     <div class="form-group">
-                                        <label for="phone_cu">Phone</label>
+                                        <label for="phoneEdit">Phone</label>
                                         <input type="tel" id="phoneEdit" name="phone_cu" class="form-control shadow-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-lg-7">
+                                    <div class="form-group">
+                                        <label for="emailEdit">Email</label>
+                                        <input type="email" name="email_cu" id="emailEdit" class="form-control shadow-sm" placeholder="Email">
                                     </div>
                                 </div>
                             </div>
@@ -162,8 +179,8 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
 @stop
 
 @section('js')
@@ -182,6 +199,7 @@
                     {data: 'id'},
                     {data: 'name_cu'},
                     {data: 'phone_cu'},
+                    {data: 'email_cu'},
                     {data: 'id',
                     render: function(data,t,w,meta){
                         return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="editCustomer('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteCustomer('+data+')"><i class="fa fa-fw fa-trash"></i></button></div>';
@@ -197,6 +215,7 @@
                 success: function(data){
                     $('#nameEdit').val(data.name_cu);
                     $('#phoneEdit').val(data.phone_cu);
+                    $('#emailEdit').val(data.email_cu);
                     $('#idCustomerEdit').val(data.id);
                 },
                 error: function(data){
@@ -219,6 +238,7 @@
                 url: +$('#idCustomerEdit').val(),
                 data: $('form#updateCustomer').serialize(),
                 error: function(data){
+                    console.log(data);
                     $('#editCustomer').modal('hide');
                     $('#dtCustomers').DataTable().ajax.reload();
                     $('#alertDanger').append('<div id="messageAlertDanger"></div>');
@@ -235,14 +255,24 @@
                     $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
                 },
                 success: function(data){
-                    $('#editCustomer').modal('hide');
-                    $('#dtCustomers').DataTable().ajax.reload();
-                    $('#alertSuccess').append('<div id="messageAlertSuccess"></div>');
-                    $('#messageAlertSuccess').text('¡The customer has been successfully edited!');
-                    $('#messageAlertSuccess').addClass('alert alert-success alert-dismissible fade show');
-                    $('#messageAlertSuccess').append('<button type="button" id="dimissibleAlertSuccess" data-dismiss="alert" aria-label="Close"></button>');
-                    $('#dimissibleAlertSuccess').addClass('close');
-                    $('#dimissibleAlertSuccess').append('<span aria-hidden="true">&times;</span>');
+                    if (data == 0){
+                        $('#editCustomer').modal('hide');
+                        $('#alertDanger').append('<div id="messageAlertDanger"></div>');
+                        $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
+                        $('#messageAlertDanger').text('¡There is already a customer with that email!');
+                        $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
+                        $('#dimissibleAlertDanger').addClass('close');
+                        $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
+                    }else{
+                        $('#editCustomer').modal('hide');
+                        $('#dtCustomers').DataTable().ajax.reload();
+                        $('#alertSuccess').append('<div id="messageAlertSuccess"></div>');
+                        $('#messageAlertSuccess').text('¡The customer has been successfully edited!');
+                        $('#messageAlertSuccess').addClass('alert alert-success alert-dismissible fade show');
+                        $('#messageAlertSuccess').append('<button type="button" id="dimissibleAlertSuccess" data-dismiss="alert" aria-label="Close"></button>');
+                        $('#dimissibleAlertSuccess').addClass('close');
+                        $('#dimissibleAlertSuccess').append('<span aria-hidden="true">&times;</span>');
+                    }
                 }
             });
         }

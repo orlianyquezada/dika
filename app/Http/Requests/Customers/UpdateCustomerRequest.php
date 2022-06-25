@@ -25,7 +25,8 @@ class UpdateCustomerRequest extends FormRequest
     {
         return [
             'name_cu' => 'required|min:10|max:120|regex:/^[a-z ]+$/i',
-            'phone_cu' => 'required|numeric|min:10'
+            'phone_cu' => 'required|numeric|min:10',
+            'email_cu' => 'required|min:20|email:rfc,dns'
         ];
     }
 
@@ -37,7 +38,10 @@ class UpdateCustomerRequest extends FormRequest
             'name_cu.regex' => 'The name field only accepts letters',
             'phone_cu.required' => 'Customer phone is required',
             'phone_cu.min' => 'The minimun of phone numbers must be 10',
-            'phone_cu.numeric' => 'The phone field only accepts numbers'
+            'phone_cu.numeric' => 'The phone field only accepts numbers',
+            'email_cu.required' => 'Customer email is required',
+            'email_cu.min' => 'The minimum number of letters must be 20',
+            'email_cu.email' => 'The email entered is not valid'
         ];
     }
 }

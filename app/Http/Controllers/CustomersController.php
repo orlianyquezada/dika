@@ -37,8 +37,7 @@ class CustomersController extends Controller
         return response()->json($forDtt, 200);
     }
 
-    public function store(RegisterCustomerRequest $request)
-    {
+    public function store(RegisterCustomerRequest $request){
         $saved = Customer::create($request->all());
         if ($saved){
             return redirect('/customers/customers')->with('flash','¡The customer has been successfully registered!');
@@ -52,12 +51,18 @@ class CustomersController extends Controller
         return response()->json($customer, 200);
     }
 
-    public function updateCustomer(UpdateCustomerRequest $request){
-        $customer = Customer::find($request->id);
-        if ($customer){
-            $customer->name_cu = $request->name_cu;
-            $customer->phone_cu = $request->phone_cu;
-            $customer->save();
+    public function updateCustomer(Request $request){
+        $verify = Customer::where('id','!=',$request->input('id'))->where('email_cu',$request->input('email_cu'))->get()->first();
+        if ($verify){
+            return 0;
+        }else{
+            $customer = Customer::find($request->id);
+            if ($customer){
+                $customer->name_cu = $request->input('name_cu');
+                $customer->phone_cu = $request->input('phone_cu');
+                $customer->email_cu = $request->input('email_cu');
+                $customer->save();
+            }
         }
     }
 
