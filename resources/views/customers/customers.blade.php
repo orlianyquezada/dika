@@ -175,7 +175,7 @@
                 responsive: true,
                 autoWidth: false,
                 ajax:{
-                    url: 'allCustomers',
+                    url: 'all-customers',
                     method: "GET",
                 },
                 columns:[
@@ -193,7 +193,7 @@
         function editCustomer(idCustomer){
             $.ajax({
                 type: "GET",
-                url: 'viewCustomer/'+idCustomer,
+                url: 'view-customer/'+idCustomer,
                 success: function(data){
                     $('#nameEdit').val(data.name_cu);
                     $('#phoneEdit').val(data.phone_cu);
@@ -255,7 +255,7 @@
         function confirmDelete(){
             $.ajax({
                 type: "GET",
-                url: 'deleteCustomer/'+$('#idCustomerDelete').val(),
+                url: 'delete-customer/'+$('#idCustomerDelete').val(),
                 error: function(data){
                     $('#deleteCustomer').modal('hide');
                     $('#dtCustomers').DataTable().ajax.reload();
