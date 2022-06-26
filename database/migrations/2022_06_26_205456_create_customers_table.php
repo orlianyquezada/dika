@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ModifyCustomersTable extends Migration
+class CreateCustomersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class ModifyCustomersTable extends Migration
      */
     public function up()
     {
-        Schema::table('customers', function (Blueprint $table) {
-            $table->dropUnique('customers_phone_cu_unique');
+        Schema::create('customers', function (Blueprint $table) {
+            $table->id();
+            $table->text('name_cu');
+            $table->string('phone_cu');
             $table->string('email_cu')->unique();
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -26,8 +30,6 @@ class ModifyCustomersTable extends Migration
      */
     public function down()
     {
-        Schema::table('customers', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('customers');
     }
 }

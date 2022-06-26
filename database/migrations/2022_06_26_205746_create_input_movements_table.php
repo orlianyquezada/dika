@@ -20,11 +20,12 @@ class CreateInputMovementsTable extends Migration
             $table->string('quanty_inm');
             $table->string('qty_boxes_inm');
             $table->text('ubication_inm');
-            $table->text('observation_inm')->nullable();
+            $table->text('observation_inm');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('condition_id')->constrained('conditions')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('status_id')->constrained('status')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
