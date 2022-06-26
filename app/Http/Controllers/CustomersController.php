@@ -56,13 +56,14 @@ class CustomersController extends Controller
         if ($verify){
             return 0;
         }else{
-            $customer = Customer::find($request->id);
+            $customer = Customer::find($request->input('id'));
             if ($customer){
                 $customer->name_cu = $request->input('name_cu');
                 $customer->phone_cu = $request->input('phone_cu');
                 $customer->email_cu = $request->input('email_cu');
                 $customer->save();
             }
+            return 1;
         }
     }
 
