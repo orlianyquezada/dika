@@ -29,6 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/customers/consult-customer/{idCustomer}', 'CustomersController@viewCustomer');
     Route::post('/customers/{idCustomer}', 'CustomersController@updateCustomer');
     Route::get('/customers/delete-customer/{idCustomer}', 'CustomersController@deleteCustomer');
+
+    //Sub Customers
+    Route::get('/sub-customers/view-sub-customers','SubCustomersContoller@index')->name('sub-customers');
     
     //Movements
     Route::get('/movements/movements', 'MovementsController@index')->name('movements');
