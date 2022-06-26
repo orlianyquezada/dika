@@ -28,7 +28,7 @@ class CustomersController extends Controller
      */
     public function index()
     {
-        return view('customers.customers');
+        return view('customers.view-customers');
     }
 
     public function getCustomers(){
@@ -52,7 +52,7 @@ class CustomersController extends Controller
     }
 
     public function updateCustomer(UpdateCustomerRequest $request){
-        $verify = Customer::where('id','!=',$request->input('id'))->where('email_cu',$request->input('email_cu'))->get()->first();
+        $verify = Customer::where('email_cu',$request->input('email_cu'))->where('id','!=',$request->input('id'))->get()->first();
         if ($verify){
             return 0;
         }else{

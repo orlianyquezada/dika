@@ -22,15 +22,13 @@ Auth::routes(['register' => false]);
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::prefix('customers')->group(function () {
-        //Customers
-        Route::get('/customers', 'CustomersController@index')->name('customers');
-        Route::post('/customers', 'CustomersController@store')->name('customer-register');
-        Route::get('/all-customers', 'CustomersController@getCustomers');
-        Route::get('/view-customer/{idCustomer}', 'CustomersController@viewCustomer');
-        Route::post('/{idCustomer}', 'CustomersController@updateCustomer');
-        Route::get('/delete-customer/{idCustomer}', 'CustomersController@deleteCustomer');
-    });
+    //Customers
+    Route::get('/customers/view-customers', 'CustomersController@index')->name('customers');
+    Route::post('/customers/register-customer', 'CustomersController@store')->name('customer-register');
+    Route::get('/customers/all-customers', 'CustomersController@getCustomers');
+    Route::get('/customers/consult-customer/{idCustomer}', 'CustomersController@viewCustomer');
+    Route::post('/customers/{idCustomer}', 'CustomersController@updateCustomer');
+    Route::get('/customers/delete-customer/{idCustomer}', 'CustomersController@deleteCustomer');
     
     //Movements
     Route::get('/movements/movements', 'MovementsController@index')->name('movements');

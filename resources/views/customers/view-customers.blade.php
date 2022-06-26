@@ -79,29 +79,17 @@
                     <div class="modal-body">
                         <form action="{{ route('customer-register') }}" method="post" autocomplete="off" id="customerRegister">
                             @csrf
-                            <div class="row">
-                                <div class="col-12 col-lg-7">
-                                    <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" name="name_cu" id="name" class="form-control shadow-sm" placeholder="Name">
-                                        <div class="invalid-feedback">{{ $errors->formulario->first('name_cu') }}</div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-5">
-                                    <div class="form-group">
-                                        <label for="phone">Phone number</label>
-                                        <input type="tel" name="phone_cu" id="phone" class="form-control shadow-sm" placeholder="Phone number">
-                                        <div class="invalid-feedback">{{ $errors->formulario->first('phone_cu') }}</div>
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name_cu" id="name" class="form-control shadow-sm" placeholder="Name">
                             </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-7">
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" name="email_cu" id="email" class="form-control shadow-sm" placeholder="Email">
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label for="phone">Phone number</label>
+                                <input type="tel" name="phone_cu" id="phone" class="form-control shadow-sm" placeholder="Phone number">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="email_cu" id="email" class="form-control shadow-sm" placeholder="Email">
                             </div>
                         </form>
                     </div>
@@ -124,27 +112,17 @@
                         <form id="updateCustomer" autocomplete="off">
                             <input type="hidden" name="id" id="idCustomerEdit">
                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                            <div class="row">
-                                <div class="col-12 col-lg-7">
-                                    <div class="form-group">
-                                        <label for="phoneEdit">Name</label>
-                                        <input type="text" id="nameEdit" name="name_cu" class="form-control shadow-sm">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-5">
-                                    <div class="form-group">
-                                        <label for="phoneEdit">Phone</label>
-                                        <input type="tel" id="phoneEdit" name="phone_cu" class="form-control shadow-sm">
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label for="phoneEdit">Name</label>
+                                <input type="text" id="nameEdit" name="name_cu" class="form-control shadow-sm">
                             </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-7">
-                                    <div class="form-group">
-                                        <label for="emailEdit">Email</label>
-                                        <input type="email" name="email_cu" id="emailEdit" class="form-control shadow-sm" placeholder="Email">
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label for="phoneEdit">Phone</label>
+                                <input type="tel" id="phoneEdit" name="phone_cu" class="form-control shadow-sm">
+                            </div>
+                            <div class="form-group">
+                                <label for="emailEdit">Email</label>
+                                <input type="email" name="email_cu" id="emailEdit" class="form-control shadow-sm" placeholder="Email">
                             </div>
                         </form>
                     </div>
@@ -211,7 +189,7 @@
         function editCustomer(idCustomer){
             $.ajax({
                 type: "GET",
-                url: 'view-customer/'+idCustomer,
+                url: 'consult-customer/'+idCustomer,
                 success: function(data){
                     $('#nameEdit').val(data.name_cu);
                     $('#phoneEdit').val(data.phone_cu);
