@@ -29,17 +29,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/customers/consult-customer/{idCustomer}', 'CustomersController@viewCustomer');
     Route::post('/customers/{idCustomer}', 'CustomersController@updateCustomer');
     Route::get('/customers/delete-customer/{idCustomer}', 'CustomersController@deleteCustomer');
-
-    //Sub Customers
-    Route::get('/sub-customers/view-sub-customers','SubCustomersContoller@index')->name('sub-customers');
     
     //Movements
-    Route::get('/movements/movements', 'MovementsController@index')->name('movements');
-    Route::post('/movements/movements', 'MovementsController@store')->name('movements-register');
-    Route::get('/movements/allMovements', 'MovementsController@getMovements');
-    Route::get('/movements/viewMovement/{idMovement}', 'MovementsController@viewMovement');
+    Route::get('/movements/view-movements', 'MovementsController@index')->name('movements');
+    Route::post('/movements/register-movement', 'MovementsController@store')->name('movement-register');
+    Route::get('/movements/all-movements', 'MovementsController@getMovements');
+    Route::get('/movements/view-movement/{idMovement}', 'MovementsController@viewMovement');
     Route::post('/movements/{idMovement}', 'MovementsController@updateMovement');
-    Route::get('/movements/deleteMovement/{idMovement}', 'MovementsController@deleteMovement');
+    Route::get('/movements/delete-movement/{idMovement}', 'MovementsController@deleteMovement');
     
     //Users
     Route::get('user/get-list', 'UserController@getList')->name('user.get-list');
