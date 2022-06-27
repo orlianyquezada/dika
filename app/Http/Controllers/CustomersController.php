@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Customers\RegisterCustomerRequest;
 use App\Http\Requests\Customers\UpdateCustomerRequest;
 use App\Models\Customer;
+use App\Models\SubCustomer;
 use App\Models\Movement;
 use DB;
 
@@ -20,6 +21,8 @@ class CustomersController extends Controller
     {
         $this->middleware('auth');
     }
+
+    //Customers
 
     /**
      * Show the application dashboard.
@@ -76,6 +79,24 @@ class CustomersController extends Controller
             $customer->delete();
             //Customer::destroy($idCustomer);
             return response()->json(0);
+        }
+    }
+
+    //Sub customers
+
+    public function viewSubCustomers($idCustomer)
+    {
+        $customers = Customer::where('id','!=',$idCustomer)->get();
+        $customer = Customer::find($idCustomer);
+        return view('customers.view-sub-customers',compact('customer','customers'));
+    }
+
+    public function insertSubCustomer(Request $request){
+        $saved = SubCustomer::create($request->all());
+        if ($saved){
+            return redirect()->route('sub-customers')->with('flash','¡The sub customer has been successfully registered!');
+        }else{
+            return view('home');
         }
     }
 }

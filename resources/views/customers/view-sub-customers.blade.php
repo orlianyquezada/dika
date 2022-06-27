@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Customers')
+@section('title', 'Sub Customers')
 
 @section('content_header')
     <!-- Container's info -->
@@ -30,19 +30,42 @@
         @else
             <div id="alertDanger"></div>
         @endif
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item text-decoration-none"><a href="{{ route('customers') }}">Customers</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Sub Customers</li>
+            </ol>
+        </nav>
         <div class="card border-white shadow">
+            <div class="card-header bg-secondary text-white">
+                <strong>Information of Customer</strong>
+            </div>
             <div class="card-body">
-                <div class="row justify-content-between">
-                    <div class="col-12 col-lg-3">
-                        <h3><strong>Sub Customers</strong></h3>
+                <div class="row">
+                    <div class="col-12 col-lg-5">
+                        <div class="form-group">
+                            <label for="nameCustomer">Name</label>
+                            <input type="text" name="name_cu" id="nameCustomer" class="form-control shadow-sm" value="@php echo $customer->name_cu; @endphp" disabled>
+                        </div>
                     </div>
-                    <div class="col-12 col-lg-3">
-                        <!-- customer registration button -->
-                        {{-- <button type="button" class="btn btn-warning shadow-sm w-100" data-toggle="modal" data-target="#insertCustomer">
-                            <strong>Registration</strong>
-                        </button> --}}
+                    <div class="col-12 col-lg-2">
+                        <div class="form-group">
+                            <label for="phoneCustomer">Phone</label>
+                            <input type="tel" name="phone_cu" id="phoneCustomer" class="form-control shadow-sm" value="@php echo $customer->phone_cu; @endphp" disabled>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-5">
+                        <div class="form-group">
+                            <label for="emailCustomer">Email</label>
+                            <input type="email" name="phone_cu" id="emailCustomer" class="form-control shadow-sm" value="@php echo $customer->email_cu; @endphp" disabled>
+                        </div>
                     </div>
                 </div>
+                <hr class="display-4">
+                <!-- sub customer registration button -->
+                <button type="button" class="btn btn-warning shadow-sm" data-toggle="modal" data-target="#insertSubCustomer">
+                    Sub Customer Registration
+                </button>
             </div>
         </div>
     </div>
@@ -50,110 +73,61 @@
 
 @section('content')
     <div class="container">
-        {{-- <!-- Customer's table -->
-        <div class="card shadow border-white">
-           <div class="card-body">
-                <table class="table table-hover dt-responsive nowrap" id="dtCustomers" class="display">
+        <!-- Sub customer's table -->
+        <div class="card border-white shadow-sm">
+            <div class="card-body">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Customer</th>
+                            <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
                 </table>
             </div>
         </div>
 
         <!-- Modal's insert -->
-        <div class="modal fade" id="insertCustomer" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="insertCustomerLabel" aria-hidden="true">
+        <div class="modal fade" id="insertSubCustomer" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="insertSubCustomerLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="insertCustomerLabel"><strong>Customer Registration</strong></h5>
+                        <h5 class="modal-title" id="insertSubCustomerLabel"><strong> Sub Customer Registration</strong></h5>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('customer-register') }}" method="post" autocomplete="off" id="customerRegister">
+                        <form action="{{ route('sub-customers-register') }}" method="post" autocomplete="off" id="subCustomerRegister">
                             @csrf
+                            <input type="hidden" name="primery_customer_id" value="{{ $customer->id }}">
                             <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" name="name_cu" id="name" class="form-control shadow-sm" placeholder="Name">
+                                <label for="secondaryCustomerInsert">Customers</label>
+                                <select name="secondary_customer_id" id="secondaryCustomerInsert" class="form-control shadow-sm">
+                                    @foreach ($customers as $secondaryCustomer)
+                                        <option value="{{ $secondaryCustomer->id }}">{{ $secondaryCustomer->id.' - '.$secondaryCustomer->name_cu }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label for="phone">Phone number</label>
-                                <input type="tel" name="phone_cu" id="phone" class="form-control shadow-sm" placeholder="Phone number">
+                                <label for="phoneInsert">Phone number</label>
+                                <input type="tel" name="phone_sc" id="phoneInsert" class="form-control shadow-sm" placeholder="Phone number">
                             </div>
                             <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" name="email_cu" id="email" class="form-control shadow-sm" placeholder="Email">
+                                <label for="emailInsert">Email</label>
+                                <input type="email" name="email_sc" id="emailInsert" class="form-control shadow-sm" placeholder="Email">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" form="customerRegister" class="btn btn-warning">Save</button>
+                        <button type="submit" form="subCustomerRegister" class="btn btn-warning">Save</button>
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Modal's update -->
-        <div class="modal fade" id="editCustomer" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editCustomerLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editCustomerLabel"><strong>Edit Customer</strong></h5>
-                    </div>
-                    <div class="modal-body">
-                        <form id="updateCustomer" autocomplete="off">
-                            <input type="hidden" name="id" id="idCustomerEdit">
-                            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                            <div class="form-group">
-                                <label for="phoneEdit">Name</label>
-                                <input type="text" id="nameEdit" name="name_cu" class="form-control shadow-sm">
-                            </div>
-                            <div class="form-group">
-                                <label for="phoneEdit">Phone</label>
-                                <input type="tel" id="phoneEdit" name="phone_cu" class="form-control shadow-sm">
-                            </div>
-                            <div class="form-group">
-                                <label for="emailEdit">Email</label>
-                                <input type="email" name="email_cu" id="emailEdit" class="form-control shadow-sm" placeholder="Email">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="btnEdit" form="updateCustomer" class="btn btn-warning shadow-sm" onclick="updateCustomer();">Edit</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal's delete -->
-        <div class="modal fade" id="deleteCustomer" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteCustomerLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteCustomerLabel"><strong>Delete Customer</strong></h5>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" id="idCustomerDelete">
-                        <p class="lead">Do you want to delete the customer?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" onclick="confirmDelete();">Delete</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </div>
-@stop
+@endsection
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
@@ -162,10 +136,11 @@
 @stop
 
 @section('js')
-    {{-- <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap4.min.js"></script>
     <script>
-        $(document).ready( function () {            
+        $(document).ready( function () {
+
             $('#dtCustomers').DataTable({
                 responsive: true,
                 autoWidth: false,
@@ -180,7 +155,7 @@
                     {data: 'email_cu'},
                     {data: 'id',
                     render: function(data,t,w,meta){
-                        return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="editCustomer('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteCustomer('+data+')"><i class="fa fa-fw fa-trash"></i></button></div>';
+                        return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="editCustomer('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteCustomer('+data+')"><i class="fa fa-fw fa-trash"></i></button><a href="view-sub-customers/'+data+'" class="btn btn-xs btn-ligth text-dark" title="Sub Customers"><i class="fa fw fa-users"></i></a></div>';
                     }}
                 ]
             });
@@ -296,5 +271,5 @@
                 }
             });
         }
-    </script> --}}
+    </script>
 @stop
