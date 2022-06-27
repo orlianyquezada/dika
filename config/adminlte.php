@@ -248,12 +248,6 @@ return [
             'icon_color' => 'yellow'
         ],
         [
-            'text' => 'Sub Customers',
-            'route' => 'sub-customers',
-            'icon' => 'fas fa-users',
-            'icon_color' => 'yellow'
-        ],
-        [
             'text' => 'Movements',
             'route' => 'movements',
             'icon' => 'fas fa-box',
