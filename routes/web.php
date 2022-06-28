@@ -31,7 +31,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/customers/delete-customer/{idCustomer}', 'CustomersController@deleteCustomer');
     //Sub customers
     Route::get('/customers/view-sub-customers/{idCustomer}', 'CustomersController@viewSubCustomers')->name('sub-customers');
-    Route::post('/customers/register-sub-customer', 'CustomersController@insertSubCustomer')->name('sub-customers-register');
+    Route::get('/customers/view-sub-customers/all-sub-customers/{idCustomer}', 'CustomersController@getSubCustomers');
+    Route::get('/customers/view-sub-customers/consult-customer/{idCustomer}', 'CustomersController@viewCustomer');
+    Route::post('/customers/view-sub-customers/{idCustomer}', 'CustomersController@updateCustomer');
+    Route::get('/customers/view-sub-customers/delete-customer/{idCustomer}', 'CustomersController@deleteCustomer');
     
     //Movements
     Route::get('/movements/view-movements', 'MovementsController@index')->name('movements');

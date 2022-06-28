@@ -26,7 +26,8 @@ class RegisterCustomerRequest extends FormRequest
         return [
             'name_cu' => 'required|regex:/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/',
             'phone_cu' => 'required|numeric',
-            'email_cu' => 'required|unique:customers,email_cu|email:rfc,dns'
+            'email_cu' => 'required|email:rfc,dns',
+            'customer_id' => 'nullable'
         ];
     }
 

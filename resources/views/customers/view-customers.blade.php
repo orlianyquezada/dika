@@ -53,7 +53,7 @@
         <!-- Customer's table -->
         <div class="card shadow border-white">
            <div class="card-body">
-                <table class="table table-hover dt-responsive nowrap" id="dtCustomers" class="display">
+                <table class="table table-hover dt-responsive nowrap display" id="dtCustomers">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -63,8 +63,7 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
@@ -232,24 +231,14 @@
                     $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
                 },
                 success: function(data){
-                    if (data == 0){
-                        $('#editCustomer').modal('hide');
-                        $('#alertDanger').append('<div id="messageAlertDanger"></div>');
-                        $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
-                        $('#messageAlertDanger').text('¡There is already a customer with that email!');
-                        $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
-                        $('#dimissibleAlertDanger').addClass('close');
-                        $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
-                    }else{
-                        $('#editCustomer').modal('hide');
-                        $('#dtCustomers').DataTable().ajax.reload();
-                        $('#alertSuccess').append('<div id="messageAlertSuccess"></div>');
-                        $('#messageAlertSuccess').text('¡The customer has been successfully edited!');
-                        $('#messageAlertSuccess').addClass('alert alert-success alert-dismissible fade show');
-                        $('#messageAlertSuccess').append('<button type="button" id="dimissibleAlertSuccess" data-dismiss="alert" aria-label="Close"></button>');
-                        $('#dimissibleAlertSuccess').addClass('close');
-                        $('#dimissibleAlertSuccess').append('<span aria-hidden="true">&times;</span>');
-                    }
+                    $('#editCustomer').modal('hide');
+                    $('#dtCustomers').DataTable().ajax.reload();
+                    $('#alertSuccess').append('<div id="messageAlertSuccess"></div>');
+                    $('#messageAlertSuccess').text('¡The customer has been successfully edited!');
+                    $('#messageAlertSuccess').addClass('alert alert-success alert-dismissible fade show');
+                    $('#messageAlertSuccess').append('<button type="button" id="dimissibleAlertSuccess" data-dismiss="alert" aria-label="Close"></button>');
+                    $('#dimissibleAlertSuccess').addClass('close');
+                    $('#dimissibleAlertSuccess').append('<span aria-hidden="true">&times;</span>');
                 }
             });
         }
