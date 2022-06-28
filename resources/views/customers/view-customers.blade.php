@@ -197,12 +197,7 @@
                 },
                 error: function(data){
                     $('#editCustomer').modal('hide');
-                    $('#alertDanger').append('<div id="messageAlertDanger"></div>');
-                    $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
-                    $('#messageAlertDanger').text('¡Information not available!');
-                    $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
-                    $('#dimissibleAlertDanger').addClass('close');
-                    $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
+                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }
             });
             $('#editCustomer').modal('show');
@@ -231,14 +226,24 @@
                     $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
                 },
                 success: function(data){
-                    $('#editCustomer').modal('hide');
-                    $('#dtCustomers').DataTable().ajax.reload();
-                    $('#alertSuccess').append('<div id="messageAlertSuccess"></div>');
-                    $('#messageAlertSuccess').text('¡The customer has been successfully edited!');
-                    $('#messageAlertSuccess').addClass('alert alert-success alert-dismissible fade show');
-                    $('#messageAlertSuccess').append('<button type="button" id="dimissibleAlertSuccess" data-dismiss="alert" aria-label="Close"></button>');
-                    $('#dimissibleAlertSuccess').addClass('close');
-                    $('#dimissibleAlertSuccess').append('<span aria-hidden="true">&times;</span>');
+                    if (data == 0){
+                        $('#editCustomer').modal('hide');
+                        $('#alertDanger').append('<div id="messageAlertDanger"></div>');
+                        $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
+                        $('#messageAlertDanger').text('¡That name, number and email has another sub customer');
+                        $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
+                        $('#dimissibleAlertDanger').addClass('close');
+                        $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
+                    }else{
+                        $('#editCustomer').modal('hide');
+                        $('#dtCustomers').DataTable().ajax.reload();
+                        $('#alertSuccess').append('<div id="messageAlertSuccess"></div>');
+                        $('#messageAlertSuccess').text('¡The sub customer has been successfully edited!');
+                        $('#messageAlertSuccess').addClass('alert alert-success alert-dismissible fade show');
+                        $('#messageAlertSuccess').append('<button type="button" id="dimissibleAlertSuccess" data-dismiss="alert" aria-label="Close"></button>');
+                        $('#dimissibleAlertSuccess').addClass('close');
+                        $('#dimissibleAlertSuccess').append('<span aria-hidden="true">&times;</span>');
+                    }
                 }
             });
         }

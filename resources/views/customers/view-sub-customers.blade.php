@@ -249,6 +249,7 @@
                 url: +$('#idCustomerEdit').val(),
                 data: $('form#updateCustomer').serialize(),
                 error: function(data){
+                    console.log(data.responseJSON.errors);
                     $('#editSubCustomer').modal('hide');
                     $('#dtSubCustomers').DataTable().ajax.reload();
                     $('#alertDanger').append('<div id="messageAlertDanger"></div>');
@@ -269,7 +270,7 @@
                         $('#editSubCustomer').modal('hide');
                         $('#alertDanger').append('<div id="messageAlertDanger"></div>');
                         $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
-                        $('#messageAlertDanger').text('¡That number and email has another sub customer');
+                        $('#messageAlertDanger').text('¡That name, number and email has another sub customer');
                         $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
                         $('#dimissibleAlertDanger').addClass('close');
                         $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
@@ -293,7 +294,6 @@
         }
 
         function confirmDelete(){
-            alert($('#idSubCustomerDelete').val());
             $.ajax({
                 type: "GET",
                 url: 'delete-customer/'+$('#idSubCustomerDelete').val(),
