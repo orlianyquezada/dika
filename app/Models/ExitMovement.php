@@ -11,5 +11,5 @@ class ExitMovement extends Model
 
     protected $table = 'exit_movements';
 
-    protected $fillable = ['id', 'datetime_exm', 'address_exm', 'observation_exm', 'input_movement_id', 'customer_id', 'condition_id', 'status_id', 'shipment_id', 'employee_id', 'user_id'];
+    protected $fillable = ['datetime_exm', 'address_exm', 'observation_exm', 'input_movement_id', 'customer_id', 'condition_id', 'status_id', 'shipment_id', 'employee_id', 'user_id'];
 }

@@ -11,5 +11,5 @@ class InputMovement extends Model
 
     protected $table = 'input_movements';
 
-    protected $fillable = ['id', 'datetime_inm', 'item_inm', 'quanty_inm', 'qty_boxes_inm', 'ubication_inm', 'observation_inm', 'customer_id', 'condition_id', 'status_id', 'user_id'];
+    protected $fillable = ['datetime_inm', 'item_inm', 'quanty_inm', 'qty_boxes_inm', 'ubication_inm', 'observation_inm', 'customer_id', 'condition_id', 'status_id', 'user_id'];
 }
