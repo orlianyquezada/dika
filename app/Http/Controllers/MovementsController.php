@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\Movements\RegisterMovementRequest;
+use App\Http\Requests\Movements\RegisterInputMovementRequest;
+use App\Http\Requests\Movements\UpdateInputMovementRequest;
+use App\Http\Requests\Movements\RegisterExitMovementRequest;
 use App\Models\InputMovement;
+use App\Models\ExitMovement;
 use App\Models\Customer;
 use App\User;
 use DB;
@@ -35,7 +38,7 @@ class MovementsController extends Controller
         return view('movements.view-movements', compact('conditions','status','customers','shipments','users'));
     }
 
-    public function store(Request $request){
+    public function store(RegisterInputMovementRequest $request){
         $saved = InputMovement::create($request->all());
         if ($saved){
             return redirect()->route('movements')->with('flash','¡The movement has been successfully saved!');
@@ -54,16 +57,38 @@ class MovementsController extends Controller
     }
 
     public function viewMovement($idMovement){
-        $movement = InputMovement::join('customers','customers.id','=','input_movements.customer_id')
-                                ->join('conditions','conditions.id','=','input_movements.condition_id')
-                                ->join('status','status.id','=','input_movements.status_id')
-                                ->where('input_movements.id','=',$idMovement)
-                                ->select('customers.*','conditions.condition_co','status.status_st','input_movements.*')
-                                ->get();
-        return response()->json($movement, 200);
+        $verify = ExitMovement::where('input_movement_id',$idMovement)->get()->first();
+        if ($verify){
+            $status = 'close';
+            $movementInput = InputMovement::join('customers','customers.id','=','input_movements.customer_id')
+                                            ->join('conditions','conditions.id','=','input_movements.condition_id')
+                                            ->join('status','status.id','=','input_movements.status_id')
+                                            ->where('input_movements.id','=',$idMovement)
+                                            ->select('customers.*','conditions.condition_co','status.status_st','input_movements.*')
+                                            ->get();
+            $movementExit = ExitMovement::join('customers','customers.id','=','exit_movements.customer_id')
+                                        ->join('conditions','conditions.id','=','exit_movements.condition_id')
+                                        ->join('status','status.id','=','exit_movements.status_id')
+                                        ->join('shipments','shipments.id','=','exit_movements.shipment_id')
+                                        ->join('users','users.id','=','exit_movements.employee_id')
+                                        ->join('input_movements','input_movements.id','=','exit_movements.input_movement_id')
+                                        ->where('exit_movements.input_movement_id','=',$idMovement)
+                                        ->select('customers.*','conditions.condition_co','status.status_st','exit_movements.*')
+                                        ->get();
+            return response()->json([$status,$movementInput,$movementExit], 200);
+        }else{
+            $status = 'open';
+            $movement = InputMovement::join('customers','customers.id','=','input_movements.customer_id')
+                                    ->join('conditions','conditions.id','=','input_movements.condition_id')
+                                    ->join('status','status.id','=','input_movements.status_id')
+                                    ->where('input_movements.id','=',$idMovement)
+                                    ->select('customers.*','conditions.condition_co','status.status_st','input_movements.*')
+                                    ->get();
+            return response()->json([$status,$movement], 200);
+        }
     }
 
-    public function updateMovement(Request $request){
+    public function updateMovement(UpdateInputMovementRequest $request){
         $movement = InputMovement::find($request->input('id'));
         if ($movement){
             $movement->datetime_inm = $request->input('datetime_inm');
@@ -83,5 +108,14 @@ class MovementsController extends Controller
     public function deleteMovement($idMovement){
         $movement = InputMovement::find($idMovement);
         $movement->delete();
+    }
+
+    public function closeMovement(RegisterExitMovementRequest $request){
+        $saved = ExitMovement::create($request->all());
+        if ($saved){
+            return redirect()->route('movements')->with('flash','¡The movement has been successfully closed!');
+        }else{
+            return view('home');
+        }
     }
 }
