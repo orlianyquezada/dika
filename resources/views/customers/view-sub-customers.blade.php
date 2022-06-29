@@ -68,12 +68,12 @@
                     </div>
                 </div>
                 <hr class="display-4">
-                <!-- sub customer registration button -->
+                <!-- sub customer register button -->
                 <button type="button" class="btn btn-warning shadow-sm" data-toggle="modal" data-target="#insertSubCustomer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill pb-1" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                     </svg>
-                    Sub Customer Registration
+                    Sub Customer Register
                 </button>
             </div>
         </div>
@@ -88,7 +88,6 @@
                 <table class="table table-hover dt-responsive nowrap display" id="dtSubCustomers">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Customer</th>
                             <th>Phone</th>
                             <th>Email</th>
@@ -105,7 +104,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="insertSubCustomerLabel"><strong>Sub Customer Registration</strong></h5>
+                        <h5 class="modal-title" id="insertSubCustomerLabel"><strong>Sub Customer Register</strong></h5>
                     </div>
                     <div class="modal-body">
                         <form action="{{ route('customer-register') }}" method="post" autocomplete="off" id="subCustomerRegister">
@@ -194,7 +193,7 @@
 
 @section('js')
     <script>
-        $(document).ready( function () {  
+        $(document).ready( function () {
             $('#dtSubCustomers').DataTable({
                 responsive: true,
                 autoWidth: false,
@@ -203,7 +202,6 @@
                     method: "GET",
                 },
                 columns:[
-                    {data: 'id'},
                     {data: 'name_cu'},
                     {data: 'phone_cu'},
                     {data: 'email_cu'},

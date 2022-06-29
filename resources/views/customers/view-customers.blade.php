@@ -37,9 +37,9 @@
                         <h3><strong>Customers</strong></h3>
                     </div>
                     <div class="col-12 col-lg-3">
-                        <!-- customer registration button -->
+                        <!-- customer register button -->
                         <button type="button" class="btn btn-warning shadow-sm w-100" data-toggle="modal" data-target="#insertCustomer">
-                            <strong>Registration</strong>
+                            <strong>Register</strong>
                         </button>
                     </div>
                 </div>
@@ -56,7 +56,6 @@
                 <table class="table table-hover dt-responsive nowrap display" id="dtCustomers">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Customer</th>
                             <th>Phone</th>
                             <th>Email</th>
@@ -73,7 +72,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="insertCustomerLabel"><strong>Customer Registration</strong></h5>
+                        <h5 class="modal-title" id="insertCustomerLabel"><strong>Customer Register</strong></h5>
                     </div>
                     <div class="modal-body">
                         <form action="{{ route('customer-register') }}" method="post" autocomplete="off" id="customerRegister">
@@ -99,7 +98,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Modal's update -->
         <div class="modal fade" id="editCustomer" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editCustomerLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -160,7 +159,7 @@
 
 @section('js')
     <script>
-        $(document).ready( function () {            
+        $(document).ready( function () {
             $('#dtCustomers').DataTable({
                 responsive: true,
                 autoWidth: false,
@@ -169,7 +168,6 @@
                     method: "GET",
                 },
                 columns:[
-                    {data: 'id'},
                     {data: 'name_cu'},
                     {data: 'phone_cu'},
                     {data: 'email_cu'},
