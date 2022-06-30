@@ -51,7 +51,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('user.edit', ['user' => $user->id])
-            ->with('message', 'Usuario creado');
+            ->with('message', 'User created');
     }
 
     /**
@@ -85,9 +85,9 @@ class UserController extends Controller
         }else{
             $user->update($request->except('password'));
         }
-            
+
         $user->syncRoles([$request->input('rol')]);
-        return back()->with('message', 'Cliente actualizado');
+        return back()->with('message', 'Updated client');
     }
 
     /**
@@ -106,7 +106,7 @@ class UserController extends Controller
     {
         return DataTables::of(User::query())
         ->addColumn('actions', function($user) {
-            return '<a href="'.route('user.edit', ['user' => $user->id]).'" class="btn btn-sm btn-primary rounded-pill" title="Editar usuario"><i class="far fa-edit"></i></a><button class="btn btn-sm btn-danger rounded-pill" onclick="modalDestroyUser('.$user->id.')" title="Eliminar usuario"><i class="far fa-trash-alt"></i></button>';
+            return '<a href="'.route('user.edit', ['user' => $user->id]).'" class="btn btn-sm btn-primary rounded-pill" title="Edit user"><i class="far fa-edit"></i></a><button class="btn btn-sm btn-danger rounded-pill" onclick="modalDestroyUser('.$user->id.')" title="Delete user"><i class="far fa-trash-alt"></i></button>';
         })
         ->rawColumns(['actions'])
         ->make(true);

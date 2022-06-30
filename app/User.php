@@ -9,16 +9,16 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable, HasRoles;
-    
+
     protected const MESSAGES = [
-        'name.required' => 'Nombre es requerido', 
-        'name.string'   => 'Nombre debe ser un string',
-        'name.max'      => 'El nombre no puede tener mas de 255 caracteres', 
-        'email.required'=> 'Email es requerido',
-        'email.email'   => 'Email debe tener un formato email',
-        'email.max'     => 'Email no puede tener mas de 255 caracteres',
-        'email.unique'  => 'Email ya se encuentra registrado',
-        'rol.required' => 'El rol es requerido'
+        'name.required' => 'The name field is required',
+        'name.string'   => 'The name field only accepts letters',
+        'name.max'      => 'The name cannot be longer than 255 characters',
+        'email.required'=> 'The name field is required',
+        'email.email'   => 'The email field must be in email format',
+        'email.max'     => 'The email cannot be longer than 255 characters',
+        'email.unique'  => 'The email field is already registered',
+        'rol.required' => 'The rol is required'
     ];
 
     /**
