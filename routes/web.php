@@ -59,6 +59,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/shipments/consult-shipment/{id}', 'ShipmentsController@consultShipment');
     Route::post('/shipments/update-shipment/{id}', 'ShipmentsController@updateShipment');
 
+    //Status
+    Route::get('/status/view-status', 'StatusController@index')->name('status');
+    Route::post('/status/register-status', 'StatusController@store')->name('status-register');
+    Route::get('/status/all-status', 'StatusController@getStatus');
+    Route::get('/status/consult-status/{id}', 'StatusController@consultStatus');
+    Route::post('/status/update-status/{id}', 'StatusController@updateStatus');
+
     //Users
     Route::get('user/get-list', 'UserController@getList')->name('user.get-list');
     Route::resource('user', 'UserController');
