@@ -242,16 +242,33 @@ return [
             'text' => 'search',
         ],
         [
-            'text' => 'Customers',
+            'text' => 'Module Customers',
             'route' => 'customers',
             'icon' => 'fas fa-users',
             'icon_color' => 'yellow'
         ],
         [
-            'text' => 'Movements',
-            'route' => 'movements',
+            'text' => 'Module items',
             'icon' => 'fas fa-box',
-            'icon_color' => 'yellow'
+            'icon_color' => 'yellow',
+            'submenu' => [
+                [
+                    'text' => 'Conditions',
+                    'route' => 'conditions',
+                ],
+                [
+                    'text' => 'items',
+                    'route' => 'items',
+                ],
+                [
+                    'text' => 'Shipments',
+                    'route' => 'shipments',
+                ],
+                [
+                    'text' => 'Status',
+                    'route' => 'status',
+                ],
+            ]
         ],
         [
             'text' => 'Users',
@@ -321,6 +338,21 @@ return [
                     'location' => 'vendor/datatables-plugins/responsive/js/responsive.bootstrap4.min.js',
                 ],
                 [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/dataTables.buttons.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.bootstrap4.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.html5.min.js',
+                ],
+                [
                     'type' => 'css',
                     'asset' => true,
                     'location' => 'vendor/datatables/css/dataTables.bootstrap4.min.css',
@@ -329,6 +361,11 @@ return [
                     'type' => 'css',
                     'asset' => true,
                     'location' => 'vendor/datatables-plugins/responsive/css/responsive.bootstrap4.min.css',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/css/buttons.bootstrap4.min.css',
                 ],
             ],
         ],
