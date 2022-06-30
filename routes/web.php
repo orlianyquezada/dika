@@ -35,15 +35,23 @@ Route::middleware('auth')->group(function () {
     Route::get('/customers/view-sub-customers/consult-customer/{idCustomer}', 'CustomersController@viewCustomer');
     Route::post('/customers/view-sub-customers/{idCustomer}', 'CustomersController@updateCustomer');
     Route::get('/customers/view-sub-customers/delete-customer/{idCustomer}', 'CustomersController@deleteCustomer');
-    
-    //Movements
-    Route::get('/movements/view-movements', 'MovementsController@index')->name('movements');
-    Route::post('/movements/register-movement', 'MovementsController@store')->name('movement-register');
-    Route::get('/movements/all-movements', 'MovementsController@getMovements');
-    Route::get('/movements/view-movement/{idMovement}', 'MovementsController@viewMovement');
-    Route::post('/movements/{idMovement}', 'MovementsController@updateMovement');
-    Route::get('/movements/delete-movement/{idMovement}', 'MovementsController@deleteMovement');
-    
+
+    //Items
+    Route::get('/items/view-items','ItemsController@index')->name('items');
+    Route::post('/items/register-item','ItemsController@store')->name('item-register');
+    Route::get('/items/all-items','ItemsController@getItems');
+    Route::get('/items/consult-item/{idItem}','ItemsController@consultItem');
+    Route::post('/items/update-item/{idItem}','ItemsController@updateItem');
+    Route::get('/items/delete-item/{idItem}','ItemsController@deleteItem');
+    Route::post('/items/register-close/{idItem}','ItemsController@closeItem')->name('item-close');
+
+    //Conditions
+    Route::get('/conditions/view-conditions', 'ConditionsController@index')->name('conditions');
+    Route::post('/conditions/register-condition', 'ConditionsController@store')->name('condition-register');
+    Route::get('/conditions/all-conditions', 'ConditionsController@getConditions');
+    Route::get('/conditions/consult-condition/{id}', 'ConditionsController@consultCondition');
+    Route::post('/conditions/update-condition/{id}', 'ConditionsController@updateCondition');
+
     //Users
     Route::get('user/get-list', 'UserController@getList')->name('user.get-list');
     Route::resource('user', 'UserController');
