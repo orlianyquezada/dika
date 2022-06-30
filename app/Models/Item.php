@@ -11,5 +11,5 @@ class Item extends Model
 
     protected $table = 'items';
 
-    protected $fillable = ['datetime_it', 'item_it', 'quanty_it', 'qty_boxes_it', 'ubication_it', 'observation_it', 'customer_id', 'condition_id', 'status_id', 'shipment_id', 'employee_id', 'movement_id', 'user_id'];
+    protected $fillable = ['datetime_it', 'item_it', 'quanty_it', 'qty_boxes_it', 'ubication_it', 'observation_it', 'customer_id', 'condition_id', 'status_id', 'shipment_id', 'employee_id', 'item_id', 'user_id'];
 }

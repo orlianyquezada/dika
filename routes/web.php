@@ -52,6 +52,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/conditions/consult-condition/{id}', 'ConditionsController@consultCondition');
     Route::post('/conditions/update-condition/{id}', 'ConditionsController@updateCondition');
 
+    //Shipments
+    Route::get('/shipments/view-shipments', 'ShipmentsController@index')->name('shipments');
+    Route::post('/shipments/register-shipment', 'ShipmentsController@store')->name('shipment-register');
+    Route::get('/shipments/all-shipments', 'ShipmentsController@getShipments');
+    Route::get('/shipments/consult-shipment/{id}', 'ShipmentsController@consultShipment');
+    Route::post('/shipments/update-shipment/{id}', 'ShipmentsController@updateShipment');
+
     //Users
     Route::get('user/get-list', 'UserController@getList')->name('user.get-list');
     Route::resource('user', 'UserController');
