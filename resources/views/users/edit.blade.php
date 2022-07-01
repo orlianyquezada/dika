@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('title', 'Admin - editar usuarios')
 @section('content_header')
-    <h1>Editar usuarios</h1>
+    <h1>Edit users</h1>
 @stop
 @section('content')
     @if(Session::has('message')) <div class="callout callout-success"><p>{{Session::get('message')}}</p></div> @endif
@@ -69,7 +69,7 @@
         {{-- Register button --}}
         <button type="submit" class="btn btn-block col-sm-12 col-md-6 {{ config('adminlte.classes_auth_btn', 'btn-flat btn-primary') }}">
             <span class="fas fa-user-plus"></span>
-            Actualizar
+            Update
         </button>
     </form>
 @stop

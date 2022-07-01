@@ -24,20 +24,22 @@ class RegisterCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name_cu' => 'required|min:10|max:120|regex:/^[a-z ]+$/i',
-            'phone_cu' => 'required|numeric|min:10'
+            'name_cu' => 'required|regex:/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/',
+            'phone_cu' => 'required|numeric',
+            'email_cu' => 'required|email:rfc,dns',
+            'customer_id' => 'nullable'
         ];
     }
 
     public function messages(){
         return [
-            'name_cu.required' => 'Customer name is required.',
-            'name_cu.min' => 'The minimum number of letters must be 10',
-            'name_cu.max' => 'The maximum number of letters must be 120',
+            'name_cu.required' => 'Customer name is required',
             'name_cu.regex' => 'The name field only accepts letters',
             'phone_cu.required' => 'Customer phone is required',
-            'phone_cu.min' => 'The minimun of phone numbers must be 10',
-            'phone_cu.numeric' => 'The phone field only accepts numbers'
+            'phone_cu.numeric' => 'The phone field only accepts numbers',
+            'email_cu.required' => 'Customer email is required',
+            'email_cu.unique' => 'The email is held by another customer',
+            'email_cu.email' => 'The email entered is not valid'
         ];
     }
 }

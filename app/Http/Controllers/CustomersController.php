@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Customers\RegisterCustomerRequest;
 use App\Http\Requests\Customers\UpdateCustomerRequest;
 use App\Models\Customer;
+use App\Models\Movement;
 use DB;
 
 class CustomersController extends Controller
@@ -20,6 +21,8 @@ class CustomersController extends Controller
         $this->middleware('auth');
     }
 
+    //Customers
+
     /**
      * Show the application dashboard.
      *
@@ -27,22 +30,40 @@ class CustomersController extends Controller
      */
     public function index()
     {
-        return view('customers.customers');
+        return view('customers.view-customers');
     }
 
     public function getCustomers(){
-        $customers = Customer::all();
+        $customers = Customer::where('customer_id','=',NULL)->get();
         $forDtt['data'] = $customers;
-        return response()->json($forDtt, 200);
+        return response()->json($forDtt,200);
     }
 
-    public function store(RegisterCustomerRequest $request)
-    {
-        $saved = Customer::create($request->all());
-        if ($saved){
-            return redirect('/customers/customers')->with('flash','¡The customer has been successfully registered!');
+    public function store(RegisterCustomerRequest $request){
+        if (empty($request->input('customer_id'))){
+            $verify = Customer::where('phone_cu',$request->input('phone_cu'))->where('email_cu',$request->input('email_cu'))->where('name_cu',$request->input('name_cu'))->where('customer_id','=',NULL)->get()->first();
+            if ($verify){
+                return redirect()->route('customers')->withErrors('¡That number and email has another customer!');
+            }else{
+                $saved = Customer::create($request->all());
+                if ($saved){
+                    return redirect()->route('customers')->with('flash','¡The customer has been successfully registered!');
+                }else{
+                    return view('home');
+                }
+            }
         }else{
-            return view('home');
+            $verify = Customer::where('phone_cu',$request->input('phone_cu'))->where('email_cu',$request->input('email_cu'))->where('name_cu',$request->input('name_cu'))->where('customer_id',$request->input('customer_id'))->get()->first();
+            if ($verify){
+                return redirect()->route('sub-customers',['idCustomer' => $request->customer_id])->withErrors('¡That name,number and email has another sub customer!');
+            }else{
+                $saved = Customer::create($request->all());
+                if ($saved){
+                    return redirect()->route('sub-customers',['idCustomer' => $request->customer_id])->with('flash','¡The sub customer has been successfully registered!');
+                }else{
+                    return view('home');
+                }
+            }
         }
     }
 
@@ -52,16 +73,54 @@ class CustomersController extends Controller
     }
 
     public function updateCustomer(UpdateCustomerRequest $request){
-        $customer = Customer::find($request->id);
-        if ($customer){
-            $customer->name_cu = $request->name_cu;
-            $customer->phone_cu = $request->phone_cu;
-            $customer->save();
+        if (empty($request->input('customer_id'))){
+            $verify = Customer::where('phone_cu',$request->input('phone_cu'))->where('email_cu',$request->input('email_cu'))->where('name_cu',$request->input('name_cu'))->where('customer_id','=',NULL)->where('id','!=',$request->input('id'))->get()->first();
+            if ($verify){
+                return response()->json(0);
+            }else{
+                $customer = Customer::find($request->input('id'));
+                if ($customer){
+                    $customer->name_cu = $request->input('name_cu');
+                    $customer->phone_cu = $request->input('phone_cu');
+                    $customer->email_cu = $request->input('email_cu');
+                    $customer->save();
+                }
+                return response()->json(1);
+            }
+        }else{
+            $verify = Customer::where('phone_cu',$request->input('phone_cu'))->where('email_cu',$request->input('email_cu'))->where('name_cu',$request->input('name_cu'))->where('customer_id',$request->input('customer_id'))->where('id','!=',$request->input('id'))->get()->first();
+            if ($verify){
+                return response()->json(0);
+            }else{
+                $customer = Customer::find($request->input('id'));
+                if ($customer){
+                    $customer->name_cu = $request->input('name_cu');
+                    $customer->phone_cu = $request->input('phone_cu');
+                    $customer->email_cu = $request->input('email_cu');
+                    $customer->save();
+                }
+                return response()->json(1);
+            }
         }
     }
 
     public function deleteCustomer($idCustomer){
-        Customer::destroy($idCustomer);
+        $customer = Customer::find($idCustomer);
+        $customer->delete();
+        return response()->json(0);
+    }
+
+    //Sub customers
+
+    public function viewSubCustomers($idCustomer){
+        $customer = Customer::find($idCustomer);
+        return view('customers.view-sub-customers',compact('customer'));
+    }
+
+    public function getSubCustomers($idCustomer){
+        $customers = Customer::where('customer_id',$idCustomer)->get();
+        $forDtt['data'] = $customers;
+        return response()->json($forDtt,200);
     }
 }
 

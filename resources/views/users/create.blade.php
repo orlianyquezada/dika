@@ -12,7 +12,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
-        </div>                
+        </div>
     @endif
     <form action="{{ route('user.store') }}" method="post" class="row">
         @csrf
@@ -82,7 +82,7 @@
         {{-- Register button --}}
         <button type="submit" class="btn btn-block col-sm-12 col-md-6 {{ config('adminlte.classes_auth_btn', 'btn-flat btn-primary') }}">
             <span class="fas fa-user-plus"></span>
-            Crear usuario
+            Create user
         </button>
     </form>
 @stop

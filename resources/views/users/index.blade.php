@@ -10,7 +10,7 @@
                 <h3><strong>Users</strong></h3>
             </div>
             <div class="col-12 col-lg-3">
-                <a href="{{ route('user.create') }}" class="btn btn-warning shadow-sm w-100"><strong>Registration</strong></a>
+                <a href="{{ route('user.create') }}" class="btn btn-warning shadow-sm w-100"><strong>Register</strong></a>
             </div>
         </div>
     </div>
@@ -23,9 +23,9 @@
             <div class="table-responsive">
                 <table id="table_users" class="table table-hover">
                     <thead>
-                        <th>Usuario</th>
-                        <th>Correo</th>
-                        <th>Acciones</th>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Actions</th>
                     </thead>
                 </table>
             </div>
@@ -41,4 +41,4 @@
 
 @section('js')
     <script src="{{ asset('js/users/index.js') }}"></script>
-@stop   
+@stop
