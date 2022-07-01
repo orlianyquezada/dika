@@ -327,61 +327,6 @@
                                 <label for="observationEdit">Observation</label>
                                 <textarea name="observation_it" id="observationEdit" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
                             </div>
-                            <div id="infoExitEdit" hidden>
-                                <p class="lead">Exit input information</p>
-                                <div class="form-group">
-                                    <label for="datetimeExitEdit">Date</label>
-                                    <input type="text" name="datetime_it" id="datetimeExitEdit" class="form-control shadow-sm">
-                                </div>
-                                <div class="form-group">
-                                    <label for="addressEdit">Address</label>
-                                    <input type="text" name="ubication_it" id="addressEdit" class="form-control shadow-sm">
-                                </div>
-                                <div class="form-group">
-                                    <label for="customerSecoEdit">Customer</label>
-                                    <select name="customer_id" id="customerSecoEdit" class="form-control shadow-sm">
-                                        @foreach ($customers as $customer)
-                                            <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="conditionExitEdit">Conditions</label>
-                                    <select name="condition_id" id="conditionExitEdit" class="form-control shadow-sm">
-                                        @foreach ($conditions as $condition)
-                                            <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="statusExitEdit">Status</label>
-                                    <select name="status_id" id="statusExitEdit" class="form-control shadow-sm">
-                                        @foreach ($status as $statu)
-                                            <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="shipmentExitEdit">Shipment</label>
-                                    <select name="shipment_id" id="shipmentExitEdit" class="form-control shadow-sm">
-                                        @foreach ($shipments as $shipment)
-                                            <option value="{{ $shipment->id }}">{{ $shipment->shipment_sh }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="employeeExitEdit">Employee</label>
-                                    <select name="employee_id" id="employeeExitEdit" class="form-control shadow-sm">
-                                        @foreach ($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="observationExitEdit">Observation</label>
-                                    <textarea name="observation_it" id="observationExitEdit" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
-                                </div>
-                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -589,41 +534,15 @@
                 type: "GET",
                 url: 'consult-item/'+idItem,
                 success: function(data){
-                    var status = data[0];
-                    if (status === 'open'){
-                        $('#titleInputEdit').prop('hidden',true);
-                        $('#datetimeEdit').val(data[1][0].datetime_it).prop('disabled',true);
-                        $('#itemEdit').val(data[1][0].item_it);
-                        $('#quantyEdit').val(data[1][0].quanty_it);
-                        $('#qtyBoxesEdit').val(data[1][0].qty_boxes_it);
-                        $('#ubicationEdit').val(data[1][0].ubication_it);
-                        $('#observationEdit').val(data[1][0].observation_it);
-                        $('#customerPrimEdit').val(data[1][0].customer_id);
-                        $('#conditionInputEdit').val(data[1][0].condition_id);
-                        $('#statusInputEdit').val(data[1][0].status_id);
-                        $('#infoExitEdit').prop('hidden',true);
-                    }else if (status == 'close'){
-                        $('#titleInputEdit').prop('hidden',false);
-                        $('#datetimeEdit').val(data[1][0].datetime_it).prop('disabled',true);
-                        $('#itemEdit').val(data[1][0].item_it);
-                        $('#quantyEdit').val(data[1][0].quanty_it);
-                        $('#qtyBoxesEdit').val(data[1][0].qty_boxes_it);
-                        $('#ubicationEdit').val(data[1][0].ubication_it);
-                        $('#observationEdit').val(data[1][0].observation_it);
-                        $('#customerPrimEdit').val(data[1][0].customer_id);
-                        $('#conditionInputEdit').val(data[1][0].condition_id);
-                        $('#statusInputEdit').val(data[1][0].status_id);
-                        $('#infoExitEdit').prop('hidden',false);
-                        $('#datetimeExitEdit').val(data[2][0].datetime_it);
-                        $('#addressEdit').val(data[2][0].ubication_it);
-                        $('#observationEdit').val(data[2][0].observation_it);
-                        $('#customerSecoEdit').val(data[2][0].customer_id);
-                        $('#conditionExitEdit').val(data[2][0].condition_id);
-                        $('#statusExitEdit').val(data[2][0].status_id);
-                        $('#shipmentExitEdit').val(data[2][0].shipment_id);
-                        $('#employeeExitEdit').val(data[2][0].employee_id);
-                        $('#observationExitEdit').val(data[2][0].observation_it);
-                    }
+                    $('#datetimeEdit').val(data[1][0].datetime_it).prop('readonly',true);
+                    $('#itemEdit').val(data[1][0].item_it);
+                    $('#quantyEdit').val(data[1][0].quanty_it);
+                    $('#qtyBoxesEdit').val(data[1][0].qty_boxes_it);
+                    $('#ubicationEdit').val(data[1][0].ubication_it);
+                    $('#observationEdit').val(data[1][0].observation_it);
+                    $('#customerPrimEdit').val(data[1][0].customer_id);
+                    $('#conditionInputEdit').val(data[1][0].condition_id);
+                    $('#statusInputEdit').val(data[1][0].status_id);
                 },
                 error: function(data){
                     $('#editItem').modal('hide');
