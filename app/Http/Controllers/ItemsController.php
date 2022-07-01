@@ -94,6 +94,7 @@ class ItemsController extends Controller
     public function consultItem($idItem){
         $verify = Item::where('item_id',$idItem)->get()->first();
         if ($verify){
+            $status = 'close';
             $itemOpen = Item::join('customers','customers.id','=','items.customer_id')
                             ->join('conditions','conditions.id','=','items.condition_id')
                             ->join('status','status.id','=','items.status_id')
@@ -126,63 +127,99 @@ class ItemsController extends Controller
     }
 
     public function updateItem(Request $request){
-        $date = $request->input('date');
-        $time = $request->input('time');
-        if (!empty($date)){
-            if (empty($time)){
-                return response()->json('The date and time field is required.');
-            }else{
-                $concatDateTime = $date.' '.$time;
+        if (empty($request->input('item_id'))){
+            $input = $request->all();
+            $rules = [
+                'datetime_it' => 'required|date',
+                'item_it' => 'required',
+                'quanty_it' => 'required|integer',
+                'qty_boxes_it' => 'required|integer',
+                'ubication_it' => 'required',
+                'customer_id' => 'required|integer',
+                'condition_id' => 'required|integer',
+                'status_id' => 'required|integer',
+                'user_id' => 'required|integer',
+            ];
+            $messagges = [
+                'datetime_it.required' => 'The date field is required',
+                'datetime_it.date' => 'The date field must be date-formatted',
+                'item_it.required' => 'The item field is required',
+                'quanty_it.required' => 'The quanty field is required',
+                'quanty_it.integer' => 'The quanty field must have numbers',
+                'qty_boxes_it.required' => 'The quanty boxes field is required',
+                'qty_boxes_it.integer' => 'The quanty boxes field must have numbers',
+                'ubication_it.required' => 'The ubication field is required',
+                'customer_id.required' => 'The customer field is required',
+                'customer_id.integer' => 'The customer field must have numbers',
+                'condition_id.required' => 'The condition field is required',
+                'condition_id.integer' => 'The condition field must have numbers',
+                'status_id.required' => 'The status field is required',
+                'status_id.integer' => 'The status field must have numbers',
+                'user_id.required' => 'The user field is required',
+                'user_id.integer' => 'The user field must have numbers'
+            ];
+
+            $validator = Validator::make($input,$rules,$messagges)->validate();
+
+            $item = Item::find($request->input('id'));
+            if ($item){
+                $item->datetime_it = $request->input('datetime_it');
+                $item->item_it = $request->input('item_it');
+                $item->quanty_it = $request->input('quanty_it');
+                $item->qty_boxes_it = $request->input('qty_boxes_it');
+                $item->ubication_it = $request->input('ubication_it');
+                $item->observation_it = $request->input('observation_it');
+                $item->customer_id = $request->input('customer_id');
+                $item->condition_id = $request->input('condition_id');
+                $item->status_id = $request->input('status_id');
+                $item->user_id = $request->input('user_id');
+                $item->save();
             }
-        }
-        $input = $request->all();
-        $rules = [
-            'date' => 'required|date',
-            'time' => 'required',
-            'item_it' => 'required',
-            'quanty_it' => 'required|integer',
-            'qty_boxes_it' => 'required|integer',
-            'ubication_it' => 'required',
-            'customer_id' => 'required|integer',
-            'condition_id' => 'required|integer',
-            'status_id' => 'required|integer',
-            'user_id' => 'required|integer',
-        ];
-        $messagges = [
-            'date.required' => 'The date field is required',
-            'date.date' => 'The date field must be date-formatted',
-            'time.required' => 'The time field is required',
-            'item_it.required' => 'The item field is required',
-            'quanty_it.required' => 'The quanty field is required',
-            'quanty_it.integer' => 'The quanty field must have numbers',
-            'qty_boxes_it.required' => 'The quanty boxes field is required',
-            'qty_boxes_it.integer' => 'The quanty boxes field must have numbers',
-            'ubication_it.required' => 'The ubication field is required',
-            'customer_id.required' => 'The customer field is required',
-            'customer_id.integer' => 'The customer field must have numbers',
-            'condition_id.required' => 'The condition field is required',
-            'condition_id.integer' => 'The condition field must have numbers',
-            'status_id.required' => 'The status field is required',
-            'status_id.integer' => 'The status field must have numbers',
-            'user_id.required' => 'The user field is required',
-            'user_id.integer' => 'The user field must have numbers'
-        ];
+        }else{
+            $input = $request->all();
+            $rules = [
+                'datetime_it' => 'required|date',
+                'ubication_it' => 'required',
+                'sub_customer_id' => 'required|integer',
+                'condition_id' => 'required|integer',
+                'status_id' => 'required|integer',
+                'shipment_id' => 'required|integer',
+                'employee_id' => 'required|integer',
+                'user_id' => 'required|integer',
+            ];
+            $messagges = [
+                'datetime_it.required' => 'The date field is required',
+                'datetime_it.date' => 'The date field must be date-formatted',
+                'ubication_it.required' => 'The ubication field is required',
+                'sub_customer_id.required' => 'The customer field is required',
+                'sub_customer_id.integer' => 'The customer field must have numbers',
+                'condition_id.required' => 'The condition field is required',
+                'condition_id.integer' => 'The condition field must have numbers',
+                'status_id.required' => 'The status field is required',
+                'status_id.integer' => 'The status field must have numbers',
+                'shipment_id.required' => 'The shipment field is required',
+                'shipment_id.integer' => 'The shipment field must have numbers',
+                'employee_id.required' => 'The employee field is required',
+                'employee_id.integer' => 'The employee field must have numbers',
+                'user_id.required' => 'The user field is required',
+                'user_id.integer' => 'The user field must have numbers'
+            ];
 
-        $validator = Validator::make($input,$rules,$messagges)->validate();
+            $validator = Validator::make($input,$rules,$messagges)->validate();
 
-        $item = Item::find($request->input('id'));
-        if ($item){
-            $item->datetime_it = $concatDateTime;
-            $item->item_it = $request->input('item_it');
-            $item->quanty_it = $request->input('quanty_it');
-            $item->qty_boxes_it = $request->input('qty_boxes_it');
-            $item->ubication_it = $request->input('ubication_it');
-            $item->observation_it = $request->input('observation_it');
-            $item->customer_id = $request->input('customer_id');
-            $item->condition_id = $request->input('condition_id');
-            $item->status_id = $request->input('status_id');
-            $item->user_id = $request->input('user_id');
-            $item->save();
+            $item = Item::where('item_id',$request->input('item_id'))->get()->first();
+            if ($item){
+                $item->datetime_it = $request->input('datetime_it');
+                $item->ubication_it = $request->input('ubication_it');
+                $item->observation_it = $request->input('observation_it');
+                $item->sub_customer_id = $request->input('sub_customer_id');
+                $item->condition_id = $request->input('condition_id');
+                $item->status_id = $request->input('status_id');
+                $item->shipment_id = $request->input('shipment_id');
+                $item->employee_id = $request->input('employee_id');
+                $item->user_id = $request->input('user_id');
+                $item->save();
+            }
         }
     }
 

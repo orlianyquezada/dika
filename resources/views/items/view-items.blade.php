@@ -246,36 +246,21 @@
             </div>
         </div>
 
-        <!-- Modal's update -->
-        <div class="modal fade" id="editItem" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editItemLabel" aria-hidden="true">
+        <!-- Modal's update open item -->
+        <div class="modal fade" id="editItemOpen" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editItemOpenLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editItemLabel"><strong>Edit Item</strong></h5>
+                        <h5 class="modal-title" id="editItemOpenLabel"><strong>Edit Item</strong></h5>
                     </div>
                     <div class="modal-body">
-                        <form id="updateItem" autocomplete="off">
+                        <form id="updateItemOpen" autocomplete="off">
                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                             <input type="hidden" name="id" id="idItemEdit">
-                            <div id="titleInputEdit" hidden><p class="lead">Item input information</p></div>
                             <div class="form-group">
                                 <label for="datetimeEdit">Date and time</label>
-                                <input type="datetime" id="datetimeEdit" class="form-control shadow-sm">
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-6">
-                                    <div class="form-group">
-                                        <label for="dateEdit">Date</label>
-                                        <input type="date" name="date" id="dateEdit" class="form-control shadow-sm">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-6">
-                                    <div class="form-group">
-                                        <label for="timeEdit">Time</label>
-                                        <input type="time" name="time" id="timeEdit" class="form-control shadow-sm">
-                                    </div>
-                                </div>
+                                <input type="datetime" name="datetime_it" id="datetimeEdit" class="form-control shadow-sm">
                             </div>
                             <div class="form-group">
                                 <label for="itemEdit">Item</label>
@@ -330,7 +315,174 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" form="updateItem" class="btn btn-warning" onclick="updateItem();">Update</button>
+                        <button type="button" form="updateItemOpen" class="btn btn-warning" onclick="updateItemOpen();">Update</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal's update close item -->
+        <div class="modal fade" id="editItemClose" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editItemCloseLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editItemCloseLabel"><strong>Edit Item</strong></h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left text-dark text-decoration-none" type="button" data-toggle="collapse" data-target="#CollapseItemInpuInformation" aria-expanded="true" aria-controls="CollapseItemInpuInformation">
+                                        Item input information
+                                    </button>
+                                    </h2>
+                                </div>
+
+                              <div id="CollapseItemInpuInformation" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <form id="updateInputInfo" autocomplete="off">
+                                        <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                        <input type="hidden" name="id" id="idItemInputInfo">
+                                        <div class="form-group">
+                                            <label for="datetimeInput">Date and time</label>
+                                            <input type="datetime" name="datetime_it" id="datetimeInput" class="form-control shadow-sm">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="itemInput">Item</label>
+                                            <input type="text" name="item_it" id="itemInput" class="form-control shadow-sm" placeholder="Item">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="quantyInput">Quanty</label>
+                                                    <input type="number" name="quanty_it" id="quantyInput" class="form-control shadow-sm" placeholder="Quanty">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="qtyBoxesInput">Quanty boxes</label>
+                                                    <input type="number" name="qty_boxes_it" id="qtyBoxesInput" class="form-control shadow-sm" placeholder="Quanty boxes">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ubicationInput">Ubication</label>
+                                            <input type="text" name="ubication_it" id="ubicationInput" class="form-control shadow-sm" placeholder="Ubication">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="customerPrimInput">Customers</label>
+                                            <select name="customer_id" id="customerPrimInput" class="form-control shadow-sm">
+                                                @foreach ($customers as $customer)
+                                                    <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="conditionInput">Conditions</label>
+                                            <select name="condition_id" id="conditionInput" class="form-control shadow-sm">
+                                                @foreach ($conditions as $condition)
+                                                    <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="statusInput">Status</label>
+                                            <select name="status_id" id="statusInput" class="form-control shadow-sm">
+                                                @foreach ($status as $statu)
+                                                    <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="observationInput">Observation</label>
+                                            <textarea name="observation_it" id="observationInput" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="button" form="updateInputInfo" class="btn btn-warning" onclick="updateInputInfo();">Update</button>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingTwo">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed text-dark text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseExitInput" aria-expanded="false" aria-controls="collapseTwo">
+                                            Information exit input
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseExitInput" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <form id="updateExitInfo" autocomplete="off">
+                                            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                            <input type="hidden" name="item_id" id="itemIdExitInfo">
+                                            <div class="form-group">
+                                                <label for="datetimeExit">Date and time</label>
+                                                <input type="datetime" name="datetime_it" id="datetimeExit" class="form-control shadow-sm">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="addressExit">Address</label>
+                                                <input type="text" name="ubication_it" id="addressExit" class="form-control shadow-sm">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="subCustomerExit">Customer</label>
+                                                <select name="sub_customer_id" id="subCustomerExit" class="form-control shadow-sm">
+                                                    @foreach ($customers as $customer)
+                                                        <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="conditionExit">Conditions</label>
+                                                <select name="condition_id" id="conditionExit" class="form-control shadow-sm">
+                                                    @foreach ($conditions as $condition)
+                                                        <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="statusExit">Status</label>
+                                                <select name="status_id" id="statusExit" class="form-control shadow-sm">
+                                                    @foreach ($status as $statu)
+                                                        <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="shipmentExit">Shipment</label>
+                                                <select name="shipment_id" id="shipmentExit" class="form-control shadow-sm">
+                                                    @foreach ($shipments as $shipment)
+                                                        <option value="{{ $shipment->id }}">{{ $shipment->shipment_sh }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="employeeExit">Employee</label>
+                                                <select name="employee_id" id="employeeExit" class="form-control shadow-sm">
+                                                    @foreach ($users as $user)
+                                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="observationExit">Observation</label>
+                                                <textarea name="observation_it" id="observationExit" cols="12" rows="2" class="form-control shadow-sm"></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="button" form="updateExitInfo" class="btn btn-warning" onclick="updateExitInfo();">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -534,7 +686,25 @@
                 type: "GET",
                 url: 'consult-item/'+idItem,
                 success: function(data){
-                    $('#datetimeEdit').val(data[1][0].datetime_it).prop('readonly',true);
+                    var status = data[0];
+                    if (status == 'close'){
+                        itemClose(idItem);
+                    }else if (status == 'open'){
+                        itemOpen(idItem);
+                    }
+                },
+                error: function(data){
+                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                }
+            });
+        }
+
+        function itemOpen(idItem){
+            $.ajax({
+                type: "GET",
+                url: 'consult-item/'+idItem,
+                success: function(data){
+                    $('#datetimeEdit').val(data[1][0].datetime_it);
                     $('#itemEdit').val(data[1][0].item_it);
                     $('#quantyEdit').val(data[1][0].quanty_it);
                     $('#qtyBoxesEdit').val(data[1][0].qty_boxes_it);
@@ -545,29 +715,116 @@
                     $('#statusInputEdit').val(data[1][0].status_id);
                 },
                 error: function(data){
-                    $('#editItem').modal('hide');
+                    $('#editItemOpen').modal('hide');
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }
             });
+            $('#editItemOpen').modal('show');
             $('#idItemEdit').val(idItem);
-            $('#editItem').modal('show');
         }
 
-        function updateItem(){
+        function itemClose(idItem){
+            $.ajax({
+                type: "GET",
+                url: 'consult-item/'+idItem,
+                success: function(data){
+                    $('#datetimeInput').val(data[1][0].datetime_it);
+                    $('#itemInput').val(data[1][0].item_it);
+                    $('#quantyInput').val(data[1][0].quanty_it);
+                    $('#qtyBoxesInput').val(data[1][0].qty_boxes_it);
+                    $('#ubicationInput').val(data[1][0].ubication_it);
+                    $('#observationInput').val(data[1][0].observation_it);
+                    $('#customerPrimInput').val(data[1][0].customer_id);
+                    $('#conditionInputInput').val(data[1][0].condition_id);
+                    $('#statusInputInput').val(data[1][0].status_id);
+                    $('#datetimeExit').val(data[2][0].datetime_it);
+                    $('#addressExit').val(data[2][0].ubication_it);
+                    $('#observationExit').val(data[2][0].observation_it);
+                    $('#subCustomerExit').val(data[2][0].customer_id);
+                    $('#conditionExit').val(data[2][0].condition_id);
+                    $('#statusExit').val(data[2][0].status_id);
+                    $('#shipmentExit').val(data[2][0].shipment_id);
+                    $('#employeeExit').val(data[2][0].employee_id);
+                },
+                error: function(data){
+                    $('#editItemOpen').modal('hide');
+                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                }
+            });
+            $('#editItemClose').modal('show');
+            $('#idItemInputInfo').val(idItem);
+            $('#itemIdExitInfo').val(idItem);
+        }
+
+        function updateItemOpen(){
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('input[name=_token]').val()},
                 type: "POST",
                 url: 'update-item/'+$('#idItemEdit').val(),
-                data: $('form#updateItem').serialize(),
+                data: $('form#updateItemOpen').serialize(),
                 success: function(data){
                     console.log(data)
-                    $('#editItem').modal('hide');
+                    $('#editItemOpen').modal('hide');
                     $('#dtItems').DataTable().ajax.reload();
                     $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 error: function(data){
                     console.log(data)
-                    $('#editItem').modal('hide');
+                    $('#editItemOpen').modal('hide');
+                    $('#dtItems').DataTable().ajax.reload();
+                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    var resultado = data.responseJSON.errors;
+                    var contenido = '';
+                    $.each(resultado, function(index, value) {
+                        contenido += '<li>'+value+'</li>';
+                    });
+                    $("#listAlert").html(contenido);
+                }
+            });
+        }
+
+        function updateInputInfo(){
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('input[name=_token]').val()},
+                type: "POST",
+                url: 'update-item/'+$('#idItemInpu').val(),
+                data: $('form#updateInputInfo').serialize(),
+                success: function(data){
+                    console.log(data)
+                    $('#editItemClose').modal('hide');
+                    $('#dtItems').DataTable().ajax.reload();
+                    $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                },
+                error: function(data){
+                    console.log(data)
+                    $('#editItemClose').modal('hide');
+                    $('#dtItems').DataTable().ajax.reload();
+                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    var resultado = data.responseJSON.errors;
+                    var contenido = '';
+                    $.each(resultado, function(index, value) {
+                        contenido += '<li>'+value+'</li>';
+                    });
+                    $("#listAlert").html(contenido);
+                }
+            });
+        }
+
+        function updateExitInfo(){
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('input[name=_token]').val()},
+                type: "POST",
+                url: 'update-item/'+$('#itemIdExitInfo').val(),
+                data: $('form#updateExitInfo').serialize(),
+                success: function(data){
+                    console.log(data)
+                    $('#editItemClose').modal('hide');
+                    $('#dtItems').DataTable().ajax.reload();
+                    $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                },
+                error: function(data){
+                    console.log(data)
+                    $('#editItemClose').modal('hide');
                     $('#dtItems').DataTable().ajax.reload();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     var resultado = data.responseJSON.errors;
@@ -611,7 +868,7 @@
                     var customer = data[1][0].customer_id;
                 },
                 error: function(data){
-                    $('#editItem').modal('hide');
+                    $('#editItemOpen').modal('hide');
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }
             });

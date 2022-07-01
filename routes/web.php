@@ -75,7 +75,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/items/all-items','ItemsController@getItems');
         Route::get('/items/consult-item/{idItem}','ItemsController@consultItem');
         Route::post('/items/update-item/{idItem}','ItemsController@updateItem');
-
     //});
 
     //Users
