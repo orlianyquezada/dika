@@ -101,26 +101,34 @@
 
         <!-- Modal's insert -->
         <div class="modal fade" id="insertSubCustomer" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="insertSubCustomerLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="insertSubCustomerLabel"><strong>Sub Customer Register</strong></h5>
                     </div>
                     <div class="modal-body">
                         <form action="{{ route('customer-register') }}" method="post" autocomplete="off" id="subCustomerRegister">
                             @csrf
                             <input type="hidden" name="customer_id" value="{{ $customer->id }}">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" name="name_cu" id="name" class="form-control shadow-sm" placeholder="Name">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone number</label>
-                                <input type="tel" name="phone_cu" id="phone" class="form-control shadow-sm" placeholder="Phone number">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" name="email_cu" id="email" class="form-control shadow-sm" placeholder="Email">
+                            <div class="row">
+                                <div class="col-12 col-lg-5">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" name="name_cu" id="name" class="form-control shadow-sm" placeholder="Name">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="phone">Phone number</label>
+                                        <input type="tel" name="phone_cu" id="phone" class="form-control shadow-sm" placeholder="Phone number">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" name="email_cu" id="email" class="form-control shadow-sm" placeholder="Email">
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -134,9 +142,9 @@
 
         <!-- Modal's update -->
         <div class="modal fade" id="editSubCustomer" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editSubCustomerLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="editSubCustomerLabel"><strong>Edit Sub Customer</strong></h5>
                     </div>
                     <div class="modal-body">
@@ -144,17 +152,25 @@
                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                             <input type="hidden" name="id" id="idCustomerEdit">
                             <input type="hidden" name="customer_id" value="{{ $customer->id }}">
-                            <div class="form-group">
-                                <label for="phoneEdit">Name</label>
-                                <input type="text" id="nameEdit" name="name_cu" class="form-control shadow-sm">
-                            </div>
-                            <div class="form-group">
-                                <label for="phoneEdit">Phone</label>
-                                <input type="tel" id="phoneEdit" name="phone_cu" class="form-control shadow-sm">
-                            </div>
-                            <div class="form-group">
-                                <label for="emailEdit">Email</label>
-                                <input type="email" name="email_cu" id="emailEdit" class="form-control shadow-sm">
+                            <div class="row">
+                                <div class="col-12 col-lg-5">
+                                    <div class="form-group">
+                                        <label for="phoneEdit">Name</label>
+                                        <input type="text" id="nameEdit" name="name_cu" class="form-control shadow-sm">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="phoneEdit">Phone</label>
+                                        <input type="tel" id="phoneEdit" name="phone_cu" class="form-control shadow-sm">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="emailEdit">Email</label>
+                                        <input type="email" name="email_cu" id="emailEdit" class="form-control shadow-sm">
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -170,7 +186,7 @@
         <div class="modal fade" id="deleteSubCustomer" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteSubCustomerLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="deleteSubCustomerLabel"><strong>Delete Sub Customer</strong></h5>
                     </div>
                     <div class="modal-body">
