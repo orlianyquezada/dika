@@ -79,9 +79,9 @@
 
         <!-- Modal's insert -->
         <div class="modal fade" id="insertItem" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="insertItemLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="insertItemLabel"><strong>Register item</strong></h5>
                     </div>
                     <div class="modal-body">
@@ -89,54 +89,68 @@
                             @csrf
                             <input type="hidden" name="datetime_it" id="datetimeInsert" value="@php date_default_timezone_set('America/Caracas'); echo $DateAndTime = date('Y-m-d H:i:s', time()); @endphp ">
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                            <div class="form-group">
-                                <label for="itemInsert">Item</label>
-                                <input type="text" name="item_it" id="itemInsert" class="form-control shadow-sm" placeholder="Item">
-                            </div>
                             <div class="row">
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12 col-lg-7">
+                                    <div class="form-group">
+                                        <label for="itemInsert">Item</label>
+                                        <input type="text" name="item_it" id="itemInsert" class="form-control shadow-sm" placeholder="Item">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-2">
                                     <div class="form-group">
                                         <label for="quantyInsert">Quanty</label>
                                         <input type="number" name="quanty_it" id="quantyInsert" class="form-control shadow-sm" placeholder="Quanty">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12 col-lg-3">
                                     <div class="form-group">
                                         <label for="qty_boxesInsert">Quanty boxes</label>
                                         <input type="number" name="qty_boxes_it" id="qty_boxesInsert" class="form-control shadow-sm" placeholder="Quanty boxes">
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="ubicationInsert">Ubication</label>
-                                <input type="text" name="ubication_it" id="ubicationInsert" class="form-control shadow-sm" placeholder="Ubication">
+                            <div class="row">
+                                <div class="col-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="ubicationInsert">Ubication</label>
+                                        <input type="text" name="ubication_it" id="ubicationInsert" class="form-control shadow-sm" placeholder="Ubication">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="customer_id">Vendor/Brand</label>
+                                        <select name="customer_id" id="customer_id" class="form-control shadow-sm">
+                                            <option value="">Select an option</option>
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="conditionInsert">Conditions</label>
+                                        <select name="condition_id" id="conditionInsert" class="form-control shadow-sm">
+                                            <option value="">Select an option</option>
+                                            @foreach ($conditions as $condition)
+                                                <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="customer_id">Vendor/Brand</label>
-                                <select name="customer_id" id="customer_id" class="form-control shadow-sm">
-                                    <option value="">Select an option</option>
-                                    @foreach ($customers as $customer)
-                                        <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="conditionInsert">Conditions</label>
-                                <select name="condition_id" id="conditionInsert" class="form-control shadow-sm">
-                                    <option value="">Select an option</option>
-                                    @foreach ($conditions as $condition)
-                                        <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="statusInsert">Status</label>
-                                <select name="status_id" id="statusInsert" class="form-control shadow-sm">
-                                    <option value="">Select an option</option>
-                                    @foreach ($status as $statu)
-                                        <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
-                                    @endforeach
-                                </select>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label for="statusInsert">Status</label>
+                                        <select name="status_id" id="statusInsert" class="form-control shadow-sm">
+                                            <option value="">Select an option</option>
+                                            @foreach ($status as $statu)
+                                                <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="observationInsert">Observation</label>
@@ -154,84 +168,119 @@
 
         <!-- Modal's consult -->
         <div class="modal fade" id="consultItem" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="consultItemLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="consultItemLabel"><strong>Item information</strong></h5>
                     </div>
                     <div class="modal-body">
                         <div id="titleInput" hidden><p class="lead">Item input information</p></div>
-                        <div class="form-group">
-                            <label for="dateInputConsult">Date</label>
-                            <input type="text" name="datetime_it" id="dateInputConsult" class="form-control shadow-sm">
-                        </div>
-                        <div class="form-group">
-                            <label for="itemConsult">Item</label>
-                            <input type="text" name="item_it" id="itemConsult" class="form-control shadow-sm">
-                        </div>
                         <div class="row">
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-lg-3">
+                                <div class="form-group">
+                                    <label for="dateInputConsult">Date</label>
+                                    <input type="text" name="datetime_it" id="dateInputConsult" class="form-control shadow-sm">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-7">
+                                <div class="form-group">
+                                    <label for="itemConsult">Item</label>
+                                    <input type="text" name="item_it" id="itemConsult" class="form-control shadow-sm">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-2">
                                 <div class="form-group">
                                     <label for="quantyConsult">Quanty</label>
                                     <input type="number" name="quanty_it" id="quantyConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-12 col-lg-6">
+                                <div class="form-group">
+                                    <label for="ubicationConsult">Ubication</label>
+                                    <input type="text" name="ubication_it" id="ubicationConsult" class="form-control shadow-sm">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-2">
                                 <div class="form-group">
                                     <label for="qtyBoxesConsult">Quanty boxes</label>
                                     <input type="number" name="qty_boxes_it" id="qtyBoxesConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="form-group">
+                                    <label for="customerPrimConsult">Vendor/Brand</label>
+                                    <input type="text" name="customer_id" id="customerPrimConsult" class="form-control shadow-sm">
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="ubicationConsult">Ubication</label>
-                            <input type="text" name="ubication_it" id="ubicationConsult" class="form-control shadow-sm">
-                        </div>
-                        <div class="form-group">
-                            <label for="customerPrimConsult">Vendor/Brand</label>
-                            <input type="text" name="customer_id" id="customerPrimConsult" class="form-control shadow-sm">
-                        </div>
-                        <div class="form-group">
-                            <label for="conditionInputConsult">Condition</label>
-                            <input type="text" name="condition_id" id="conditionInputConsult" class="form-control shadow-sm">
-                        </div>
-                        <div class="form-group">
-                            <label for="statusInputConsult">Status</label>
-                            <input type="text" name="status_id" id="statusInputConsult" class="form-control shadow-sm">
+                        <div class="row">
+                            <div class="col-12 col-lg-2">
+                                <div class="form-group">
+                                    <label for="conditionInputConsult">Condition</label>
+                                    <input type="text" name="condition_id" id="conditionInputConsult" class="form-control shadow-sm">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-3">
+                                <div class="form-group">
+                                    <label for="statusInputConsult">Status</label>
+                                    <input type="text" name="status_id" id="statusInputConsult" class="form-control shadow-sm">
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="observationInputConsult">Observation</label>
                             <textarea name="observation_it" id="observationInputConsult" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
                         </div>
                         <div id="infoExit" hidden>
+                            <hr class="display-4">
                             <p class="lead">Exit input information</p>
-                            <div class="form-group">
-                                <label for="datetimeExitConsult">Date</label>
-                                <input type="text" name="datetime_it" id="datetimeExitConsult" class="form-control shadow-sm">
+                            <div class="row">
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="datetimeExitConsult">Date</label>
+                                        <input type="text" name="datetime_it" id="datetimeExitConsult" class="form-control shadow-sm">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-5">
+                                    <div class="form-group">
+                                        <label for="addressConsult">Address</label>
+                                        <input type="text" name="ubication_it" id="addressConsult" class="form-control shadow-sm">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="customerSecoConsult">Customer</label>
+                                        <input type="text" name="customer_id" id="customerSecoConsult" class="form-control shadow-sm">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="addressConsult">Address</label>
-                                <input type="text" name="ubication_it" id="addressConsult" class="form-control shadow-sm">
-                            </div>
-                            <div class="form-group">
-                                <label for="customerSecoConsult">Customer</label>
-                                <input type="text" name="customer_id" id="customerSecoConsult" class="form-control shadow-sm">
-                            </div>
-                            <div class="form-group">
-                                <label for="conditionExitConsult">Condition</label>
-                                <input type="text" name="condition_id" id="conditionExitConsult" class="form-control shadow-sm">
-                            </div>
-                            <div class="form-group">
-                                <label for="statusExitConsult">Status</label>
-                                <input type="text" name="status_id" id="statusExitConsult" class="form-control shadow-sm">
-                            </div>
-                            <div class="form-group">
-                                <label for="shipmentExitConsult">Shipment</label>
-                                <input type="text" name="shipment_id" id="shipmentExitConsult" class="form-control shadow-sm">
-                            </div>
-                            <div class="form-group">
-                                <label for="employeeExitConsult">Employee</label>
-                                <input type="text" name="employee_id" id="employeeExitConsult" class="form-control shadow-sm">
+                            <div class="row">
+                                <div class="col-12 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="conditionExitConsult">Condition</label>
+                                        <input type="text" name="condition_id" id="conditionExitConsult" class="form-control shadow-sm">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="statusExitConsult">Status</label>
+                                        <input type="text" name="status_id" id="statusExitConsult" class="form-control shadow-sm">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="shipmentExitConsult">Shipment</label>
+                                        <input type="text" name="shipment_id" id="shipmentExitConsult" class="form-control shadow-sm">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="employeeExitConsult">Employee</label>
+                                        <input type="text" name="employee_id" id="employeeExitConsult" class="form-control shadow-sm">
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="observationExitConsult">Observation</label>
@@ -248,9 +297,9 @@
 
         <!-- Modal's update open item -->
         <div class="modal fade" id="editItemOpen" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editItemOpenLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="editItemOpenLabel"><strong>Edit Item</strong></h5>
                     </div>
                     <div class="modal-body">
@@ -258,55 +307,71 @@
                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                             <input type="hidden" name="id" id="idItemEdit">
-                            <div class="form-group">
-                                <label for="datetimeEdit">Date and time</label>
-                                <input type="datetime" name="datetime_it" id="datetimeEdit" class="form-control shadow-sm">
-                            </div>
-                            <div class="form-group">
-                                <label for="itemEdit">Item</label>
-                                <input type="text" name="item_it" id="itemEdit" class="form-control shadow-sm" placeholder="Item">
-                            </div>
                             <div class="row">
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="datetimeEdit">Date and time</label>
+                                        <input type="datetime" name="datetime_it" id="datetimeEdit" class="form-control shadow-sm">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-7">
+                                    <div class="form-group">
+                                        <label for="itemEdit">Item</label>
+                                        <input type="text" name="item_it" id="itemEdit" class="form-control shadow-sm" placeholder="Item">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-2">
                                     <div class="form-group">
                                         <label for="quantyEdit">Quanty</label>
                                         <input type="number" name="quanty_it" id="quantyEdit" class="form-control shadow-sm" placeholder="Quanty">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-6">
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-lg-3">
                                     <div class="form-group">
                                         <label for="qtyBoxesEdit">Quanty boxes</label>
                                         <input type="number" name="qty_boxes_it" id="qtyBoxesEdit" class="form-control shadow-sm" placeholder="Quanty boxes">
                                     </div>
                                 </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="ubicationEdit">Ubication</label>
+                                        <input type="text" name="ubication_it" id="ubicationEdit" class="form-control shadow-sm" placeholder="Ubication">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="customerPrimEdit">Customers</label>
+                                        <select name="customer_id" id="customerPrimEdit" class="form-control shadow-sm">
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="ubicationEdit">Ubication</label>
-                                <input type="text" name="ubication_it" id="ubicationEdit" class="form-control shadow-sm" placeholder="Ubication">
-                            </div>
-                            <div class="form-group">
-                                <label for="customerPrimEdit">Customers</label>
-                                <select name="customer_id" id="customerPrimEdit" class="form-control shadow-sm">
-                                    @foreach ($customers as $customer)
-                                        <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="conditionEdit">Conditions</label>
-                                <select name="condition_id" id="conditionEdit" class="form-control shadow-sm">
-                                    @foreach ($conditions as $condition)
-                                        <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="statusEdit">Status</label>
-                                <select name="status_id" id="statusEdit" class="form-control shadow-sm">
-                                    @foreach ($status as $statu)
-                                        <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
-                                    @endforeach
-                                </select>
+                            <div class="row">
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="conditionEdit">Conditions</label>
+                                        <select name="condition_id" id="conditionEdit" class="form-control shadow-sm">
+                                            @foreach ($conditions as $condition)
+                                                <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="statusEdit">Status</label>
+                                        <select name="status_id" id="statusEdit" class="form-control shadow-sm">
+                                            @foreach ($status as $statu)
+                                                <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="observationEdit">Observation</label>
@@ -324,15 +389,15 @@
 
         <!-- Modal's update close item -->
         <div class="modal fade" id="editItemClose" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editItemCloseLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="editItemCloseLabel"><strong>Edit Item</strong></h5>
                     </div>
                     <div class="modal-body">
                         <div class="accordion" id="accordionExample">
-                            <div class="card">
-                                <div class="card-header" id="headingOne">
+                            <div class="card border border-warning">
+                                <div class="card-header bg-light" id="headingOne">
                                     <h2 class="mb-0">
                                     <button class="btn btn-link btn-block text-left text-dark text-decoration-none" type="button" data-toggle="collapse" data-target="#CollapseItemInpuInformation" aria-expanded="true" aria-controls="CollapseItemInpuInformation">
                                         Item input information
@@ -346,55 +411,71 @@
                                         <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                         <input type="hidden" name="id" id="idItemInputInfo">
-                                        <div class="form-group">
-                                            <label for="datetimeInput">Date and time</label>
-                                            <input type="datetime" name="datetime_it" id="datetimeInput" class="form-control shadow-sm">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="itemInput">Item</label>
-                                            <input type="text" name="item_it" id="itemInput" class="form-control shadow-sm" placeholder="Item">
-                                        </div>
                                         <div class="row">
-                                            <div class="col-12 col-lg-6">
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label for="datetimeInput">Date and time</label>
+                                                    <input type="datetime" name="datetime_it" id="datetimeInput" class="form-control shadow-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-7">
+                                                <div class="form-group">
+                                                    <label for="itemInput">Item</label>
+                                                    <input type="text" name="item_it" id="itemInput" class="form-control shadow-sm" placeholder="Item">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-2">
                                                 <div class="form-group">
                                                     <label for="quantyInput">Quanty</label>
                                                     <input type="number" name="quanty_it" id="quantyInput" class="form-control shadow-sm" placeholder="Quanty">
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-lg-6">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-lg-2">
                                                 <div class="form-group">
                                                     <label for="qtyBoxesInput">Quanty boxes</label>
                                                     <input type="number" name="qty_boxes_it" id="qtyBoxesInput" class="form-control shadow-sm" placeholder="Quanty boxes">
                                                 </div>
                                             </div>
+                                            <div class="col-12 col-lg-7">
+                                                <div class="form-group">
+                                                    <label for="ubicationInput">Ubication</label>
+                                                    <input type="text" name="ubication_it" id="ubicationInput" class="form-control shadow-sm" placeholder="Ubication">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label for="customerPrimInput">Customers</label>
+                                                    <select name="customer_id" id="customerPrimInput" class="form-control shadow-sm">
+                                                        @foreach ($customers as $customer)
+                                                            <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="ubicationInput">Ubication</label>
-                                            <input type="text" name="ubication_it" id="ubicationInput" class="form-control shadow-sm" placeholder="Ubication">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="customerPrimInput">Customers</label>
-                                            <select name="customer_id" id="customerPrimInput" class="form-control shadow-sm">
-                                                @foreach ($customers as $customer)
-                                                    <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="conditionInput">Conditions</label>
-                                            <select name="condition_id" id="conditionInput" class="form-control shadow-sm">
-                                                @foreach ($conditions as $condition)
-                                                    <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="statusInput">Status</label>
-                                            <select name="status_id" id="statusInput" class="form-control shadow-sm">
-                                                @foreach ($status as $statu)
-                                                    <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
-                                                @endforeach
-                                            </select>
+                                        <div class="row">
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label for="conditionInput">Conditions</label>
+                                                    <select name="condition_id" id="conditionInput" class="form-control shadow-sm">
+                                                        @foreach ($conditions as $condition)
+                                                            <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group">
+                                                    <label for="statusInput">Status</label>
+                                                    <select name="status_id" id="statusInput" class="form-control shadow-sm">
+                                                        @foreach ($status as $statu)
+                                                            <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="observationInput">Observation</label>
@@ -407,8 +488,8 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="card">
-                                <div class="card-header" id="headingTwo">
+                            <div class="card border border-warning">
+                                <div class="card-header bg-light" id="headingTwo">
                                     <h2 class="mb-0">
                                         <button class="btn btn-link btn-block text-left collapsed text-dark text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseExitInput" aria-expanded="false" aria-controls="collapseTwo">
                                             Information exit input
@@ -421,53 +502,69 @@
                                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                             <input type="hidden" name="item_id" id="itemIdExitInfo">
-                                            <div class="form-group">
-                                                <label for="datetimeExit">Date and time</label>
-                                                <input type="datetime" name="datetime_it" id="datetimeExit" class="form-control shadow-sm">
+                                            <div class="row">
+                                                <div class="col-12 col-lg-3"><div class="form-group">
+                                                    <label for="datetimeExit">Date and time</label>
+                                                    <input type="datetime" name="datetime_it" id="datetimeExit" class="form-control shadow-sm">
+                                                </div></div>
+                                                <div class="col-12 col-lg-5">
+                                                    <div class="form-group">
+                                                        <label for="addressExit">Address</label>
+                                                        <input type="text" name="ubication_it" id="addressExit" class="form-control shadow-sm">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-4">
+                                                    <div class="form-group">
+                                                        <label for="subCustomerExit">Customer</label>
+                                                        <select name="sub_customer_id" id="subCustomerExit" class="form-control shadow-sm">
+                                                            @foreach ($customers as $customer)
+                                                                <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="addressExit">Address</label>
-                                                <input type="text" name="ubication_it" id="addressExit" class="form-control shadow-sm">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="subCustomerExit">Customer</label>
-                                                <select name="sub_customer_id" id="subCustomerExit" class="form-control shadow-sm">
-                                                    @foreach ($customers as $customer)
-                                                        <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="conditionExit">Conditions</label>
-                                                <select name="condition_id" id="conditionExit" class="form-control shadow-sm">
-                                                    @foreach ($conditions as $condition)
-                                                        <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="statusExit">Status</label>
-                                                <select name="status_id" id="statusExit" class="form-control shadow-sm">
-                                                    @foreach ($status as $statu)
-                                                        <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="shipmentExit">Shipment</label>
-                                                <select name="shipment_id" id="shipmentExit" class="form-control shadow-sm">
-                                                    @foreach ($shipments as $shipment)
-                                                        <option value="{{ $shipment->id }}">{{ $shipment->shipment_sh }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="employeeExit">Employee</label>
-                                                <select name="employee_id" id="employeeExit" class="form-control shadow-sm">
-                                                    @foreach ($users as $user)
-                                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                            <div class="row">
+                                                <div class="col-12 col-lg-2">
+                                                    <div class="form-group">
+                                                        <label for="conditionExit">Conditions</label>
+                                                        <select name="condition_id" id="conditionExit" class="form-control shadow-sm">
+                                                            @foreach ($conditions as $condition)
+                                                                <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-3">
+                                                    <div class="form-group">
+                                                        <label for="statusExit">Status</label>
+                                                        <select name="status_id" id="statusExit" class="form-control shadow-sm">
+                                                            @foreach ($status as $statu)
+                                                                <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-3">
+                                                    <div class="form-group">
+                                                        <label for="shipmentExit">Shipment</label>
+                                                        <select name="shipment_id" id="shipmentExit" class="form-control shadow-sm">
+                                                            @foreach ($shipments as $shipment)
+                                                                <option value="{{ $shipment->id }}">{{ $shipment->shipment_sh }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-4">
+                                                    <div class="form-group">
+                                                        <label for="employeeExit">Employee</label>
+                                                        <select name="employee_id" id="employeeExit" class="form-control shadow-sm">
+                                                            @foreach ($users as $user)
+                                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="observationExit">Observation</label>
@@ -493,7 +590,7 @@
         <div class="modal fade" id="deleteItem" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteItemLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="deleteItemLabel"><strong>Delete Item</strong></h5>
                     </div>
                     <div class="modal-body">
@@ -510,9 +607,9 @@
 
         <!-- Modal's close -->
         <div class="modal fade" id="closeItem" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="closeItemLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="closeItemLabel"><strong>Close Item</strong></h5>
                     </div>
                     <div class="modal-body">
@@ -521,54 +618,70 @@
                             <input type="hidden" name="item_id" id="idItemClose">
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                             <input type="hidden" name="datetime_it" id="datetimeClose" value="@php date_default_timezone_set('America/Caracas'); echo $DateAndTime = date('Y-m-d H:i:s', time()); @endphp ">
-                            <div class="form-group">
-                                <label for="addressClose">Address</label>
-                                <input type="text" name="ubication_it" id="addressClose" class="form-control shadow-sm" placeholder="Address">
+                            <div class="row">
+                                <div class="col-12 col-lg-5">
+                                    <div class="form-group">
+                                        <label for="addressClose">Address</label>
+                                        <input type="text" name="ubication_it" id="addressClose" class="form-control shadow-sm" placeholder="Address">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="customerClose">Customer</label>
+                                        <select name="sub_customer_id" id="customerClose" class="form-control shadow-sm">
+                                            <option value="">Select an opcion</option>
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="conditionClose">Conditions</label>
+                                        <select name="condition_id" id="conditionClose" class="form-control shadow-sm">
+                                            <option value="">Select an opcion</option>
+                                            @foreach ($conditions as $condition)
+                                                <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="customerClose">Customer</label>
-                                <select name="sub_customer_id" id="customerClose" class="form-control shadow-sm">
-                                    <option value="">Select an opcion</option>
-                                    @foreach ($customers as $customer)
-                                        <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="conditionClose">Conditions</label>
-                                <select name="condition_id" id="conditionClose" class="form-control shadow-sm">
-                                    <option value="">Select an opcion</option>
-                                    @foreach ($conditions as $condition)
-                                        <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="statusClose">Status</label>
-                                <select name="status_id" id="statusClose" class="form-control shadow-sm">
-                                    <option value="">Select an opcion</option>
-                                    @foreach ($status as $statu)
-                                        <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="shipmentClose">Shipment</label>
-                                <select name="shipment_id" id="shipmentClose" class="form-control shadow-sm">
-                                    <option value="">Select an opcion</option>
-                                    @foreach ($shipments as $shipment)
-                                        <option value="{{ $shipment->id }}">{{ $shipment->shipment_sh }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="employeeClose">Employee</label>
-                                <select name="employee_id" id="employeeClose" class="form-control shadow-sm">
-                                    <option value="">Select an opcion</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                    @endforeach
-                                </select>
+                            <div class="row">
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="statusClose">Status</label>
+                                        <select name="status_id" id="statusClose" class="form-control shadow-sm">
+                                            <option value="">Select an opcion</option>
+                                            @foreach ($status as $statu)
+                                                <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="shipmentClose">Shipment</label>
+                                        <select name="shipment_id" id="shipmentClose" class="form-control shadow-sm">
+                                            <option value="">Select an opcion</option>
+                                            @foreach ($shipments as $shipment)
+                                                <option value="{{ $shipment->id }}">{{ $shipment->shipment_sh }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="employeeClose">Employee</label>
+                                        <select name="employee_id" id="employeeClose" class="form-control shadow-sm">
+                                            <option value="">Select an opcion</option>
+                                            @foreach ($users as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="observationClose">Observation</label>
