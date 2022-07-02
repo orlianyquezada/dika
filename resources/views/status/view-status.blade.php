@@ -4,7 +4,7 @@
 
 @section('content_header')
     <!-- Container's info -->
-    <div class="container mt-3 col-lg-6">
+    <div class="container mt-3 col-lg-8">
         <!-- Messages alert -->
         @if (session('flash'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -49,11 +49,11 @@
 @stop
 
 @section('content')
-    <div class="container col-lg-6">
+    <div class="container col-lg-8">
         <!-- Status's table -->
         <div class="card shadow border-white">
            <div class="card-body">
-                <table class="table table-hover dt-responsive nowrap display" id="dtStatus">
+                <table class="table table-hover dt-responsive nowrap display dataTable_width_auto display" id="dtStatus" style="width:100%">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -67,9 +67,9 @@
 
         <!-- Modal's insert -->
         <div class="modal fade" id="insertStatus" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="insertStatusLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
+            <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="insertStatusLabel"><strong>Status Register</strong></h5>
                     </div>
                     <div class="modal-body">
@@ -91,9 +91,9 @@
 
         <!-- Modal's update -->
         <div class="modal fade" id="editStatus" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editStatusLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
+            <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="editStatusLabel"><strong>Edit Status</strong></h5>
                     </div>
                     <div class="modal-body">
@@ -118,6 +118,11 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+    <style>
+        table.dataTable.dataTable_width_auto {
+            width: auto;
+        }
+    </style>
 @stop
 
 @section('js')
@@ -132,7 +137,7 @@
                 },
                 columns:[
                     {data: 'status_st'},
-                    {data: 'id',
+                    {width: "10%", orderable: false, data: 'id',
                     render: function(data,t,w,meta){
                         return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="editStatus('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button></div>';
                     }}

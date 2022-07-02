@@ -53,7 +53,7 @@
         <!-- Items's table -->
         <div class="card border-white shadow">
             <div class="card-body">
-                <table class="table table-striped table-bordered dt-responsive nowrap" id="dtItems">
+                <table class="table table-striped table-bordered dt-responsive nowrap dataTable_width_auto display" id="dtItems" style="width:100%">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -701,6 +701,11 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+    <style>
+        table.dataTable.dataTable_width_auto {
+            width: auto;
+        }
+    </style>
 @stop
 
 @section('js')
@@ -737,7 +742,7 @@
                     {data: 'status_st'},
                     {data: 'shipment_sh'},
                     {data: 'ubication_it'},
-                    {data: 'id',
+                    {width: "20%", orderable: false, data: 'id',
                     render: function(data,t,w,meta){
                         return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="consultItem('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-eye"></i></button><button onclick="editItem('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteItem('+data+')"><i class="fa fa-fw fa-trash"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Close" onclick="openClose('+data+');"><i class="fa fa-fw fa-lock"></i></button></div>';
                     }}

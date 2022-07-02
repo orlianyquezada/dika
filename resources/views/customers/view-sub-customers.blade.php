@@ -85,7 +85,7 @@
         <!-- Customer's table -->
         <div class="card shadow border-white">
            <div class="card-body">
-                <table class="table table-hover dt-responsive nowrap display" id="dtSubCustomers">
+                <table class="table table-hover dt-responsive nowrap display dataTable_width_auto" id="dtSubCustomers" style="width:100%">
                     <thead>
                         <tr>
                             <th>Customer</th>
@@ -205,6 +205,11 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+    <style>
+        table.dataTable.dataTable_width_auto {
+            width: auto;
+        }
+    </style>
 @stop
 
 @section('js')
@@ -221,7 +226,7 @@
                     {data: 'name_cu'},
                     {data: 'phone_cu'},
                     {data: 'email_cu'},
-                    {data: 'id',
+                    {width: "7%", orderable:false, data: 'id',
                     render: function(data,t,w,meta){
                         return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="editSubCustomer('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteSubCustomer('+data+')"><i class="fa fa-fw fa-trash"></i></button></div>';
                     }}
