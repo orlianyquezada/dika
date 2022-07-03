@@ -107,7 +107,7 @@ return [
     'classes_auth_body' => '',
     'classes_auth_footer' => 'text-center',
     'classes_auth_icon' => 'fa-lg text-warning',
-    'classes_auth_btn' => 'btn btn-warning',
+    'classes_auth_btn' => 'btn btn-warning shadow-sm',
 
     /*
     |--------------------------------------------------------------------------
