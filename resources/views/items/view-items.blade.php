@@ -709,7 +709,6 @@
 @stop
 
 @section('js')
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
     <script>
         $(document).ready( function () {
             $('#dtItems').DataTable({
