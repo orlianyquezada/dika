@@ -101,81 +101,30 @@
 
         <!-- Modal's insert -->
         <div class="modal fade" id="insertSubCustomer" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="insertSubCustomerLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="insertSubCustomerLabel"><strong>Sub Customer Register</strong></h5>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('customer-register') }}" method="post" autocomplete="off" id="subCustomerRegister">
-                            @csrf
-                            <input type="hidden" name="customer_id" value="{{ $customer->id }}">
-                            <div class="row">
-                                <div class="col-12 col-lg-5">
-                                    <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" name="name_cu" id="name" class="form-control shadow-sm" placeholder="Name">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-3">
-                                    <div class="form-group">
-                                        <label for="phone">Phone number</label>
-                                        <input type="tel" name="phone_cu" id="phone" class="form-control shadow-sm" placeholder="Phone number">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" name="email_cu" id="email" class="form-control shadow-sm" placeholder="Email">
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" form="subCustomerRegister" class="btn btn-warning">Save</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal's update -->
-        <div class="modal fade" id="editSubCustomer" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editSubCustomerLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-warning">
-                        <h5 class="modal-title" id="editSubCustomerLabel"><strong>Edit Sub Customer</strong></h5>
-                    </div>
-                    <div class="modal-body">
-                        <form id="updateCustomer" autocomplete="off">
+                        <form id="subCustomerRegister" autocomplete="off">
                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="id" id="idCustomerEdit">
                             <input type="hidden" name="customer_id" value="{{ $customer->id }}">
-                            <div class="row">
-                                <div class="col-12 col-lg-5">
-                                    <div class="form-group">
-                                        <label for="phoneEdit">Name</label>
-                                        <input type="text" id="nameEdit" name="name_cu" class="form-control shadow-sm">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-3">
-                                    <div class="form-group">
-                                        <label for="phoneEdit">Phone</label>
-                                        <input type="tel" id="phoneEdit" name="phone_cu" class="form-control shadow-sm">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="emailEdit">Email</label>
-                                        <input type="email" name="email_cu" id="emailEdit" class="form-control shadow-sm">
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label for="subCustomerInsert">Customers</label>
+                                <select name="sub_customer_id" id="subCustomerInsert" class="form-control shadow-sm" onchange="cleanAlertsInsert();">
+                                    <option value="">Select an option</option>
+                                    @foreach ($customers as $subCustomer)
+                                        <option value="{{ $subCustomer->id }}">{{ $subCustomer->name_cu }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </form>
+                        <div id="alertDangerRegister"></div>
+                        <div id="alertSuccessInsert"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnEdit" form="updateCustomer" class="btn btn-warning shadow-sm" onclick="updateCustomer();">Edit</button>
+                        <button type="button" form="subCustomerRegister" class="btn btn-warning" onclick="insertSubCustomer(event);">Save</button>
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -226,81 +175,49 @@
                     {data: 'name_cu'},
                     {data: 'phone_cu'},
                     {data: 'email_cu'},
-                    {width: "7%", orderable:false, data: 'id',
+                    {width: "5%", orderable:false, data: 'id',
                     render: function(data,t,w,meta){
-                        return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="editSubCustomer('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteSubCustomer('+data+')"><i class="fa fa-fw fa-trash"></i></button></div>';
+                        return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteSubCustomer('+data+')"><i class="fa fa-fw fa-trash"></i></button></div>';
                     }}
                 ]
             });
         } );
 
-        function editSubCustomer(idCustomer){
-            $.ajax({
-                type: "GET",
-                url: 'consult-customer/'+idCustomer,
-                success: function(data){
-                    $('#nameEdit').val(data.name_cu);
-                    $('#phoneEdit').val(data.phone_cu);
-                    $('#emailEdit').val(data.email_cu);
-                    $('#idCustomerEdit').val(data.id);
-                },
-                error: function(data){
-                    $('#editCustomer').modal('hide');
-                    $('#alertDanger').append('<div id="messageAlertDanger"></div>');
-                    $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
-                    $('#messageAlertDanger').text('¡Information not available!');
-                    $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
-                    $('#dimissibleAlertDanger').addClass('close');
-                    $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
-                }
-            });
-            $('#editSubCustomer').modal('show');
-        }
-
-        function updateCustomer(){
+        function insertSubCustomer(event){
+            event.preventDefault();
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('input[name=_token]').val()},
                 type: "POST",
-                url: +$('#idCustomerEdit').val(),
-                data: $('form#updateCustomer').serialize(),
+                url: 'register-sub-customer',
+                data: $('form#subCustomerRegister').serialize(),
                 error: function(data){
-                    console.log(data.responseJSON.errors);
-                    $('#editSubCustomer').modal('hide');
-                    $('#dtSubCustomers').DataTable().ajax.reload();
-                    $('#alertDanger').append('<div id="messageAlertDanger"></div>');
-                    $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
-                    $('#messageAlertDanger').append('<ul id="listAlert"></ul>');
+                    $('#alertSuccessInsert').empty();
+                    $('#alertDangerRegister').empty();
+                    $('#alertDangerRegister').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     var resultado = data.responseJSON.errors;
                     var contenido = '';
                     $.each(resultado, function(index, value) {
                         contenido += '<li>'+value+'</li>';
                     });
                     $("#listAlert").html(contenido);
-                    $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
-                    $('#dimissibleAlertDanger').addClass('close');
-                    $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
                 },
                 success: function(data){
+                    $('#alertDangerRegister').empty();
+                    $('#alertSuccessInsert').empty();
                     if (data == 0){
-                        $('#editSubCustomer').modal('hide');
-                        $('#alertDanger').append('<div id="messageAlertDanger"></div>');
-                        $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
-                        $('#messageAlertDanger').text('¡That name, number and email has another sub customer');
-                        $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
-                        $('#dimissibleAlertDanger').addClass('close');
-                        $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
+                        $('#alertDangerRegister').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡You have already registered that sub customer!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     }else{
-                        $('#editSubCustomer').modal('hide');
+                        $('#alertSuccessInsert').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The customer has been successfully saved!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                        $('#subCustomerInsert').val('');
                         $('#dtSubCustomers').DataTable().ajax.reload();
-                        $('#alertSuccess').append('<div id="messageAlertSuccess"></div>');
-                        $('#messageAlertSuccess').text('¡The sub customer has been successfully edited!');
-                        $('#messageAlertSuccess').addClass('alert alert-success alert-dismissible fade show');
-                        $('#messageAlertSuccess').append('<button type="button" id="dimissibleAlertSuccess" data-dismiss="alert" aria-label="Close"></button>');
-                        $('#dimissibleAlertSuccess').addClass('close');
-                        $('#dimissibleAlertSuccess').append('<span aria-hidden="true">&times;</span>');
                     }
                 }
             });
+        }
+
+        function cleanAlertsInsert(){
+            $('#alertDangerRegister').empty();
+            $('#alertSuccessInsert').empty();
         }
 
         function deleteSubCustomer(idCustomer){
@@ -311,36 +228,24 @@
         function confirmDelete(){
             $.ajax({
                 type: "GET",
-                url: 'delete-customer/'+$('#idSubCustomerDelete').val(),
+                url: 'delete-sub-customer',
                 error: function(data){
+                    console.log(data);
                     $('#deleteSubCustomer').modal('hide');
                     $('#dtSubCustomers').DataTable().ajax.reload();
-                    $('#alertDanger').append('<div id="messageAlertDanger"></div>');
-                    $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
-                    $('#messageAlertDanger').text('¡Information not available!');
-                    $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
-                    $('#dimissibleAlertDanger').addClass('close');
-                    $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
+                    $('#alertDanger').empty();
+                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 success: function(data){
+                    console.log(data);
+                    $('#deleteSubCustomer').modal('hide');
                     if (data == 1){
-                        $('#deleteSubCustomer').modal('hide');
-                        $('#dtSubCustomers').DataTable().ajax.reload();
-                        $('#alertDanger').append('<div id="messageAlertDanger"></div>');
-                        $('#messageAlertDanger').addClass('alert alert-danger alert-dismissible fade show');
-                        $('#messageAlertDanger').text('¡The customer cannot be deleted because it has open movements!');
-                        $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
-                        $('#dimissibleAlertDanger').addClass('close');
-                        $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
+                        $('#alertDanger').empty();
+                        $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡The sub customer cannot be deleted because it has open items!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     }else{
-                        $('#deleteSubCustomer').modal('hide');
                         $('#dtSubCustomers').DataTable().ajax.reload();
-                        $('#alertSuccess').append('<div id="messageAlertDanger"></div>');
-                        $('#messageAlertDanger').text('¡The customer has been successfully deleted!');
-                        $('#messageAlertDanger').addClass('alert alert-success alert-dismissible fade show');
-                        $('#messageAlertDanger').append('<button type="button" id="dimissibleAlertDanger" data-dismiss="alert" aria-label="Close"></button>');
-                        $('#dimissibleAlertDanger').addClass('close');
-                        $('#dimissibleAlertDanger').append('<span aria-hidden="true">&times;</span>');
+                        $('#alertSuccess').empty();
+                        $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The sub customer has been successfully deleted!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     }
                 }
             });

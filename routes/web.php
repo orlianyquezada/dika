@@ -52,17 +52,16 @@ Route::middleware('auth')->group(function () {
     //Route::group(['middleware' => ['role:Gerente|Coordinador']], function() {
        //Customers
         Route::get('/customers/view-customers', 'CustomersController@index')->name('customers');
-        Route::post('/customers/register-customer', 'CustomersController@store')->name('customer-register');
+        Route::post('/customers/register-customer', 'CustomersController@store');
         Route::get('/customers/all-customers', 'CustomersController@getCustomers');
         Route::get('/customers/consult-customer/{idCustomer}', 'CustomersController@viewCustomer');
         Route::post('/customers/{idCustomer}', 'CustomersController@updateCustomer');
         Route::get('/customers/delete-customer/{idCustomer}', 'CustomersController@deleteCustomer');
         //Sub customers
         Route::get('/customers/view-sub-customers/{idCustomer}', 'CustomersController@viewSubCustomers')->name('sub-customers');
+        Route::post('/customers/view-sub-customers/register-sub-customer','CustomersController@registerSubCustomer');
         Route::get('/customers/view-sub-customers/all-sub-customers/{idCustomer}', 'CustomersController@getSubCustomers');
-        Route::get('/customers/view-sub-customers/consult-customer/{idCustomer}', 'CustomersController@viewCustomer');
-        Route::post('/customers/view-sub-customers/{idCustomer}', 'CustomersController@updateCustomer');
-        Route::get('/customers/view-sub-customers/delete-customer/{idCustomer}', 'CustomersController@deleteCustomer');
+        Route::get('/customers/view-sub-customers/delete-sub-customer', 'CustomersController@deleteSubCustomer');
 
         //Items
         Route::get('/items/consult-sub-customer/{idCustomer}','ItemsController@consultSubCustomer');
