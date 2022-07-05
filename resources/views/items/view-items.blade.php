@@ -99,13 +99,13 @@
                                 <div class="col-12 col-lg-2">
                                     <div class="form-group">
                                         <label for="quantyInsert">Quanty</label>
-                                        <input type="number" name="quanty_it" id="quantyInsert" class="form-control shadow-sm" placeholder="Quanty">
+                                        <input type="number" name="quanty_it" id="quantyInsert" class="form-control shadow-sm" placeholder="Quanty" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-3">
                                     <div class="form-group">
                                         <label for="qtyBoxesInsert">Quanty boxes</label>
-                                        <input type="number" name="qty_boxes_it" id="qtyBoxesInsert" class="form-control shadow-sm" placeholder="Quanty boxes">
+                                        <input type="number" name="qty_boxes_it" id="qtyBoxesInsert" class="form-control shadow-sm" placeholder="Quanty boxes" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
                                     </div>
                                 </div>
                             </div>
@@ -324,7 +324,7 @@
                                 <div class="col-12 col-lg-2">
                                     <div class="form-group">
                                         <label for="quantyEdit">Quanty</label>
-                                        <input type="number" name="quanty_it" id="quantyEdit" class="form-control shadow-sm" placeholder="Quanty">
+                                        <input type="number" name="quanty_it" id="quantyEdit" class="form-control shadow-sm" placeholder="Quanty" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
                                     </div>
                                 </div>
                             </div>
@@ -332,7 +332,7 @@
                                 <div class="col-12 col-lg-3">
                                     <div class="form-group">
                                         <label for="qtyBoxesEdit">Quanty boxes</label>
-                                        <input type="number" name="qty_boxes_it" id="qtyBoxesEdit" class="form-control shadow-sm" placeholder="Quanty boxes">
+                                        <input type="number" name="qty_boxes_it" id="qtyBoxesEdit" class="form-control shadow-sm" placeholder="Quanty boxes" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-6">
@@ -430,7 +430,7 @@
                                             <div class="col-12 col-lg-2">
                                                 <div class="form-group">
                                                     <label for="quantyInput">Quanty</label>
-                                                    <input type="number" name="quanty_it" id="quantyInput" class="form-control shadow-sm" placeholder="Quanty">
+                                                    <input type="number" name="quanty_it" id="quantyInput" class="form-control shadow-sm" placeholder="Quanty" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
                                                 </div>
                                             </div>
                                         </div>
@@ -438,7 +438,7 @@
                                             <div class="col-12 col-lg-2">
                                                 <div class="form-group">
                                                     <label for="qtyBoxesInput">Quanty boxes</label>
-                                                    <input type="number" name="qty_boxes_it" id="qtyBoxesInput" class="form-control shadow-sm" placeholder="Quanty boxes">
+                                                    <input type="number" name="qty_boxes_it" id="qtyBoxesInput" class="form-control shadow-sm" placeholder="Quanty boxes" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
                                                 </div>
                                             </div>
                                             <div class="col-12 col-lg-6">
@@ -1108,6 +1108,31 @@
             $('#shipementClose').val('');
             $('#observationClose').val('');
             $('#alertDangerClose').empty();
+        }
+
+        //Validaciones
+        function Numbers(e) {
+            key = e.keyCode || e.which;
+            tecla = String.fromCharCode(key).toLowerCase();
+            letras = "0123456789";
+            especiales = "8-37-39-46";
+
+            tecla_especial = false;
+            for (var i in especiales) {
+                if (key == especiales[i]) {
+                tecla_especial = true;
+                break;
+                }
+            }
+
+            if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                return false;
+            }
+        }
+
+        function pierdeFoco(e){
+            var valor = e.value.replace(/^0*/, '');
+            e.value = valor;
         }
     </script>
 @stop
