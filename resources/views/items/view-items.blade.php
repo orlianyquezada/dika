@@ -85,8 +85,8 @@
                         <h5 class="modal-title" id="insertItemLabel"><strong>Register item</strong></h5>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('item-register') }}" method="post" id="registerItem" autocomplete="off">
-                            @csrf
+                        <form id="registerItem" autocomplete="off">
+                            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                             <input type="hidden" name="datetime_it" id="datetimeInsert" value="@php date_default_timezone_set('America/Caracas'); echo $DateAndTime = date('Y-m-d H:i:s', time()); @endphp ">
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                             <div class="row">
@@ -104,8 +104,8 @@
                                 </div>
                                 <div class="col-12 col-lg-3">
                                     <div class="form-group">
-                                        <label for="qty_boxesInsert">Quanty boxes</label>
-                                        <input type="number" name="qty_boxes_it" id="qty_boxesInsert" class="form-control shadow-sm" placeholder="Quanty boxes">
+                                        <label for="qtyBoxesInsert">Quanty boxes</label>
+                                        <input type="number" name="qty_boxes_it" id="qtyBoxesInsert" class="form-control shadow-sm" placeholder="Quanty boxes">
                                     </div>
                                 </div>
                             </div>
@@ -118,8 +118,8 @@
                                 </div>
                                 <div class="col-12 col-lg-3">
                                     <div class="form-group">
-                                        <label for="customer_id">Vendor/Brand</label>
-                                        <select name="customer_id" id="customer_id" class="form-control shadow-sm">
+                                        <label for="customerInsert">Vendor/Brand</label>
+                                        <select name="customer_id" id="customerInsert" class="form-control shadow-sm">
                                             <option value="">Select an option</option>
                                             @foreach ($customers as $customer)
                                                 <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
@@ -157,10 +157,11 @@
                                 <textarea name="observation_it" id="observationInsert" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
                             </div>
                         </form>
+                        <div class="alertDangerModal"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" form="registerItem" class="btn btn-warning">Save</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" form="registerItem" class="btn btn-warning" onclick="registerItem(event);">Save</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="cleanAlertsModal();">Close</button>
                     </div>
                 </div>
             </div>
@@ -378,10 +379,12 @@
                                 <textarea name="observation_it" id="observationEdit" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
                             </div>
                         </form>
+                        <div id="alertDangerUpdate"></div>
+                        <div id="alertSuccessUpdate"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" form="updateItemOpen" class="btn btn-warning" onclick="updateItemOpen();">Update</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="cleanAlertsModal();">Close</button>
                     </div>
                 </div>
             </div>
@@ -438,13 +441,13 @@
                                                     <input type="number" name="qty_boxes_it" id="qtyBoxesInput" class="form-control shadow-sm" placeholder="Quanty boxes">
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-lg-7">
+                                            <div class="col-12 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="ubicationInput">Ubication</label>
                                                     <input type="text" name="ubication_it" id="ubicationInput" class="form-control shadow-sm" placeholder="Ubication">
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-lg-3">
+                                            <div class="col-12 col-lg-4">
                                                 <div class="form-group">
                                                     <label for="customerPrimInput">Customers</label>
                                                     <select name="customer_id" id="customerPrimInput" class="form-control shadow-sm">
@@ -482,6 +485,8 @@
                                             <textarea name="observation_it" id="observationInput" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
                                         </div>
                                     </form>
+                                    <div id="alertDangerInput"></div>
+                                    <div id="alertSuccessInput"></div>
                                 </div>
                                 <div class="card-footer">
                                     <button type="button" form="updateInputInfo" class="btn btn-warning" onclick="updateInputInfo();">Update</button>
@@ -516,10 +521,7 @@
                                                 <div class="col-12 col-lg-4">
                                                     <div class="form-group">
                                                         <label for="subCustomerExit">Customer</label>
-                                                        <select name="sub_customer_id" id="subCustomerExit" class="form-control shadow-sm">
-                                                            @foreach ($customers as $customer)
-                                                                <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
-                                                            @endforeach
+                                                        <select name="sub_customer_id" id="subCustomerExit" class="form-control shadow-sm customerDinamico">
                                                         </select>
                                                     </div>
                                                 </div>
@@ -571,16 +573,18 @@
                                                 <textarea name="observation_it" id="observationExit" cols="12" rows="2" class="form-control shadow-sm"></textarea>
                                             </div>
                                         </form>
+                                        <div id="alertDangerExit"></div>
+                                        <div id="alertSuccessExit"></div>
                                     </div>
                                     <div class="card-footer">
                                         <button type="button" form="updateExitInfo" class="btn btn-warning" onclick="updateExitInfo();">Update</button>
                                     </div>
                                 </div>
                             </div>
-                          </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="cleanAlertsModal();">Close</button>
                     </div>
                 </div>
             </div>
@@ -625,17 +629,6 @@
                                         <input type="text" name="ubication_it" id="addressClose" class="form-control shadow-sm" placeholder="Address">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="customerClose">Customer</label>
-                                        <select name="sub_customer_id" id="customerClose" class="form-control shadow-sm">
-                                            <option value="">Select an opcion</option>
-                                            @foreach ($customers as $customer)
-                                                <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
                                 <div class="col-12 col-lg-3">
                                     <div class="form-group">
                                         <label for="conditionClose">Conditions</label>
@@ -647,27 +640,19 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12 col-lg-4">
                                     <div class="form-group">
-                                        <label for="statusClose">Status</label>
-                                        <select name="status_id" id="statusClose" class="form-control shadow-sm">
-                                            <option value="">Select an opcion</option>
-                                            @foreach ($status as $statu)
-                                                <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="vendorBrandClose">Vendor/Brand</label>
+                                        <input type="text" name="customer_id" id="vendorBrandClose" class="form-control shadow-sm">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-3">
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-lg-4">
                                     <div class="form-group">
-                                        <label for="shipmentClose">Shipment</label>
-                                        <select name="shipment_id" id="shipmentClose" class="form-control shadow-sm">
+                                        <label for="customerClose">Customer</label>
+                                        <select name="sub_customer_id" id="customerClose" class="form-control shadow-sm customerDinamico">
                                             <option value="">Select an opcion</option>
-                                            @foreach ($shipments as $shipment)
-                                                <option value="{{ $shipment->id }}">{{ $shipment->shipment_sh }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -682,16 +667,41 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="statusClose">Status</label>
+                                        <select name="status_id" id="statusClose" class="form-control shadow-sm">
+                                            <option value="">Select an opcion</option>
+                                            @foreach ($status as $statu)
+                                                <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="shipmentClose">Shipment</label>
+                                        <select name="shipment_id" id="shipmentClose" class="form-control shadow-sm">
+                                            <option value="">Select an opcion</option>
+                                            @foreach ($shipments as $shipment)
+                                                <option value="{{ $shipment->id }}">{{ $shipment->shipment_sh }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="observationClose">Observation</label>
                                 <textarea name="observation_it" id="observationClose" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
                             </div>
                         </form>
+                        <div id="alertDangerClose"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnClose" form="itemClose" class="btn btn-warning" onclick="closeItem();">Close</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" id="btnClose" form="itemClose" class="btn btn-warning" onclick="closeItem(event);">Close</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="cleanAlertsModal();">Close</button>
                     </div>
                 </div>
             </div>
@@ -749,6 +759,40 @@
             });
         } );
 
+        function registerItem(event){
+            event.preventDefault();
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('input[name=_token]').val()},
+                type: "POST",
+                url: 'register-item',
+                data: $('form#registerItem').serialize(),
+                success: function(data){
+                    $('#insertItem').modal('hide');
+                    $('#itemInsert').val('');
+                    $('#quantyInsert').val('');
+                    $('#qtyBoxesInsert').val('');
+                    $('#ubicationInsert').val('');
+                    $('#customerInsert').val('');
+                    $('#conditionInsert').val('');
+                    $('#statusInsert').val('');
+                    $('#observationInsert').val('');
+                    $('#dtItems').DataTable().ajax.reload();
+                    $('#alertSuccess').empty();
+                    $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                },
+                error: function(data){
+                    $('.alertDangerModal').empty();
+                    $('.alertDangerModal').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    var resultado = data.responseJSON.errors;
+                    var contenido = '';
+                    $.each(resultado, function(index, value) {
+                        contenido += '<li>'+value+'</li>';
+                    });
+                    $("#listAlert").html(contenido);
+                }
+            });
+        }
+
         function consultItem(idItem){
             $.ajax({
                 type: "GET",
@@ -792,6 +836,7 @@
                 },
                 error: function(data){
                     $('#consultItem').modal('hide');
+                    $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }
             });
@@ -811,6 +856,7 @@
                     }
                 },
                 error: function(data){
+                    $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }
             });
@@ -833,6 +879,7 @@
                 },
                 error: function(data){
                     $('#editItemOpen').modal('hide');
+                    $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }
             });
@@ -857,14 +904,16 @@
                     $('#datetimeExit').val(data[2][0].datetime_it);
                     $('#addressExit').val(data[2][0].ubication_it);
                     $('#observationExit').val(data[2][0].observation_it);
-                    $('#subCustomerExit').val(data[2][0].customer_id);
+                    $('#subCustomerExit').val(data[2][0].sub_customer_id);
                     $('#conditionExit').val(data[2][0].condition_id);
                     $('#statusExit').val(data[2][0].status_id);
                     $('#shipmentExit').val(data[2][0].shipment_id);
                     $('#employeeExit').val(data[2][0].employee_id);
+                    customersDinamicos(data[1][0].customer_id,data[2][0].sub_customer_id);
                 },
                 error: function(data){
                     $('#editItemOpen').modal('hide');
+                    $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }
             });
@@ -880,16 +929,14 @@
                 url: 'update-item/'+$('#idItemEdit').val(),
                 data: $('form#updateItemOpen').serialize(),
                 success: function(data){
-                    console.log(data)
                     $('#editItemOpen').modal('hide');
                     $('#dtItems').DataTable().ajax.reload();
+                    $('#alertSuccess').empty();
                     $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 error: function(data){
-                    console.log(data)
-                    $('#editItemOpen').modal('hide');
-                    $('#dtItems').DataTable().ajax.reload();
-                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    $('#alertDangerUpdate').empty();
+                    $('#alertDangerUpdate').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     var resultado = data.responseJSON.errors;
                     var contenido = '';
                     $.each(resultado, function(index, value) {
@@ -907,16 +954,13 @@
                 url: 'update-item/'+$('#idItemInpu').val(),
                 data: $('form#updateInputInfo').serialize(),
                 success: function(data){
-                    console.log(data)
-                    $('#editItemClose').modal('hide');
                     $('#dtItems').DataTable().ajax.reload();
-                    $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    $('#alertSuccessInput').empty();
+                    $('#alertSuccessInput').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 error: function(data){
-                    console.log(data)
-                    $('#editItemClose').modal('hide');
-                    $('#dtItems').DataTable().ajax.reload();
-                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    $('#alertDangerInput').empty();
+                    $('#alertDangerInput').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     var resultado = data.responseJSON.errors;
                     var contenido = '';
                     $.each(resultado, function(index, value) {
@@ -934,16 +978,13 @@
                 url: 'update-item/'+$('#itemIdExitInfo').val(),
                 data: $('form#updateExitInfo').serialize(),
                 success: function(data){
-                    console.log(data)
-                    $('#editItemClose').modal('hide');
                     $('#dtItems').DataTable().ajax.reload();
-                    $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    $('#alertSuccessExit').empty();
+                    $('#alertSuccessExit').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 error: function(data){
-                    console.log(data)
-                    $('#editItemClose').modal('hide');
-                    $('#dtItems').DataTable().ajax.reload();
-                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    $('#alertDangerExit').empty();
+                    $('#alertDangerExit').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     var resultado = data.responseJSON.errors;
                     var contenido = '';
                     $.each(resultado, function(index, value) {
@@ -966,11 +1007,12 @@
                 success: function(data){
                     $('#deleteItem').modal('hide');
                     $('#dtItems').DataTable().ajax.reload();
+                    $('#alertSuccess').empty();
                     $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully deleted!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 error: function(data){
                     $('#deleteItem').modal('hide');
-                    $('#dtItems').DataTable().ajax.reload();
+                    $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }
             });
@@ -981,11 +1023,13 @@
                 type: "GET",
                 url: 'consult-item/'+idItem,
                 success: function(data){
-                    console.log(data);
+                    $('#vendorBrandClose').val(data[1][0].name_cu).prop('disabled',true);
                     var customer = data[1][0].customer_id;
+                    customersDinamicos(customer);
                 },
                 error: function(data){
                     $('#editItemOpen').modal('hide');
+                    $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }
             });
@@ -1002,12 +1046,12 @@
                 success: function(data){
                     $('#closeItem').modal('hide');
                     $('#dtItems').DataTable().ajax.reload();
+                    $('#alertSuccess').empty();
                     $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully closed!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 error: function(data){
-                    $('#closeItem').modal('hide');
-                    $('#dtItems').DataTable().ajax.reload();
-                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    $('#alertDangerClose').empty();
+                    $('#alertDangerClose').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     var resultado = data.responseJSON.errors;
                     var contenido = '';
                     $.each(resultado, function(index, value) {
@@ -1016,6 +1060,54 @@
                     $("#listAlert").html(contenido);
                 }
             });
+        }
+
+        function customersDinamicos(customer,subcustomer){
+            $.ajax({
+                type: "GET",
+                url: 'consult-sub-customer/'+customer,
+                success: function(data){
+                    var tamano = data.length;
+                    var contenido = '';
+                    for (var i=0; i<tamano; i++) {
+                        contenido += '<option value="'+data[i].id+'">'+data[i].name_cu+'</option>';
+                    }
+                    $(".customerDinamico").html(contenido);
+                    if (subcustomer != undefined){
+                        $('#subCustomerExit').val(subcustomer);
+                    }
+                },
+                error: function(data){
+                    $('#closeItem').modal('hide');
+                    $('#alertDanger').empty();
+                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                }
+            });
+        }
+
+        function cleanAlertsModal(){
+            $('#itemInsert').val('');
+            $('#quantyInsert').val('');
+            $('#qtyBoxesInsert').val('');
+            $('#ubicationInsert').val('');
+            $('#customerInsert').val('');
+            $('#conditionInsert').val('');
+            $('#statusInsert').val('');
+            $('#observationInsert').val('');
+            $('.alertDangerModal').empty();
+            $('#alertDangerUpdate').empty();
+            $('#alertDangerUpdate').empty();
+            $('#alertSuccessInput').empty();
+            $('#alertDangerInput').empty();
+            $('#alertSuccessExit').empty();
+            $('#alertDangerExit').empty();
+            $('#addressClose').val('');
+            $('#conditionClose').val('');
+            $('#employeeClose').val('');
+            $('#statusClose').val('');
+            $('#shipementClose').val('');
+            $('#observationClose').val('');
+            $('#alertDangerClose').empty();
         }
     </script>
 @stop

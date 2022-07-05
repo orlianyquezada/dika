@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Item;
 use App\Models\Customer;
+use App\Models\SubCustomer;
 use DB;
 
 class ItemsController extends Controller
@@ -31,6 +32,23 @@ class ItemsController extends Controller
         $shipments = DB::table('shipments')->get();
         $users = DB::table('users')->get();
         $customers = Customer::all();
+        $itemOpen = Item::join('customers','customers.id','=','items.customer_id')
+                            ->join('conditions','conditions.id','=','items.condition_id')
+                            ->join('status','status.id','=','items.status_id')
+                            ->select('customers.*','conditions.condition_co','status.status_st','items.*')
+                            ->get();
+        $itemClose = Item::join('customers','customers.id','=','items.sub_customer_id')
+                            ->join('conditions','conditions.id','=','items.condition_id')
+                            ->join('status','status.id','=','items.status_id')
+                            ->join('shipments','shipments.id','=','items.shipment_id')
+                            ->join('users','users.id','=','items.employee_id')
+                            ->select('customers.*','conditions.condition_co','status.status_st','shipments.shipment_sh','users.name','items.*')
+                            ->get();
+        $open[] = $itemOpen;
+        $close[] = $itemClose;
+        $consult = array_merge($open,$close);
+        $forDtt['data'] = $consult;
+        //return dd($forDtt);
         return view('items.view-items',compact('conditions','status','customers','shipments','users'));
     }
 
@@ -66,28 +84,20 @@ class ItemsController extends Controller
             'user_id.integer' => 'The user field must have numbers'
         ];
 
-        $validator = Validator::make($input,$rules,$messagges);
+        $validator = Validator::make($input,$rules,$messagges)->validate();
 
-        if ($validator->fails()) {
-            return redirect()->route('items')->withErrors($validator);
-        }else{
-            $saved = Item::create($request->all());
-            if ($saved){
-                return redirect()->route('items')->with('flash','¡The item has been successfully saved!');
-            }else{
-                return redirect()->route('items')->withErrors();
-            }
-        }
+        $saved = Item::create($request->all());
+        return response()->json(1,200);
     }
 
     public function getItems(){
-        $items = Item::join('customers','customers.id','=','items.customer_id')
-                    ->join('status','status.id','=','items.status_id')
-                    ->join('conditions','conditions.id','=','items.condition_id')
-                    ->leftjoin('shipments','shipments.id','=','items.shipment_id')
-                    ->select('customers.name_cu','status.status_st','conditions.condition_co','shipments.shipment_sh','items.*')
-                    ->get();
-        $forDtt['data'] = $items;
+        $consult = Item::join('customers','customers.id','=','items.customer_id')
+                            ->join('conditions','conditions.id','=','items.condition_id')
+                            ->join('status','status.id','=','items.status_id')
+                            ->leftjoin('shipments','shipments.id','=','items.shipment_id')
+                            ->select('customers.*','conditions.condition_co','status.status_st','shipments.shipment_sh','items.*')
+                            ->get();
+        $forDtt['data'] = $consult;
         return response()->json($forDtt, 200);
     }
 
@@ -109,7 +119,15 @@ class ItemsController extends Controller
                             ->where('items.item_id','=',$idItem)
                             ->select('customers.*','conditions.condition_co','status.status_st','shipments.shipment_sh','users.name','items.*')
                             ->get();
-            return response()->json([$status,$itemOpen,$itemClose], 200);
+            $customer = Item::where('id',$idItem)
+                            ->select('customer_id')
+                            ->get()
+                            ->first()
+                            ->customer_id;
+            $subCustomers = SubCustomer::join('customers','customers.id','=','sub_customers.customer_id')
+                                        ->where('sub_customers.customer_id',$customer)
+                                        ->get();
+            return response()->json([$status,$itemOpen,$itemClose,$subCustomers], 200);
         }else{
             $status ='open';
             $item = Item::join('customers','customers.id','=','items.customer_id')
@@ -122,8 +140,9 @@ class ItemsController extends Controller
         }
     }
 
-    public function consultSubCustomers($idCustomer){
-        return responsive()->json($idCustomer,200);
+    public function consultSubCustomer($idCustomer){
+        $subCustomers = Customer::find($idCustomer)->customerAsSubCustomer()->get();
+        return response()->json($subCustomers,200);
     }
 
     public function updateItem(Request $request){
