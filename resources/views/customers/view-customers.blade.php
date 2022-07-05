@@ -102,7 +102,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" form="customerRegister" class="btn btn-warning" onclick="registerCustomer(event);">Save</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="cleanModal();">Close</button>
                     </div>
                 </div>
             </div>
@@ -144,7 +144,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="btnEdit" form="updateCustomer" class="btn btn-warning shadow-sm" onclick="updateCustomer(event);">Edit</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="cleanAlertsUpdate();">Close</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="cleanModal();">Close</button>
                     </div>
                 </div>
             </div>
@@ -209,6 +209,20 @@
                 type: "POST",
                 url: 'register-customer',
                 data: $('form#customerRegister').serialize(),
+                success: function(data){
+                    if (data == 0){
+                        $('#alertDangerRegister').empty();
+                        $('#alertDangerRegister').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡That name, number and email has another customer!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    }else{
+                        $('#insertCustomer').modal('hide');
+                        $('#dtCustomers').DataTable().ajax.reload();
+                        $('#alertSuccess').empty();
+                        $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The customer has been successfully saved!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    }
+                    $('#nameInsert').val('');
+                    $('#phoneInsert').val('');
+                    $('#emailInsert').val('');
+                },
                 error: function(data){
                     $('#alertDangerRegister').empty();
                     $('#alertDangerRegister').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
@@ -218,20 +232,6 @@
                         contenido += '<li>'+value+'</li>';
                     });
                     $("#listAlert").html(contenido);
-                },
-                success: function(data){
-                    if (data == 0){
-                        $('#alertDangerRegister').empty();
-                        $('#alertDangerRegister').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡That name, number and email has another customer!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                    }else{
-                        $('#alertSuccess').empty();
-                        $('#insertCustomer').modal('hide');
-                        $('#dtCustomers').DataTable().ajax.reload();
-                        $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The customer has been successfully saved!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                    }
-                    $('#nameInsert').val('');
-                    $('#phoneInsert').val('');
-                    $('#emailInsert').val('');
                 }
             });
         }
@@ -276,16 +276,20 @@
                         $('#alertDangerUpdate').empty();
                         $('#alertDangerUpdate').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡That name, number and email has another customer!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     }else{
-                        $('#alertSuccess').empty();
                         $('#editCustomer').modal('hide');
                         $('#dtCustomers').DataTable().ajax.reload();
+                        $('#alertSuccess').empty();
                         $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The customer has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     }
                 }
             });
         }
 
-        function cleanAlertsUpdate(){
+        function cleanModal(){
+            $('#nameInsert').val('');
+            $('#phoneInsert').val('');
+            $('#emailInsert').val('');
+            $('#alertDangerRegister').empty();
             $('#alertDangerUpdate').empty();
         }
 
@@ -299,13 +303,11 @@
                 type: "GET",
                 url: 'delete-customer/'+$('#idCustomerDelete').val(),
                 error: function(data){
-                    console.log(data);
                     $('#deleteCustomer').modal('hide');
                     $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 success: function(data){
-                    console.log(data);
                     if (data == 1){
                         $('#alertDanger').empty();
                         $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡The customer cannot be deleted because it has open items!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');

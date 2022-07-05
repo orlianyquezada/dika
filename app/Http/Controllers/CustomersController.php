@@ -29,8 +29,7 @@ class CustomersController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
+    public function index(){
         return view('customers.view-customers');
     }
 
@@ -81,11 +80,11 @@ class CustomersController extends Controller
     }
 
     public function deleteCustomer($idCustomer){
-        $subCustomers = SubCustomer::where('customer_id',$idCustomer)
-                                    ->get();
-        $subCustomers->customers()->detach();
-        $customer = Customer::find($idCustomer);
-        $customer->delete();
+        $subCustomer = Customer::find($idCustomer)->customerAsCustomer()->detach();
+        $subCustomers = Customer::find($idCustomer)
+                                ->customerAsSubCustomer()
+                                ->detach();
+        $customer = Customer::find($idCustomer)->delete();
         return response()->json(0);
     }
 
@@ -133,11 +132,10 @@ class CustomersController extends Controller
     }
 
     public function deleteSubCustomer(Request $request){
-        $subCustomer = SubCustomer::where('customer_id',$request->input('customer_id'))
-                                    ->where('sub_customer_id',$request->input('sub_customer_id'))
-                                    ->get();
-        //$subCustomer->delete();
-        return response()->json($request);
+        $idCustomer = $request->input('customer_id');
+        $idSubCustomer = $request->input('sub_customer_id');
+        $subCustomer = Customer::find($idCustomer)->customerAsSubCustomer()->detach($idSubCustomer);
+        return response()->json(1,200);
     }
 }
 

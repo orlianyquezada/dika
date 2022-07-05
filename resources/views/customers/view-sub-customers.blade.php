@@ -139,11 +139,15 @@
                         <h5 class="modal-title" id="deleteSubCustomerLabel"><strong>Delete Sub Customer</strong></h5>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" id="idSubCustomerDelete">
+                        <form id="subCustomerDelete">
+                            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="customer_id" id="idCustomerDelete" value="{{ $customer->id }}">
+                            <input type="hidden" name="sub_customer_id" id="idSubCustomerDelete">
+                        </form>
                         <p class="lead">Do you want to delete the sub customer?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" onclick="confirmDelete();">Delete</button>
+                        <button type="button" form="subCustomerDelete" class="btn btn-warning" onclick="confirmDelete();">Delete</button>
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -220,29 +224,25 @@
             $('#alertSuccessInsert').empty();
         }
 
-        function deleteSubCustomer(idCustomer){
-            $('#idSubCustomerDelete').val(idCustomer);
+        function deleteSubCustomer(idSubCustomer){
+            $('#idSubCustomerDelete').val(idSubCustomer);
             $('#deleteSubCustomer').modal('show');
         }
 
         function confirmDelete(){
             $.ajax({
-                type: "GET",
+                headers: {'X-CSRF-TOKEN': $('input[name=_token]').val()},
+                type: "POST",
                 url: 'delete-sub-customer',
+                data: $('form#subCustomerDelete').serialize(),
                 error: function(data){
-                    console.log(data);
-                    $('#deleteSubCustomer').modal('hide');
-                    $('#dtSubCustomers').DataTable().ajax.reload();
+                    $('#deleteCustomer').modal('hide');
                     $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 success: function(data){
-                    console.log(data);
-                    $('#deleteSubCustomer').modal('hide');
                     if (data == 1){
-                        $('#alertDanger').empty();
-                        $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡The sub customer cannot be deleted because it has open items!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                    }else{
+                        $('#deleteSubCustomer').modal('hide');
                         $('#dtSubCustomers').DataTable().ajax.reload();
                         $('#alertSuccess').empty();
                         $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The sub customer has been successfully deleted!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
