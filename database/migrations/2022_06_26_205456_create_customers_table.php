@@ -17,7 +17,7 @@ class CreateCustomersTable extends Migration
             $table->id();
             $table->text('name_cu');
             $table->string('phone_cu');
-            $table->string('email_cu')->unique();
+            $table->string('email_cu');
             $table->softDeletes();
             $table->timestamps();
         });
