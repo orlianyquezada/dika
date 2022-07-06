@@ -15,11 +15,8 @@ class CreateSubCustomersTable extends Migration
     {
         Schema::create('sub_customers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('primary_customer_id')->constrained('customers')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('secondary_customer_id')->constrained('customers')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('phone_sc')->nullable();
-            $table->string('email_sc')->unique()->nullable();
-            $table->softDeletes();
+            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('sub_customer_id')->constrained('customers')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
