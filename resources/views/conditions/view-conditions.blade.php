@@ -4,7 +4,7 @@
 
 @section('content_header')
     <!-- Container's info -->
-    <div class="container mt-3 col-lg-6">
+    <div class="container mt-3 col-lg-8">
         <!-- Messages alert -->
         @if (session('flash'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -33,10 +33,10 @@
         <div class="card border-white shadow">
             <div class="card-body">
                 <div class="row justify-content-between">
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-3">
                         <h3><strong>Conditions</strong></h3>
                     </div>
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-4">
                         <!-- condtion register button -->
                         <button type="button" class="btn btn-warning shadow-sm w-100" data-toggle="modal" data-target="#insertConditions">
                             <strong>Register</strong>
@@ -49,11 +49,11 @@
 @stop
 
 @section('content')
-    <div class="container col-lg-6">
+    <div class="container col-lg-8">
         <!-- Conditions's table -->
         <div class="card shadow border-white">
            <div class="card-body">
-                <table class="table table-hover dt-responsive nowrap display" id="dtConditions">
+                <table class="table table-hover dt-responsive nowrap display dataTable_width_auto display" id="dtConditions" style="width:100%">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -67,9 +67,9 @@
 
         <!-- Modal's insert -->
         <div class="modal fade" id="insertConditions" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="insertConditionsLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
+            <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="insertConditionsLabel"><strong>Condition Register</strong></h5>
                     </div>
                     <div class="modal-body">
@@ -91,9 +91,9 @@
 
         <!-- Modal's update -->
         <div class="modal fade" id="editCondition" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editConditionLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
+            <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="editConditionLabel"><strong>Edit Condition</strong></h5>
                     </div>
                     <div class="modal-body">
@@ -118,6 +118,11 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+    <style>
+        table.dataTable.dataTable_width_auto {
+            width: auto;
+        }
+    </style>
 @stop
 
 @section('js')
@@ -132,7 +137,7 @@
                 },
                 columns:[
                     {data: 'condition_co'},
-                    {data: 'id',
+                    {width: "10%", orderable: false, data: 'id',
                     render: function(data,t,w,meta){
                         return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="editCondition('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button></div>';
                     }}

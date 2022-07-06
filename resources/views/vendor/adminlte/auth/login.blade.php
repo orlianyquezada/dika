@@ -1,5 +1,7 @@
 @extends('adminlte::auth.auth-page', ['auth_type' => 'login'])
 
+@section('title', 'Login')
+
 @section('adminlte_css_pre')
     <link rel="stylesheet" href="{{ asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css') }}">
 @stop
@@ -87,7 +89,7 @@
     {{-- Password reset link --}}
     @if($password_reset_url)
         <p class="my-0">
-            <a href="{{ $password_reset_url }}">
+            <a href="{{ $password_reset_url }}" class="text-dark">
                 {{ __('adminlte::adminlte.i_forgot_my_password') }}
             </a>
         </p>
@@ -95,10 +97,10 @@
 
     {{-- Register link --}}
     @if($register_url)
-        <p class="my-0">
-            <a href="{{ $register_url }}">
+        {{-- <p class="my-0">
+            <a href="{{ $register_url }}" class="text-decoration-none text-dark">
                 {{ __('adminlte::adminlte.register_a_new_membership') }}
             </a>
-        </p>
+        </p> --}}
     @endif
 @stop
