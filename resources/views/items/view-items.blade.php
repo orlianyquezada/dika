@@ -79,7 +79,7 @@
 
         <!-- Modal's insert -->
         <div class="modal fade" id="insertItem" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="insertItemLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="insertItemLabel"><strong>Register item</strong></h5>
@@ -90,7 +90,7 @@
                             <input type="hidden" name="datetime_it" id="datetimeInsert" value="@php date_default_timezone_set('America/Caracas'); echo $DateAndTime = date('Y-m-d H:i:s', time()); @endphp ">
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                             <div class="row">
-                                <div class="col-12 col-lg-7">
+                                <div class="col-12 col-lg-8">
                                     <div class="form-group">
                                         <label for="itemInsert">Item</label>
                                         <input type="text" name="item_it" id="itemInsert" class="form-control shadow-sm" placeholder="Item">
@@ -99,24 +99,24 @@
                                 <div class="col-12 col-lg-2">
                                     <div class="form-group">
                                         <label for="quantyInsert">Quanty</label>
-                                        <input type="number" name="quanty_it" id="quantyInsert" class="form-control shadow-sm" placeholder="Quanty" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
+                                        <input type="text" name="quanty_it" id="quantyInsert" class="form-control shadow-sm" placeholder="Quanty" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12 col-lg-2">
                                     <div class="form-group">
                                         <label for="qtyBoxesInsert">Quanty boxes</label>
-                                        <input type="number" name="qty_boxes_it" id="qtyBoxesInsert" class="form-control shadow-sm" placeholder="Quanty boxes" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
+                                        <input type="text" name="qty_boxes_it" id="qtyBoxesInsert" class="form-control shadow-sm" placeholder="Quanty boxes" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12 col-lg-5">
                                     <div class="form-group">
                                         <label for="ubicationInsert">Ubication</label>
                                         <input type="text" name="ubication_it" id="ubicationInsert" class="form-control shadow-sm" placeholder="Ubication">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="customerInsert">Vendor/Brand</label>
                                         <select name="customer_id" id="customerInsert" class="form-control shadow-sm">
@@ -169,7 +169,7 @@
 
         <!-- Modal's consult -->
         <div class="modal fade" id="consultItem" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="consultItemLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="consultItemLabel"><strong>Item information</strong></h5>
@@ -177,13 +177,13 @@
                     <div class="modal-body">
                         <div id="titleInput" hidden><p class="lead">Item input information</p></div>
                         <div class="row">
-                            <div class="col-12 col-lg-3">
+                            <div class="col-12 col-lg-2">
                                 <div class="form-group">
                                     <label for="dateInputConsult">Date</label>
                                     <input type="text" name="datetime_it" id="dateInputConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-7">
+                            <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="itemConsult">Item</label>
                                     <input type="text" name="item_it" id="itemConsult" class="form-control shadow-sm">
@@ -192,7 +192,13 @@
                             <div class="col-12 col-lg-2">
                                 <div class="form-group">
                                     <label for="quantyConsult">Quanty</label>
-                                    <input type="number" name="quanty_it" id="quantyConsult" class="form-control shadow-sm">
+                                    <input type="text" name="quanty_it" id="quantyConsult" class="form-control shadow-sm">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-2">
+                                <div class="form-group">
+                                    <label for="qtyBoxesConsult">Quanty boxes</label>
+                                    <input type="text" name="qty_boxes_it" id="qtyBoxesConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
                         </div>
@@ -203,27 +209,21 @@
                                     <input type="text" name="ubication_it" id="ubicationConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-2">
-                                <div class="form-group">
-                                    <label for="qtyBoxesConsult">Quanty boxes</label>
-                                    <input type="number" name="qty_boxes_it" id="qtyBoxesConsult" class="form-control shadow-sm">
-                                </div>
-                            </div>
                             <div class="col-12 col-lg-4">
                                 <div class="form-group">
                                     <label for="customerPrimConsult">Vendor/Brand</label>
                                     <input type="text" name="customer_id" id="customerPrimConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-12 col-lg-2">
                                 <div class="form-group">
                                     <label for="conditionInputConsult">Condition</label>
                                     <input type="text" name="condition_id" id="conditionInputConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-3">
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-lg-4">
                                 <div class="form-group">
                                     <label for="statusInputConsult">Status</label>
                                     <input type="text" name="status_id" id="statusInputConsult" class="form-control shadow-sm">
@@ -238,13 +238,13 @@
                             <hr class="display-4">
                             <p class="lead">Exit input information</p>
                             <div class="row">
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12 col-lg-2">
                                     <div class="form-group">
                                         <label for="datetimeExitConsult">Date</label>
                                         <input type="text" name="datetime_it" id="datetimeExitConsult" class="form-control shadow-sm">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-5">
+                                <div class="col-12 col-lg-6">
                                     <div class="form-group">
                                         <label for="addressConsult">Address</label>
                                         <input type="text" name="ubication_it" id="addressConsult" class="form-control shadow-sm">
@@ -298,7 +298,7 @@
 
         <!-- Modal's update open item -->
         <div class="modal fade" id="editItemOpen" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editItemOpenLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="editItemOpenLabel"><strong>Edit Item</strong></h5>
@@ -311,11 +311,16 @@
                             <div class="row">
                                 <div class="col-12 col-lg-3">
                                     <div class="form-group">
-                                        <label for="datetimeEdit">Date and time</label>
-                                        <input type="datetime" name="datetime_it" id="datetimeEdit" class="form-control shadow-sm">
+                                        <label for="datimeEdit">Date and time</label>
+                                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="datetimeEdit" name="datetime_it"/>
+                                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-7">
+                                <div class="col-12 col-lg-5">
                                     <div class="form-group">
                                         <label for="itemEdit">Item</label>
                                         <input type="text" name="item_it" id="itemEdit" class="form-control shadow-sm" placeholder="Item">
@@ -324,24 +329,24 @@
                                 <div class="col-12 col-lg-2">
                                     <div class="form-group">
                                         <label for="quantyEdit">Quanty</label>
-                                        <input type="number" name="quanty_it" id="quantyEdit" class="form-control shadow-sm" placeholder="Quanty" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
+                                        <input type="text" name="quanty_it" id="quantyEdit" class="form-control shadow-sm" placeholder="Quanty" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="qtyBoxesEdit">Quanty boxes</label>
+                                        <input type="text" name="qty_boxes_it" id="qtyBoxesEdit" class="form-control shadow-sm" placeholder="Quanty boxes" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-lg-3">
-                                    <div class="form-group">
-                                        <label for="qtyBoxesEdit">Quanty boxes</label>
-                                        <input type="number" name="qty_boxes_it" id="qtyBoxesEdit" class="form-control shadow-sm" placeholder="Quanty boxes" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
-                                    </div>
-                                </div>
                                 <div class="col-12 col-lg-6">
                                     <div class="form-group">
                                         <label for="ubicationEdit">Ubication</label>
                                         <input type="text" name="ubication_it" id="ubicationEdit" class="form-control shadow-sm" placeholder="Ubication">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="customerPrimEdit">Customers</label>
                                         <select name="customer_id" id="customerPrimEdit" class="form-control shadow-sm">
@@ -351,9 +356,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12 col-lg-2">
                                     <div class="form-group">
                                         <label for="conditionEdit">Conditions</label>
                                         <select name="condition_id" id="conditionEdit" class="form-control shadow-sm">
@@ -363,6 +366,8 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-12 col-lg-3">
                                     <div class="form-group">
                                         <label for="statusEdit">Status</label>
@@ -392,7 +397,7 @@
 
         <!-- Modal's update close item -->
         <div class="modal fade" id="editItemClose" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editItemCloseLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="editItemCloseLabel"><strong>Edit Item</strong></h5>
@@ -417,8 +422,13 @@
                                         <div class="row">
                                             <div class="col-12 col-lg-3">
                                                 <div class="form-group">
-                                                    <label for="datetimeInput">Date and time</label>
-                                                    <input type="datetime" name="datetime_it" id="datetimeInput" class="form-control shadow-sm">
+                                                    <label for="datimeEdit">Date and time</label>
+                                                    <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" id="datetimeInput" name="datetime_it"/>
+                                                        <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-lg-7">
@@ -430,7 +440,7 @@
                                             <div class="col-12 col-lg-2">
                                                 <div class="form-group">
                                                     <label for="quantyInput">Quanty</label>
-                                                    <input type="number" name="quanty_it" id="quantyInput" class="form-control shadow-sm" placeholder="Quanty" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
+                                                    <input type="text" name="quanty_it" id="quantyInput" class="form-control shadow-sm" placeholder="Quanty" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
                                                 </div>
                                             </div>
                                         </div>
@@ -438,7 +448,7 @@
                                             <div class="col-12 col-lg-2">
                                                 <div class="form-group">
                                                     <label for="qtyBoxesInput">Quanty boxes</label>
-                                                    <input type="number" name="qty_boxes_it" id="qtyBoxesInput" class="form-control shadow-sm" placeholder="Quanty boxes" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
+                                                    <input type="text" name="qty_boxes_it" id="qtyBoxesInput" class="form-control shadow-sm" placeholder="Quanty boxes" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
                                                 </div>
                                             </div>
                                             <div class="col-12 col-lg-6">
@@ -508,10 +518,17 @@
                                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                             <input type="hidden" name="item_id" id="itemIdExitInfo">
                                             <div class="row">
-                                                <div class="col-12 col-lg-3"><div class="form-group">
-                                                    <label for="datetimeExit">Date and time</label>
-                                                    <input type="datetime" name="datetime_it" id="datetimeExit" class="form-control shadow-sm">
-                                                </div></div>
+                                                <div class="col-12 col-lg-3">
+                                                    <div class="form-group">
+                                                        <label for="datimeEdit">Date and time</label>
+                                                        <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                                                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3" id="datetimeExit" name="datetime_it"/>
+                                                            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="col-12 col-lg-5">
                                                     <div class="form-group">
                                                         <label for="addressExit">Address</label>
@@ -611,7 +628,7 @@
 
         <!-- Modal's close -->
         <div class="modal fade" id="closeItem" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="closeItemLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="closeItemLabel"><strong>Close Item</strong></h5>
@@ -711,6 +728,7 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-3JRrEUwaCkFUBLK1N8HehwQgu8e23jTH4np5NHOmQOobuC4ROQxFwFgBLTnhcnQRMs84muMh0PnnwXlPq5MGjg==" crossorigin="anonymous" />
     <style>
         table.dataTable.dataTable_width_auto {
             width: auto;
@@ -719,7 +737,33 @@
 @stop
 
 @section('js')
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-k6/Bkb8Fxf/c1Tkyl39yJwcOZ1P4cRrJu77p83zJjN2Z55prbFHxPs9vN7q3l3+tSMGPDdoH51AEU8Vgo1cgAA==" crossorigin="anonymous"></script>
     <script>
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                defaultDate: $('#datetimeEdit').val(),
+                maxDate: new Date(),
+                format: 'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+
+        $(function () {
+            $('#datetimepicker2').datetimepicker({
+                defaultDate: $('#datetimeInput').val(),
+                maxDate: new Date(),
+                format: 'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+
+        $(function () {
+            $('#datetimepicker3').datetimepicker({
+                defaultDate: $('#datetimeExit').val(),
+                maxDate: new Date(),
+                format: 'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+
         $(document).ready( function () {
             $('#dtItems').DataTable({
                 order: [[ 1, "desc" ]],
@@ -767,6 +811,7 @@
                 url: 'register-item',
                 data: $('form#registerItem').serialize(),
                 success: function(data){
+
                     $('#insertItem').modal('hide');
                     $('#itemInsert').val('');
                     $('#quantyInsert').val('');
@@ -909,7 +954,7 @@
                     $('#statusExit').val(data[2][0].status_id);
                     $('#shipmentExit').val(data[2][0].shipment_id);
                     $('#employeeExit').val(data[2][0].employee_id);
-                    customersDinamicos(data[1][0].customer_id,data[2][0].sub_customer_id);
+                    subCustomersDinamicos(data[1][0].customer_id,data[2][0].sub_customer_id);
                 },
                 error: function(data){
                     $('#editItemOpen').modal('hide');
@@ -929,10 +974,11 @@
                 url: 'update-item/'+$('#idItemEdit').val(),
                 data: $('form#updateItemOpen').serialize(),
                 success: function(data){
-                    $('#editItemOpen').modal('hide');
-                    $('#dtItems').DataTable().ajax.reload();
-                    $('#alertSuccess').empty();
-                    $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    console.log(data);
+                    //$('#editItemOpen').modal('hide');
+                    //$('#dtItems').DataTable().ajax.reload();
+                    //$('#alertSuccess').empty();
+                    //$('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 error: function(data){
                     $('#alertDangerUpdate').empty();
@@ -1025,7 +1071,7 @@
                 success: function(data){
                     $('#vendorBrandClose').val(data[1][0].name_cu).prop('disabled',true);
                     var customer = data[1][0].customer_id;
-                    customersDinamicos(customer);
+                    subCustomersDinamicos(customer);
                 },
                 error: function(data){
                     $('#editItemOpen').modal('hide');
@@ -1062,7 +1108,7 @@
             });
         }
 
-        function customersDinamicos(customer,subcustomer){
+        function subCustomersDinamicos(customer,subcustomer){
             $.ajax({
                 type: "GET",
                 url: 'consult-sub-customer/'+customer,

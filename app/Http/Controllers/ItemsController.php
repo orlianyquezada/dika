@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Item;
 use App\Models\Customer;
 use App\Models\SubCustomer;
+use App\Models\Condition;
+use App\Models\Status;
+use App\Models\Shipment;
+use App\User;
 use DB;
 
 class ItemsController extends Controller
@@ -27,28 +31,11 @@ class ItemsController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(){
-        $conditions =  DB::table('conditions')->get();
-        $status =  DB::table('status')->get();
-        $shipments = DB::table('shipments')->get();
-        $users = DB::table('users')->get();
-        $customers = Customer::all();
-        $itemOpen = Item::join('customers','customers.id','=','items.customer_id')
-                            ->join('conditions','conditions.id','=','items.condition_id')
-                            ->join('status','status.id','=','items.status_id')
-                            ->select('customers.*','conditions.condition_co','status.status_st','items.*')
-                            ->get();
-        $itemClose = Item::join('customers','customers.id','=','items.sub_customer_id')
-                            ->join('conditions','conditions.id','=','items.condition_id')
-                            ->join('status','status.id','=','items.status_id')
-                            ->join('shipments','shipments.id','=','items.shipment_id')
-                            ->join('users','users.id','=','items.employee_id')
-                            ->select('customers.*','conditions.condition_co','status.status_st','shipments.shipment_sh','users.name','items.*')
-                            ->get();
-        $open[] = $itemOpen;
-        $close[] = $itemClose;
-        $consult = array_merge($open,$close);
-        $forDtt['data'] = $consult;
-        //return dd($forDtt);
+        $conditions =  Condition::all();
+        $status =  Status::all();
+        $shipments = Shipment::all();
+        $users = User::all();
+        $customers = DB::select('SELECT * FROM customers WHERE id IN (SELECT a.id FROM customers a, sub_customers b WHERE a.id=b.customer_id)');
         return view('items.view-items',compact('conditions','status','customers','shipments','users'));
     }
 
