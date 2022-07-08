@@ -258,19 +258,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-lg-2">
-                                    <div class="form-group">
-                                        <label for="conditionExitConsult">Condition</label>
-                                        <input type="text" name="condition_id" id="conditionExitConsult" class="form-control shadow-sm">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="statusExitConsult">Status</label>
                                         <input type="text" name="status_id" id="statusExitConsult" class="form-control shadow-sm">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="shipmentExitConsult">Shipment</label>
                                         <input type="text" name="shipment_id" id="shipmentExitConsult" class="form-control shadow-sm">
@@ -544,17 +538,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-12 col-lg-2">
-                                                    <div class="form-group">
-                                                        <label for="conditionExit">Conditions</label>
-                                                        <select name="condition_id" id="conditionExit" class="form-control shadow-sm">
-                                                            @foreach ($conditions as $condition)
-                                                                <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-lg-3">
+                                                <div class="col-12 col-lg-4">
                                                     <div class="form-group">
                                                         <label for="statusExit">Status</label>
                                                         <select name="status_id" id="statusExit" class="form-control shadow-sm">
@@ -564,7 +548,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-lg-3">
+                                                <div class="col-12 col-lg-4">
                                                     <div class="form-group">
                                                         <label for="shipmentExit">Shipment</label>
                                                         <select name="shipment_id" id="shipmentExit" class="form-control shadow-sm">
@@ -631,7 +615,7 @@
             <div class="modal-dialog modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-warning">
-                        <h5 class="modal-title" id="closeItemLabel"><strong>Close Item</strong></h5>
+                        <h5 class="modal-title" id="closeItemLabel"><strong>Shut Item</strong></h5>
                     </div>
                     <div class="modal-body">
                         <form id="itemClose" autocomplete="off">
@@ -646,33 +630,6 @@
                                         <input type="text" name="ubication_it" id="addressClose" class="form-control shadow-sm" placeholder="Address">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-3">
-                                    <div class="form-group">
-                                        <label for="conditionClose">Conditions</label>
-                                        <select name="condition_id" id="conditionClose" class="form-control shadow-sm">
-                                            <option value="">Select an opcion</option>
-                                            @foreach ($conditions as $condition)
-                                                <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="vendorBrandClose">Vendor/Brand</label>
-                                        <input type="text" name="customer_id" id="vendorBrandClose" class="form-control shadow-sm">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="customerClose">Customer</label>
-                                        <select name="sub_customer_id" id="customerClose" class="form-control shadow-sm customerDinamico">
-                                            <option value="">Select an opcion</option>
-                                        </select>
-                                    </div>
-                                </div>
                                 <div class="col-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="employeeClose">Employee</label>
@@ -684,7 +641,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12 col-lg-3">
                                     <div class="form-group">
                                         <label for="statusClose">Status</label>
                                         <select name="status_id" id="statusClose" class="form-control shadow-sm">
@@ -697,7 +654,21 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="vendorBrandClose">Vendor/Brand</label>
+                                        <input type="text" name="customer_id" id="vendorBrandClose" class="form-control shadow-sm">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="customerClose">Customer</label>
+                                        <select name="sub_customer_id" id="customerClose" class="form-control shadow-sm customerDinamico">
+                                            <option value="">Select an opcion</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="shipmentClose">Shipment</label>
                                         <select name="shipment_id" id="shipmentClose" class="form-control shadow-sm">
@@ -717,7 +688,7 @@
                         <div id="alertDangerClose"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnClose" form="itemClose" class="btn btn-warning" onclick="closeItem(event);">Close</button>
+                        <button type="button" id="btnClose" form="itemClose" class="btn btn-warning" onclick="closeItem(event);">Shut</button>
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="cleanAlertsModal();">Close</button>
                     </div>
                 </div>
@@ -785,15 +756,15 @@
                 columns:[
                     {data: 'id'},
                     {data: 'datetime_it'},
-                    {data: 'name_cu'},
+                    {data: 'customer_id'},
                     {data: 'item_it'},
-                    {data: 'name_cu'},
+                    {data: 'customer_id'},
                     {data: 'quanty_it'},
                     {data: 'qty_boxes_it'},
                     {data: 'ubication_it'},
                     {data: 'condition_co'},
-                    {data: 'status_st'},
-                    {data: 'shipment_sh'},
+                    {data: 'status_id'},
+                    {data: 'shipment_id'},
                     {data: 'ubication_it'},
                     {width: "20%", orderable: false, data: 'id',
                     render: function(data,t,w,meta){
@@ -843,6 +814,7 @@
                 type: "GET",
                 url: 'consult-item/'+idItem,
                 success: function(data){
+                    $('#consultItem').modal('show');
                     var status = data[0];
                     if (status === 'open'){
                         $('#titleInput').prop('hidden',true);
@@ -853,7 +825,7 @@
                         $('#ubicationConsult').val(data[1][0].ubication_it).prop('disabled', true);
                         $('#observationInputConsult').val(data[1][0].observation_it).prop('disabled', true);
                         $('#customerPrimConsult').val(data[1][0].name_cu).prop('disabled', true);
-                        $('#conditionInputConsult').val(data[1][0].condition_co).prop('disabled', true);
+                        $('#conditionInputConsult').val(data[1][0].conditions[0].condition_co).prop('disabled', true);
                         $('#statusInputConsult').val(data[1][0].status_st).prop('disabled', true);
                         $('#infoExit').prop('hidden',true);
                     }else if (status == 'close'){
@@ -865,14 +837,13 @@
                         $('#ubicationConsult').val(data[1][0].ubication_it).prop('disabled', true);
                         $('#observationInputConsult').val(data[1][0].observation_it).prop('disabled', true);
                         $('#customerPrimConsult').val(data[1][0].name_cu).prop('disabled', true);
-                        $('#conditionInputConsult').val(data[1][0].condition_co).prop('disabled', true);
+                        $('#conditionInputConsult').val(data[1][0].conditions[0].condition_co).prop('disabled', true);
                         $('#statusInputConsult').val(data[1][0].status_st).prop('disabled', true);
                         $('#infoExit').prop('hidden',false);
                         $('#datetimeExitConsult').val(data[2][0].datetime_it).prop('disabled', true);
                         $('#addressConsult').val(data[2][0].ubication_it).prop('disabled', true);
                         $('#observationConsult').val(data[2][0].observation_it).prop('disabled', true);
                         $('#customerSecoConsult').val(data[2][0].name_cu).prop('disabled', true);
-                        $('#conditionExitConsult').val(data[2][0].condition_co).prop('disabled', true);
                         $('#statusExitConsult').val(data[2][0].status_st).prop('disabled', true);
                         $('#shipmentExitConsult').val(data[2][0].shipment_sh).prop('disabled', true);
                         $('#employeeExitConsult').val(data[2][0].name).prop('disabled', true);
@@ -880,12 +851,10 @@
                     }
                 },
                 error: function(data){
-                    $('#consultItem').modal('hide');
                     $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }
             });
-            $('#consultItem').modal('show');
         }
 
         function editItem(idItem){
@@ -974,11 +943,10 @@
                 url: 'update-item/'+$('#idItemEdit').val(),
                 data: $('form#updateItemOpen').serialize(),
                 success: function(data){
-                    console.log(data);
-                    //$('#editItemOpen').modal('hide');
-                    //$('#dtItems').DataTable().ajax.reload();
-                    //$('#alertSuccess').empty();
-                    //$('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    $('#editItemOpen').modal('hide');
+                    $('#dtItems').DataTable().ajax.reload();
+                    $('#alertSuccess').empty();
+                    $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 error: function(data){
                     $('#alertDangerUpdate').empty();

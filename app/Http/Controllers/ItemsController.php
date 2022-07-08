@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Item;
-use App\Models\Customer;
-use App\Models\SubCustomer;
+use App\Models\ConditionItem;
 use App\Models\Condition;
+use App\Models\ItemStatus;
 use App\Models\Status;
 use App\Models\Shipment;
+use App\Models\Customer;
+use App\Models\SubCustomer;
 use App\User;
 use DB;
 
@@ -73,42 +75,46 @@ class ItemsController extends Controller
 
         $validator = Validator::make($input,$rules,$messagges)->validate();
 
-        $saved = Item::create($request->all());
+        $savedItem = Item::create($request->all()); //Guardar item
+        $idItem = $savedItem->id;// ID del item guardado
+        $conditionItem = new ConditionItem; //Guardar condition
+        $conditionItem->item_id = $idItem;
+        $conditionItem->condition_id = $request->input("condition_id");
+        $conditionItem->user_id = $request->input("user_id");
+        $conditionItem->save();
+        $itemStatus = new ItemStatus; //Guardar status
+        $itemStatus->item_id = $idItem;
+        $itemStatus->status_id = $request->input("status_id");
+        $itemStatus->user_id = $request->input("user_id");
+        $itemStatus->save();
         return response()->json(1,200);
     }
 
     public function getItems(){
-        $consult = Item::join('customers','customers.id','=','items.customer_id')
-                            ->join('conditions','conditions.id','=','items.condition_id')
-                            ->join('status','status.id','=','items.status_id')
-                            ->leftjoin('shipments','shipments.id','=','items.shipment_id')
-                            ->select('customers.*','conditions.condition_co','status.status_st','shipments.shipment_sh','items.*')
-                            ->get();
+        $consult = Item::where('item_id',NULL)
+                        ->with('conditions')
+                        ->get();
         $forDtt['data'] = $consult;
         return response()->json($forDtt, 200);
     }
 
     public function consultItem($idItem){
-        $verify = Item::where('item_id',$idItem)->get()->first();
+        $verify = Item::where('item_id',$idItem)->first();
         if ($verify){
             $status = 'close';
             $itemOpen = Item::join('customers','customers.id','=','items.customer_id')
-                            ->join('conditions','conditions.id','=','items.condition_id')
-                            ->join('status','status.id','=','items.status_id')
                             ->where('items.id','=',$idItem)
-                            ->select('customers.*','conditions.condition_co','status.status_st','items.*')
+                            ->select('customers.*','items.*')
+                            ->with('conditions')
                             ->get();
             $itemClose = Item::join('customers','customers.id','=','items.sub_customer_id')
-                            ->join('conditions','conditions.id','=','items.condition_id')
-                            ->join('status','status.id','=','items.status_id')
                             ->join('shipments','shipments.id','=','items.shipment_id')
                             ->join('users','users.id','=','items.employee_id')
                             ->where('items.item_id','=',$idItem)
-                            ->select('customers.*','conditions.condition_co','status.status_st','shipments.shipment_sh','users.name','items.*')
+                            ->select('customers.*','shipments.shipment_sh','users.name','items.*')
                             ->get();
             $customer = Item::where('id',$idItem)
                             ->select('customer_id')
-                            ->get()
                             ->first()
                             ->customer_id;
             $subCustomers = SubCustomer::join('customers','customers.id','=','sub_customers.customer_id')
@@ -118,10 +124,9 @@ class ItemsController extends Controller
         }else{
             $status ='open';
             $item = Item::join('customers','customers.id','=','items.customer_id')
-                        ->join('conditions','conditions.id','=','items.condition_id')
-                        ->join('status','status.id','=','items.status_id')
                         ->where('items.id','=',$idItem)
-                        ->select('customers.*','conditions.condition_co','status.status_st','items.*')
+                        ->select('customers.*','items.*')
+                        ->with('conditions')
                         ->get();
             return response()->json([$status,$item], 200);
         }
@@ -176,10 +181,16 @@ class ItemsController extends Controller
                 $item->ubication_it = $request->input('ubication_it');
                 $item->observation_it = $request->input('observation_it');
                 $item->customer_id = $request->input('customer_id');
-                $item->condition_id = $request->input('condition_id');
-                $item->status_id = $request->input('status_id');
                 $item->user_id = $request->input('user_id');
                 $item->save();
+            }
+            $condition = ConditionItem::where('item_id',$request->input('id'))->latest()->first()->condition_id;
+            if ($condition != $request->input('condition_id')){
+                $conditionItem = new ConditionItem; //Guardar condition
+                $conditionItem->item_id = $request->input("id");
+                $conditionItem->condition_id = $request->input("condition_id");
+                $conditionItem->user_id = $request->input("user_id");
+                $conditionItem->save();
             }
         }else{
             $input = $request->all();
@@ -213,23 +224,30 @@ class ItemsController extends Controller
 
             $validator = Validator::make($input,$rules,$messagges)->validate();
 
-            $item = Item::where('item_id',$request->input('item_id'))->get()->first();
+            $item = Item::where('item_id',$request->input('item_id'))->first();
             if ($item){
                 $item->datetime_it = $request->input('datetime_it');
                 $item->ubication_it = $request->input('ubication_it');
                 $item->observation_it = $request->input('observation_it');
                 $item->sub_customer_id = $request->input('sub_customer_id');
-                $item->condition_id = $request->input('condition_id');
-                $item->status_id = $request->input('status_id');
                 $item->shipment_id = $request->input('shipment_id');
                 $item->employee_id = $request->input('employee_id');
                 $item->user_id = $request->input('user_id');
                 $item->save();
             }
+            $condition = ConditionItem::where('item_id',$request->input('item_id'))->latest()->first()->condition_id;
+            if ($condition != $request->input('condition_id')){
+                $conditionItem = new ConditionItem; //Guardar condition
+                $conditionItem->item_id = $request->input("item_id");
+                $conditionItem->condition_id = $request->input("condition_id");
+                $conditionItem->user_id = $request->input("user_id");
+                $conditionItem->save();
+            }
         }
     }
 
     public function deleteItem($idItem){
+        $conditions = Item::find($idItem)->conditions()->detach();
         $item = Item::find($idItem);
         $item->delete();
     }
@@ -240,7 +258,6 @@ class ItemsController extends Controller
             'datetime_it' => 'required|date',
             'ubication_it' => 'required',
             'sub_customer_id' => 'required|integer',
-            'condition_id' => 'required|integer',
             'status_id' => 'required|integer',
             'shipment_id' => 'required|integer',
             'employee_id' => 'required|integer',
@@ -253,8 +270,6 @@ class ItemsController extends Controller
             'ubication_it.required' => 'The ubication field is required',
             'sub_customer_id.required' => 'The customer field is required',
             'sub_customer_id.integer' => 'The customer field must have numbers',
-            'condition_id.required' => 'The condition field is required',
-            'condition_id.integer' => 'The condition field must have numbers',
             'status_id.required' => 'The status field is required',
             'status_id.integer' => 'The status field must have numbers',
             'shipment_id.required' => 'The shipment field is required',
