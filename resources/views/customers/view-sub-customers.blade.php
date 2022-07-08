@@ -187,7 +187,7 @@
                     var contenido = '';
                     if (tamano > 0){
                         for (var i=0; i<tamano; i++) {
-                            contenido += '<option value="'+data[i].id+'">'+data[i].name_cu+'</option>';
+                            contenido += '<option value="'+data[i].id+'">'+data[i].name_cu+' - '+data[i].phone_cu+' - '+data[i].email_cu+'</option>';
                         }
                         $("#subCustomerInsert").html(contenido);
                         $('#insertButton').prop('disabled',false);
