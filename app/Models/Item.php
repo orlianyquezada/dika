@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Condition;
+use App\Models\Customer;
 use App\Models\Status;
 use App\Models\Shipment;
 
@@ -21,7 +22,7 @@ class Item extends Model
      */
     public function conditions()
     {
-        return $this->belongsToMany(Condition::class);
+        return $this->belongsToMany(Condition::class)->withPivot('created_at','updated_at')->orderBy('created_at','DESC');
     }
 
     /**
@@ -29,7 +30,7 @@ class Item extends Model
      */
     public function status()
     {
-        return $this->belongsToMany(Status::class);
+        return $this->belongsToMany(Status::class)->withTimestamps();;
     }
 
     /**

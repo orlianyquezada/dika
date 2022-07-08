@@ -814,6 +814,7 @@
                 type: "GET",
                 url: 'consult-item/'+idItem,
                 success: function(data){
+                    console.log(data);
                     $('#consultItem').modal('show');
                     var status = data[0];
                     if (status === 'open'){
@@ -825,8 +826,8 @@
                         $('#ubicationConsult').val(data[1][0].ubication_it).prop('disabled', true);
                         $('#observationInputConsult').val(data[1][0].observation_it).prop('disabled', true);
                         $('#customerPrimConsult').val(data[1][0].name_cu).prop('disabled', true);
-                        $('#conditionInputConsult').val(data[1][0].conditions[0].condition_co).prop('disabled', true);
-                        $('#statusInputConsult').val(data[1][0].status_st).prop('disabled', true);
+                        $('#conditionInputConsult').val(data[2].condition_co).prop('disabled', true);
+                        $('#statusInputConsult').val(data[1][0].status[0].status_st).prop('disabled', true);
                         $('#infoExit').prop('hidden',true);
                     }else if (status == 'close'){
                         $('#titleInput').prop('hidden',false);
@@ -838,19 +839,20 @@
                         $('#observationInputConsult').val(data[1][0].observation_it).prop('disabled', true);
                         $('#customerPrimConsult').val(data[1][0].name_cu).prop('disabled', true);
                         $('#conditionInputConsult').val(data[1][0].conditions[0].condition_co).prop('disabled', true);
-                        $('#statusInputConsult').val(data[1][0].status_st).prop('disabled', true);
+                        $('#statusInputConsult').val(data[1][0].status[0].status_st).prop('disabled', true);
                         $('#infoExit').prop('hidden',false);
                         $('#datetimeExitConsult').val(data[2][0].datetime_it).prop('disabled', true);
                         $('#addressConsult').val(data[2][0].ubication_it).prop('disabled', true);
                         $('#observationConsult').val(data[2][0].observation_it).prop('disabled', true);
                         $('#customerSecoConsult').val(data[2][0].name_cu).prop('disabled', true);
-                        $('#statusExitConsult').val(data[2][0].status_st).prop('disabled', true);
+                        $('#statusExitConsult').val(data[1][0].status[0].status_st).prop('disabled', true);
                         $('#shipmentExitConsult').val(data[2][0].shipment_sh).prop('disabled', true);
                         $('#employeeExitConsult').val(data[2][0].name).prop('disabled', true);
                         $('#observationExitConsult').val(data[2][0].observation_it).prop('disabled', true);
                     }
                 },
                 error: function(data){
+                    console.log(data);
                     $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }

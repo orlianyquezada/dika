@@ -106,12 +106,14 @@ class ItemsController extends Controller
                             ->where('items.id','=',$idItem)
                             ->select('customers.*','items.*')
                             ->with('conditions')
+                            ->with('status')
                             ->get();
             $itemClose = Item::join('customers','customers.id','=','items.sub_customer_id')
                             ->join('shipments','shipments.id','=','items.shipment_id')
                             ->join('users','users.id','=','items.employee_id')
                             ->where('items.item_id','=',$idItem)
                             ->select('customers.*','shipments.shipment_sh','users.name','items.*')
+                            ->with('status')
                             ->get();
             $customer = Item::where('id',$idItem)
                             ->select('customer_id')
@@ -126,9 +128,9 @@ class ItemsController extends Controller
             $item = Item::join('customers','customers.id','=','items.customer_id')
                         ->where('items.id','=',$idItem)
                         ->select('customers.*','items.*')
-                        ->with('conditions')
                         ->get();
-            return response()->json([$status,$item], 200);
+            $condition = Item::find($idItem)->conditions()->get();
+            return response()->json([$status,$item,$condition], 200);
         }
     }
 
@@ -192,6 +194,14 @@ class ItemsController extends Controller
                 $conditionItem->user_id = $request->input("user_id");
                 $conditionItem->save();
             }
+            $status = ItemStatus::where('item_id',$request->input('id'))->latest()->first()->status_id;
+            if ($status != $request->input('status_id')){
+                $itemStatus = new ItemStatus; //Guardar status
+                $itemStatus->item_id = $request->input("id");
+                $itemStatus->status_id = $request->input("status_id");
+                $itemStatus->user_id = $request->input("user_id");
+                $itemStatus->save();
+            }
         }else{
             $input = $request->all();
             $rules = [
@@ -243,11 +253,20 @@ class ItemsController extends Controller
                 $conditionItem->user_id = $request->input("user_id");
                 $conditionItem->save();
             }
+            $status = ItemStatus::where('item_id',$request->input('item_id'))->latest()->first()->status_id;
+            if ($status != $request->input('status_id')){
+                $itemStatus = new ItemStatus; //Guardar condition
+                $itemStatus->item_id = $request->input("item_id");
+                $itemStatus->status_id = $request->input("status_id");
+                $itemStatus->user_id = $request->input("user_id");
+                $itemStatus->save();
+            }
         }
     }
 
     public function deleteItem($idItem){
         $conditions = Item::find($idItem)->conditions()->detach();
+        $status = Item::find($idItem)->status()->detach();
         $item = Item::find($idItem);
         $item->delete();
     }
@@ -285,5 +304,11 @@ class ItemsController extends Controller
         $validator = Validator::make($input,$rules,$messagges)->validate();
 
         $saved = Item::create($input);
+        $idItem = $request->input('item_id');
+        $itemStatus = new ItemStatus; //Guardar status
+        $itemStatus->item_id = $idItem;
+        $itemStatus->status_id = $request->input("status_id");
+        $itemStatus->user_id = $request->input("user_id");
+        $itemStatus->save();
     }
 }
