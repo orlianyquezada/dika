@@ -4,6 +4,7 @@
 
 @section('content_header')
     <!-- Container's info -->
+    <input type="hidden" value="{{ $customer->id }}" id="idCustomerPrimary">
     <div class="container mt-3">
         <nav aria-label="breadcrumb" class="mb-3">
             <ol class="breadcrumb">
@@ -42,19 +43,13 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-12 col-lg-2">
-                        <div class="form-group">
-                            <label for="idCustomerPrimary">ID</label>
-                            <input type="text" id="idCustomerPrimary" class="form-control shadow-sm" value="{{ $customer->id }}" disabled>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-4">
+                    <div class="col-12 col-lg-5">
                         <div class="form-group">
                             <label for="nameCustomerPrimary">Name</label>
                             <input type="text" id="nameCustomerPrimary" class="form-control shadow-sm" value="{{ $customer->name_cu }}" disabled>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-2">
+                    <div class="col-12 col-lg-3">
                         <div class="form-group">
                             <label for="phoneCustomerPrimary">Phone</label>
                             <input type="text" id="phoneCustomerPrimary" class="form-control shadow-sm" value="{{ $customer->phone_cu }}" disabled>
@@ -69,7 +64,7 @@
                 </div>
                 <hr class="display-4">
                 <!-- sub customer register button -->
-                <button type="button" class="btn btn-warning shadow-sm" data-toggle="modal" data-target="#insertSubCustomer">
+                <button type="button" class="btn btn-warning shadow-sm" data-toggle="modal" data-target="#insertSubCustomer" onclick="getCustomers({{ $customer->id }});">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill pb-1" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                     </svg>
@@ -106,16 +101,15 @@
                     <div class="modal-header bg-warning">
                         <h5 class="modal-title" id="insertSubCustomerLabel"><strong>Sub Customer Register</strong></h5>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="bodyRegister">
                         <form id="subCustomerRegister" autocomplete="off">
                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                             <input type="hidden" name="customer_id" value="{{ $customer->id }}">
                             <div class="form-group">
                                 <label for="subCustomerInsert">Customers</label>
-                                <select name="sub_customer_id" id="subCustomerInsert" class="form-control shadow-sm" onchange="cleanAlertsInsert();">
-                                    <option value="">Select an option</option>
-                                    @foreach ($customers as $subCustomer)
-                                        <option value="{{ $subCustomer->id }}">{{ $subCustomer->name_cu }}</option>
+                                <select name="sub_customer_id" id="subCustomerInsert" class="form-control shadow-sm">
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -181,7 +175,7 @@
                     {data: 'email_cu'},
                     {width: "5%", orderable:false, data: 'id',
                     render: function(data,t,w,meta){
-                        return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteSubCustomer('+data+')"><i class="fa fa-fw fa-trash"></i></button></div>';
+                        return data;
                     }}
                 ]
             });
@@ -195,6 +189,7 @@
                 url: 'register-sub-customer',
                 data: $('form#subCustomerRegister').serialize(),
                 error: function(data){
+                    $('#subCustomerInsert').reload();
                     $('#alertSuccessInsert').empty();
                     $('#alertDangerRegister').empty();
                     $('#alertDangerRegister').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');

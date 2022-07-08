@@ -43,7 +43,6 @@ class CustomersController extends Controller
         $verify = Customer::where('phone_cu',$request->input('phone_cu'))
                             ->where('email_cu',$request->input('email_cu'))
                             ->where('name_cu',$request->input('name_cu'))
-                            ->get()
                             ->first();
         if ($verify){
             return response()->json(0);
@@ -63,7 +62,6 @@ class CustomersController extends Controller
                             ->where('email_cu',$request->input('email_cu'))
                             ->where('name_cu',$request->input('name_cu'))
                             ->where('id','!=',$request->input('id'))
-                            ->get()
                             ->first();
         if ($verify){
             return response()->json(0);
@@ -92,15 +90,22 @@ class CustomersController extends Controller
 
     public function viewSubCustomers($idCustomer){
         $customer = Customer::find($idCustomer);
-        $customers = Customer::all();
+        $customers = DB::select('SELECT * FROM customers WHERE id NOT IN (SELECT a.id FROM customers a, sub_customers b WHERE a.id=b.sub_customer_id AND b.customer_id=?)',[$idCustomer]);
         return view('customers.view-sub-customers',compact('customer','customers'));
     }
 
     public function getSubCustomers($idCustomer){
-        $subCustomers = SubCustomer::join('customers','customers.id','=','sub_customers.sub_customer_id')
-                                    ->where('customer_id',$idCustomer)
-                                    ->get();
-        $forDtt['data'] = $subCustomers;
+        // $customer = Customer::find($idCustomer)->customerAsSubCustomer()->get();
+        // $plucked = $customer->pluck('name_cu','phone_cu','email_cu');
+        // $forDtt['data'] = $plucked->all();
+        $collection = collect([
+            ['product_id' => 'prod-100', 'name' => 'Desk'],
+            ['product_id' => 'prod-200', 'name' => 'Chair'],
+        ]);
+
+        $plucked = $collection->pluck('name');
+
+        $forDtt['data'] = $plucked->all();
         return response()->json($forDtt,200);
     }
 
@@ -121,7 +126,6 @@ class CustomersController extends Controller
 
         $verify = SubCustomer::where('sub_customer_id',$request->input('sub_customer_id'))
                             ->where('customer_id',$request->input('customer_id'))
-                            ->get()
                             ->first();
         if ($verify){
             return response()->json(0);
