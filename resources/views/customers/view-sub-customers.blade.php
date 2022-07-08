@@ -4,7 +4,6 @@
 
 @section('content_header')
     <!-- Container's info -->
-    <input type="hidden" value="{{ $customer->id }}" id="idCustomerPrimary">
     <div class="container mt-3">
         <nav aria-label="breadcrumb" class="mb-3">
             <ol class="breadcrumb">
@@ -42,6 +41,7 @@
                 Information of {{ $customer->name_cu }}
             </div>
             <div class="card-body">
+                <input type="hidden" value="{{ $customer->id }}" id="idCustomerPrimary">
                 <div class="row">
                     <div class="col-12 col-lg-5">
                         <div class="form-group">
@@ -64,7 +64,7 @@
                 </div>
                 <hr class="display-4">
                 <!-- sub customer register button -->
-                <button type="button" class="btn btn-warning shadow-sm" data-toggle="modal" data-target="#insertSubCustomer" onclick="getCustomers({{ $customer->id }});">
+                <button type="button" class="btn btn-warning shadow-sm" data-toggle="modal" data-target="#insertSubCustomer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill pb-1" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                     </svg>
@@ -107,18 +107,14 @@
                             <input type="hidden" name="customer_id" value="{{ $customer->id }}">
                             <div class="form-group">
                                 <label for="subCustomerInsert">Customers</label>
-                                <select name="sub_customer_id" id="subCustomerInsert" class="form-control shadow-sm">
-                                    @foreach ($customers as $customer)
-                                        <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
-                                    @endforeach
-                                </select>
+                                <select name="sub_customer_id" id="subCustomerInsert" class="form-control shadow-sm"></select>
                             </div>
                         </form>
                         <div id="alertDangerRegister"></div>
                         <div id="alertSuccessInsert"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" form="subCustomerRegister" class="btn btn-warning" onclick="insertSubCustomer(event);">Save</button>
+                        <button type="button" id="insertButton" form="subCustomerRegister" class="btn btn-warning" onclick="insertSubCustomer(event);">Save</button>
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -135,7 +131,7 @@
                     <div class="modal-body">
                         <form id="subCustomerDelete">
                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="customer_id" id="idCustomerDelete" value="{{ $customer->id }}">
+                            <input type="hidden" value="{{ $customer->id }}" name="customer_id" id="idCustomerDelete">
                             <input type="hidden" name="sub_customer_id" id="idSubCustomerDelete">
                         </form>
                         <p class="lead">Do you want to delete the sub customer?</p>
@@ -175,11 +171,40 @@
                     {data: 'email_cu'},
                     {width: "5%", orderable:false, data: 'id',
                     render: function(data,t,w,meta){
-                        return data;
+                        return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteSubCustomer('+data+')"><i class="fa fa-fw fa-trash"></i></button></div>';
                     }}
                 ]
             });
         } );
+
+        $('#subCustomerInsert').click( function(){
+            $.ajax({
+                type: "GET",
+                url: 'get-sub-customers/'+$('#idCustomerPrimary').val(),
+                success: function(data){
+                    console.log(data);
+                    var tamano = data.length;
+                    var contenido = '';
+                    if (tamano > 0){
+                        for (var i=0; i<tamano; i++) {
+                            contenido += '<option value="'+data[i].id+'">'+data[i].name_cu+'</option>';
+                        }
+                        $("#subCustomerInsert").html(contenido);
+                        $('#insertButton').prop('disabled',false);
+                    }else{
+                        contenido += '<option value="">All customers have been added</option>';
+                        $("#subCustomerInsert").html(contenido);
+                        $('#alertSuccessInsert').empty();
+                        $('#insertButton').prop('disabled',true);
+                    }
+                },
+                error: function(data){
+                    $('#insertSubCustomer').modal('hide');
+                    $('#alertDanger').empty();
+                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                }
+            });
+        });
 
         function insertSubCustomer(event){
             event.preventDefault();
@@ -189,7 +214,6 @@
                 url: 'register-sub-customer',
                 data: $('form#subCustomerRegister').serialize(),
                 error: function(data){
-                    $('#subCustomerInsert').reload();
                     $('#alertSuccessInsert').empty();
                     $('#alertDangerRegister').empty();
                     $('#alertDangerRegister').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
@@ -207,7 +231,6 @@
                         $('#alertDangerRegister').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡You have already registered that sub customer!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     }else{
                         $('#alertSuccessInsert').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The customer has been successfully saved!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                        $('#subCustomerInsert').val('');
                         $('#dtSubCustomers').DataTable().ajax.reload();
                     }
                 }
@@ -236,7 +259,11 @@
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 success: function(data){
-                    if (data == 1){
+                    if (data == 0){
+                        $('#deleteSubCustomer').modal('hide');
+                        $('#alertDanger').empty();
+                        $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Cannot delete itself as a sub customer!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    }else if (data == 1){
                         $('#deleteSubCustomer').modal('hide');
                         $('#dtSubCustomers').DataTable().ajax.reload();
                         $('#alertSuccess').empty();

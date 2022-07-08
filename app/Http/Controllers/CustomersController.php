@@ -48,6 +48,11 @@ class CustomersController extends Controller
             return response()->json(0);
         }else{
             $saved = Customer::create($request->all());
+            $idCustomer = $saved->id;
+            $subCustomer = new SubCustomer; //Guardar así mismo como sub customer
+            $subCustomer->customer_id = $idCustomer;
+            $subCustomer->sub_customer_id = $idCustomer;
+            $subCustomer->save();
             return response()->json(1);
         }
     }
@@ -90,22 +95,17 @@ class CustomersController extends Controller
 
     public function viewSubCustomers($idCustomer){
         $customer = Customer::find($idCustomer);
-        $customers = DB::select('SELECT * FROM customers WHERE id NOT IN (SELECT a.id FROM customers a, sub_customers b WHERE a.id=b.sub_customer_id AND b.customer_id=?)',[$idCustomer]);
-        return view('customers.view-sub-customers',compact('customer','customers'));
+        return view('customers.view-sub-customers',compact('customer'));
+    }
+
+    public function getSubCustomerOfCustomer($idCustomer){
+        $subCustomers = DB::select('SELECT * FROM customers WHERE id NOT IN (SELECT a.id FROM customers a, sub_customers b WHERE a.id=b.sub_customer_id AND b.customer_id=?)',[$idCustomer]);
+        return response()->json($subCustomers,200);
     }
 
     public function getSubCustomers($idCustomer){
-        // $customer = Customer::find($idCustomer)->customerAsSubCustomer()->get();
-        // $plucked = $customer->pluck('name_cu','phone_cu','email_cu');
-        // $forDtt['data'] = $plucked->all();
-        $collection = collect([
-            ['product_id' => 'prod-100', 'name' => 'Desk'],
-            ['product_id' => 'prod-200', 'name' => 'Chair'],
-        ]);
-
-        $plucked = $collection->pluck('name');
-
-        $forDtt['data'] = $plucked->all();
+        $subCustomers = Customer::find($idCustomer)->customerAsSubCustomer()->get();
+        $forDtt['data'] = $subCustomers;
         return response()->json($forDtt,200);
     }
 
@@ -138,8 +138,11 @@ class CustomersController extends Controller
     public function deleteSubCustomer(Request $request){
         $idCustomer = $request->input('customer_id');
         $idSubCustomer = $request->input('sub_customer_id');
-        $subCustomer = Customer::find($idCustomer)->customerAsSubCustomer()->detach($idSubCustomer);
-        return response()->json(1,200);
+        if ($idCustomer == $idSubCustomer){
+            return response()->json(0,200);
+        }else{
+            $subCustomer = Customer::find($idCustomer)->customerAsSubCustomer()->detach($idSubCustomer);
+            return response()->json(1,200);
+        }
     }
 }
-
