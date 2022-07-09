@@ -20,9 +20,9 @@ class Item extends Model
     /**
      * Get the customer that owns the item.
      */
-    public function customer()
+    public function customers()
     {
-        return $this->belongsTo(Customer::class,'customer_id','sub_customer_id');
+        return $this->belongsTo(Customer::class,'customer_id');
     }
 
     /**
@@ -30,7 +30,7 @@ class Item extends Model
      */
     public function subCustomer()
     {
-        return $this->belongsTo(Customer::class,'sub_customer_id','customer_id');
+        return $this->belongsTo(Customer::class,'sub_customer_id');
     }
 
     /**

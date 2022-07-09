@@ -16,6 +16,6 @@ class Shipment extends Model
      */
     public function items()
     {
-        return $this->hasOne(Item::class);
+        return $this->hasMany(Item::class);
     }
 }

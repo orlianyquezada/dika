@@ -87,7 +87,7 @@
                     <div class="modal-body">
                         <form id="registerItem" autocomplete="off">
                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="datetime_it" id="datetimeInsert" value="@php date_default_timezone_set('America/Caracas'); echo $DateAndTime = date('Y-m-d H:i:s', time()); @endphp ">
+                            <input type="hidden" name="datetime_input_it" id="datetimeInsert" value="@php date_default_timezone_set('America/Caracas'); echo $DateAndTime = date('Y-m-d H:i:s', time()); @endphp ">
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                             <div class="row">
                                 <div class="col-12 col-lg-8">
@@ -154,7 +154,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="observationInsert">Observation</label>
-                                <textarea name="observation_it" id="observationInsert" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
+                                <textarea name="observation_input_it" id="observationInsert" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
                             </div>
                         </form>
                         <div class="alertDangerModal"></div>
@@ -755,17 +755,17 @@
                 dom: '<"row"<"col-sm-12 col-md-1"<"dt-buttons btn-group flex-wrap"B>><"col-sm-12 col-md-11"f>>t<"row justify-content-between"<"col-sm-12 col-md-4 pt-2"l><"col-sm-12 col-md-3 pt-0"i><"col-sm-12 col-md-4"p>>',
                 columns:[
                     {data: 'id'},
-                    {data: 'datetime_it'},
+                    {data: 'datetime_input_it'},
                     {data: 'customer_id'},
                     {data: 'item_it'},
-                    {data: 'customer_id'},
+                    {data: 'sub_customer_id'},
                     {data: 'quanty_it'},
                     {data: 'qty_boxes_it'},
                     {data: 'ubication_it'},
-                    {data: 'condition_co'},
+                    {data: 'condition_id'},
                     {data: 'status_id'},
                     {data: 'shipment_id'},
-                    {data: 'ubication_it'},
+                    {data: 'address_it'},
                     {width: "20%", orderable: false, data: 'id',
                     render: function(data,t,w,meta){
                         return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="consultItem('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-eye"></i></button><button onclick="editItem('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteItem('+data+')"><i class="fa fa-fw fa-trash"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Close" onclick="openClose('+data+');"><i class="fa fa-fw fa-lock"></i></button></div>';
@@ -782,7 +782,6 @@
                 url: 'register-item',
                 data: $('form#registerItem').serialize(),
                 success: function(data){
-
                     $('#insertItem').modal('hide');
                     $('#itemInsert').val('');
                     $('#quantyInsert').val('');
