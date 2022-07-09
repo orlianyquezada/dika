@@ -12,10 +12,10 @@ class Shipment extends Model
     protected $fillable = ['shipment_sh'];
 
     /**
-     * Get the item that owns the shipment.
+     * Get the items record associated with the shipment.
      */
     public function items()
     {
-        return $this->belongsTo(Item::class);
+        return $this->hasOne(Item::class);
     }
 }
