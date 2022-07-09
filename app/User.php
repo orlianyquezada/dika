@@ -47,4 +47,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the items for the employee.
+     */
+    public function itemOfEmployee()
+    {
+        return $this->hasMany(Item::class,'employee_id','user_id');
+    }
+
+    /**
+     * Get the items for the user.
+     */
+    public function itemOfUser()
+    {
+        return $this->hasMany(Item::class,'user_id','employee_id');
+    }
 }

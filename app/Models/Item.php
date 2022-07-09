@@ -8,6 +8,7 @@ use App\Models\Condition;
 use App\Models\Customer;
 use App\Models\Status;
 use App\Models\Shipment;
+use App\User;
 
 class Item extends Model
 {
@@ -20,9 +21,9 @@ class Item extends Model
     /**
      * Get the customer that owns the item.
      */
-    public function customer()
+    public function customers()
     {
-        return $this->belongsTo(Customer::class,'customer_id','sub_customer_id');
+        return $this->belongsTo(Customer::class,'customer_id');
     }
 
     /**
@@ -30,7 +31,7 @@ class Item extends Model
      */
     public function subCustomer()
     {
-        return $this->belongsTo(Customer::class,'sub_customer_id','customer_id');
+        return $this->belongsTo(Customer::class,'sub_customer_id');
     }
 
     /**
@@ -38,7 +39,7 @@ class Item extends Model
      */
     public function conditions()
     {
-        return $this->belongsTo(Condition::class);
+        return $this->belongsToMany(Condition::class)->withPivot('created_at','updated_at');
     }
 
     /**
@@ -46,7 +47,7 @@ class Item extends Model
      */
     public function status()
     {
-        return $this->belongsTo(Status::class);
+        return $this->belongsToMany(Status::class)->withPivot('created_at','updated_at');
     }
 
     /**
@@ -55,5 +56,21 @@ class Item extends Model
     public function shipment()
     {
         return $this->belongsTo(Shipment::class);
+    }
+
+    /**
+     * Get the employee that owns the item.
+     */
+    public function employee()
+    {
+        return $this->belongsTo(User::class,'employee_id');
+    }
+
+    /**
+     * Get the user that owns the item.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
     }
 }

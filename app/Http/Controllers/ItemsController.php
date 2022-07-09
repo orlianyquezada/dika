@@ -44,7 +44,7 @@ class ItemsController extends Controller
     public function store(Request $request){
         $input = $request->all();
         $rules = [
-            'datetime_it' => 'required|date',
+            'datetime_input_it' => 'required|date',
             'item_it' => 'required',
             'quanty_it' => 'required|integer',
             'qty_boxes_it' => 'required|integer',
@@ -55,8 +55,8 @@ class ItemsController extends Controller
             'user_id' => 'required|integer',
         ];
         $messagges = [
-            'datetime_it.required' => 'The datetime field is required',
-            'datetime_it.date' => 'The date field must be date-formatted',
+            'datetime_input_it.required' => 'The datetime field is required',
+            'datetime_input_it.date' => 'The date field must be date-formatted',
             'item_it.required' => 'The item field is required',
             'quanty_it.required' => 'The quanty field is required',
             'quanty_it.integer' => 'The quanty field must have numbers',
@@ -75,8 +75,8 @@ class ItemsController extends Controller
 
         $validator = Validator::make($input,$rules,$messagges)->validate();
 
-        $savedItem = Item::create($request->all()); //Guardar item
-        $idItem = $savedItem->id;// ID del item guardado
+        $item = Item::create($request->all());
+        $idItem = $item->id;
         $conditionItem = new ConditionItem; //Guardar condition
         $conditionItem->item_id = $idItem;
         $conditionItem->condition_id = $request->input("condition_id");
@@ -91,47 +91,21 @@ class ItemsController extends Controller
     }
 
     public function getItems(){
-        $consult = Item::where('item_id',NULL)
-                        ->with('conditions')
-                        ->get();
+        $consult = Item::all();
         $forDtt['data'] = $consult;
         return response()->json($forDtt, 200);
     }
 
     public function consultItem($idItem){
-        $verify = Item::where('item_id',$idItem)->first();
-        if ($verify){
-            $status = 'close';
-            $itemOpen = Item::join('customers','customers.id','=','items.customer_id')
-                            ->where('items.id','=',$idItem)
-                            ->select('customers.*','items.*')
-                            ->with('conditions')
-                            ->with('status')
-                            ->get();
-            $itemClose = Item::join('customers','customers.id','=','items.sub_customer_id')
-                            ->join('shipments','shipments.id','=','items.shipment_id')
-                            ->join('users','users.id','=','items.employee_id')
-                            ->where('items.item_id','=',$idItem)
-                            ->select('customers.*','shipments.shipment_sh','users.name','items.*')
-                            ->with('status')
-                            ->get();
-            $customer = Item::where('id',$idItem)
-                            ->select('customer_id')
-                            ->first()
-                            ->customer_id;
-            $subCustomers = SubCustomer::join('customers','customers.id','=','sub_customers.customer_id')
-                                        ->where('sub_customers.customer_id',$customer)
-                                        ->get();
-            return response()->json([$status,$itemOpen,$itemClose,$subCustomers], 200);
-        }else{
-            $status ='open';
-            $item = Item::join('customers','customers.id','=','items.customer_id')
-                        ->where('items.id','=',$idItem)
-                        ->select('customers.*','items.*')
-                        ->get();
-            $condition = Item::find($idItem)->conditions()->get();
-            return response()->json([$status,$item,$condition], 200);
-        }
+        $item = Item::find($idItem);
+        $customer = $item->customers()->first();
+        $subCustomer = $item->subCustomer()->first();
+        $conditions = $item->conditions()->orderBy('created_at','ASC')->get();
+        $status = $item->status()->orderBy('created_at','ASC')->get();
+        $shipment = $item->shipment()->first();
+        $employee = $item->employee()->first();
+        $user = $item->user()->first();
+        return response()->json([$item,$customer,$subCustomer,$conditions,$status,$shipment,$employee,$user],200);
     }
 
     public function consultSubCustomer($idCustomer){
