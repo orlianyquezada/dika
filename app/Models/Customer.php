@@ -21,4 +21,20 @@ class Customer extends Model
     public function customerAsCustomer(){
         return $this->belongsToMany(Customer::class, 'sub_customers', 'sub_customer_id', 'customer_id');
     }
+
+    /**
+     * Get the items for the customer.
+     */
+    public function itemOfCustomer()
+    {
+        return $this->hasMany(Item::class,'customer_id','sub_customer_id');
+    }
+
+    /**
+     * Get the items for the sub customer.
+     */
+    public function itemOfSubCustomer()
+    {
+        return $this->hasMany(Item::class,'sub_customer_id','customer_id');
+    }
 }

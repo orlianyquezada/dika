@@ -15,14 +15,30 @@ class Item extends Model
 
     protected $table = 'items';
 
-    protected $fillable = ['datetime_it', 'item_it', 'quanty_it', 'qty_boxes_it', 'ubication_it', 'observation_it', 'customer_id', 'sub_customer_id', 'shipment_id', 'employee_id', 'item_id', 'user_id'];
+    protected $fillable = ['datetime_input_it', 'item_it', 'quanty_it', 'qty_boxes_it', 'ubication_it', 'observation_input_it', 'datetime_exit_it', 'address_it', 'observation_exit_it', 'customer_id', 'sub_customer_id', 'shipment_id', 'employee_id', 'user_id'];
+
+    /**
+     * Get the customer that owns the item.
+     */
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class,'customer_id','sub_customer_id');
+    }
+
+    /**
+     * Get the sub customer that owns the item.
+     */
+    public function subCustomer()
+    {
+        return $this->belongsTo(Customer::class,'sub_customer_id','customer_id');
+    }
 
     /**
      * The conditions that belong to the items.
      */
     public function conditions()
     {
-        return $this->belongsToMany(Condition::class)->withPivot('created_at','updated_at')->orderBy('created_at','DESC');
+        return $this->belongsTo(Condition::class);
     }
 
     /**
@@ -30,14 +46,14 @@ class Item extends Model
      */
     public function status()
     {
-        return $this->belongsToMany(Status::class)->withTimestamps();;
+        return $this->belongsTo(Status::class);
     }
 
     /**
-     * Get the shipment record associated with the items.
+     * Get the shipments that owns the item.
      */
-    public function shipments()
+    public function shipment()
     {
-        return $this->hasOne(Shipment::class);
+        return $this->belongsTo(Shipment::class);
     }
 }
