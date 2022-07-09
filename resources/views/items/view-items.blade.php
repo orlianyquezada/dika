@@ -110,21 +110,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-lg-5">
+                                <div class="col-12 col-lg-6">
                                     <div class="form-group">
                                         <label for="ubicationInsert">Ubication</label>
                                         <input type="text" name="ubication_it" id="ubicationInsert" class="form-control shadow-sm" placeholder="Ubication">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="customerInsert">Vendor/Brand</label>
-                                        <select name="customer_id" id="customerInsert" class="form-control shadow-sm">
-                                            <option value="">Select an option</option>
-                                            @foreach ($customers as $customer)
-                                                <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
-                                            @endforeach
-                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-3">
@@ -138,8 +127,6 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-3">
                                     <div class="form-group">
                                         <label for="statusInsert">Status</label>
@@ -150,6 +137,63 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="vendorBrandInsert">Vendor/Brand</label>
+                                        <select name="customer_id" id="vendorBrandInsert" class="form-control shadow-sm">
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="customerInsert">Customer</label>
+                                        <select name="sub_customer_id" id="customerInsert" class="form-control shadow-sm"></select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="employeeInsert">Employee</label>
+                                        <select name="employee_id" id="employeeInsert" class="form-control shadow-sm">
+                                            <option value="">Select an option</option>
+                                            @foreach ($users as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="datimeEdit">Date and time of exit</label>
+                                        <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" id="datetimeInsert" name="datetime_exit_it"/>
+                                            <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="shipmentInsert">Shipment</label>
+                                        <select name="shipment_id" id="shipmentInsert" class="form-control shadow-sm">
+                                            <option value="">Select an option</option>
+                                            @foreach ($shipments as $shipment)
+                                                <option value="{{ $shipment->id }}">{{ $shipment->shipment_sh }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <label for="addressInsert">Address</label>
+                                    <input type="text" name="address_it" id="addressInsert" class="form-control shadow-sm" placeholder="Address">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -175,11 +219,10 @@
                         <h5 class="modal-title" id="consultItemLabel"><strong>Item information</strong></h5>
                     </div>
                     <div class="modal-body">
-                        <div id="titleInput" hidden><p class="lead">Item input information</p></div>
                         <div class="row">
                             <div class="col-12 col-lg-2">
                                 <div class="form-group">
-                                    <label for="dateInputConsult">Date</label>
+                                    <label for="dateInputConsult">Date of entry</label>
                                     <input type="text" name="datetime_it" id="dateInputConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
@@ -209,78 +252,68 @@
                                     <input type="text" name="ubication_it" id="ubicationConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-4">
-                                <div class="form-group">
-                                    <label for="customerPrimConsult">Vendor/Brand</label>
-                                    <input type="text" name="customer_id" id="customerPrimConsult" class="form-control shadow-sm">
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-2">
+                            <div class="col-12 col-lg-3">
                                 <div class="form-group">
                                     <label for="conditionInputConsult">Condition</label>
                                     <input type="text" name="condition_id" id="conditionInputConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-lg-4">
+                            <div class="col-12 col-lg-3">
                                 <div class="form-group">
                                     <label for="statusInputConsult">Status</label>
                                     <input type="text" name="status_id" id="statusInputConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-12 col-lg-4">
+                                <div class="form-group">
+                                    <label for="vendorBrandConsult">Vendor/Brand</label>
+                                    <input type="text" name="customer_id" id="vendorBrandConsult" class="form-control shadow-sm">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="form-group">
+                                    <label for="customerConsult">Customer</label>
+                                    <input type="text" name="customer_id" id="customerConsult" class="form-control shadow-sm">
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
-                            <label for="observationInputConsult">Observation</label>
+                            <label for="observationInputConsult">Observation of entry</label>
                             <textarea name="observation_it" id="observationInputConsult" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
                         </div>
-                        <div id="infoExit" hidden>
-                            <hr class="display-4">
-                            <p class="lead">Exit input information</p>
-                            <div class="row">
-                                <div class="col-12 col-lg-2">
-                                    <div class="form-group">
-                                        <label for="datetimeExitConsult">Date</label>
-                                        <input type="text" name="datetime_it" id="datetimeExitConsult" class="form-control shadow-sm">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-6">
-                                    <div class="form-group">
-                                        <label for="addressConsult">Address</label>
-                                        <input type="text" name="ubication_it" id="addressConsult" class="form-control shadow-sm">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="customerSecoConsult">Customer</label>
-                                        <input type="text" name="customer_id" id="customerSecoConsult" class="form-control shadow-sm">
-                                    </div>
+                        <div class="row">
+                            <div class="col-12 col-lg-2">
+                                <div class="form-group">
+                                    <label for="datetimeExitConsult">Date of Exit</label>
+                                    <input type="text" name="datetime_it" id="datetimeExitConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="statusExitConsult">Status</label>
-                                        <input type="text" name="status_id" id="statusExitConsult" class="form-control shadow-sm">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="shipmentExitConsult">Shipment</label>
-                                        <input type="text" name="shipment_id" id="shipmentExitConsult" class="form-control shadow-sm">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="employeeExitConsult">Employee</label>
-                                        <input type="text" name="employee_id" id="employeeExitConsult" class="form-control shadow-sm">
-                                    </div>
+                            <div class="col-12 col-lg-7">
+                                <div class="form-group">
+                                    <label for="addressConsult">Address</label>
+                                    <input type="text" name="ubication_it" id="addressConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="observationExitConsult">Observation</label>
-                                <textarea name="observation_it" id="observationExitConsult" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
+                            <div class="col-12 col-lg-3">
+                                <div class="form-group">
+                                    <label for="shipmentExitConsult">Shipment</label>
+                                    <input type="text" name="shipment_id" id="shipmentExitConsult" class="form-control shadow-sm">
+                                </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-lg-4">
+                                <div class="form-group">
+                                    <label for="employeeExitConsult">Employee</label>
+                                    <input type="text" name="employee_id" id="employeeExitConsult" class="form-control shadow-sm">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="observationExitConsult">Observation of Exit</label>
+                            <textarea name="observation_it" id="observationExitConsult" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -383,208 +416,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" form="updateItemOpen" class="btn btn-warning" onclick="updateItemOpen();">Update</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="cleanAlertsModal();">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal's update close item -->
-        <div class="modal fade" id="editItemClose" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editItemCloseLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header bg-warning">
-                        <h5 class="modal-title" id="editItemCloseLabel"><strong>Edit Item</strong></h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="accordion" id="accordionExample">
-                            <div class="card border border-warning">
-                                <div class="card-header bg-light" id="headingOne">
-                                    <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left text-dark text-decoration-none" type="button" data-toggle="collapse" data-target="#CollapseItemInpuInformation" aria-expanded="true" aria-controls="CollapseItemInpuInformation">
-                                        Item input information
-                                    </button>
-                                    </h2>
-                                </div>
-
-                              <div id="CollapseItemInpuInformation" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <form id="updateInputInfo" autocomplete="off">
-                                        <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                        <input type="hidden" name="id" id="idItemInputInfo">
-                                        <div class="row">
-                                            <div class="col-12 col-lg-3">
-                                                <div class="form-group">
-                                                    <label for="datimeEdit">Date and time</label>
-                                                    <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                                                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" id="datetimeInput" name="datetime_it"/>
-                                                        <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-lg-7">
-                                                <div class="form-group">
-                                                    <label for="itemInput">Item</label>
-                                                    <input type="text" name="item_it" id="itemInput" class="form-control shadow-sm" placeholder="Item">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-lg-2">
-                                                <div class="form-group">
-                                                    <label for="quantyInput">Quanty</label>
-                                                    <input type="text" name="quanty_it" id="quantyInput" class="form-control shadow-sm" placeholder="Quanty" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-12 col-lg-2">
-                                                <div class="form-group">
-                                                    <label for="qtyBoxesInput">Quanty boxes</label>
-                                                    <input type="text" name="qty_boxes_it" id="qtyBoxesInput" class="form-control shadow-sm" placeholder="Quanty boxes" onkeypress="return Numbers(event)" onkeyup="pierdeFoco(this)">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="ubicationInput">Ubication</label>
-                                                    <input type="text" name="ubication_it" id="ubicationInput" class="form-control shadow-sm" placeholder="Ubication">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="customerPrimInput">Customers</label>
-                                                    <select name="customer_id" id="customerPrimInput" class="form-control shadow-sm">
-                                                        @foreach ($customers as $customer)
-                                                            <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-12 col-lg-3">
-                                                <div class="form-group">
-                                                    <label for="conditionInput">Conditions</label>
-                                                    <select name="condition_id" id="conditionInput" class="form-control shadow-sm">
-                                                        @foreach ($conditions as $condition)
-                                                            <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-lg-3">
-                                                <div class="form-group">
-                                                    <label for="statusInput">Status</label>
-                                                    <select name="status_id" id="statusInput" class="form-control shadow-sm">
-                                                        @foreach ($status as $statu)
-                                                            <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="observationInput">Observation</label>
-                                            <textarea name="observation_it" id="observationInput" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
-                                        </div>
-                                    </form>
-                                    <div id="alertDangerInput"></div>
-                                    <div id="alertSuccessInput"></div>
-                                </div>
-                                <div class="card-footer">
-                                    <button type="button" form="updateInputInfo" class="btn btn-warning" onclick="updateInputInfo();">Update</button>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="card border border-warning">
-                                <div class="card-header bg-light" id="headingTwo">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link btn-block text-left collapsed text-dark text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseExitInput" aria-expanded="false" aria-controls="collapseTwo">
-                                            Information exit input
-                                        </button>
-                                    </h2>
-                                </div>
-                                <div id="collapseExitInput" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                                    <div class="card-body">
-                                        <form id="updateExitInfo" autocomplete="off">
-                                            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                            <input type="hidden" name="item_id" id="itemIdExitInfo">
-                                            <div class="row">
-                                                <div class="col-12 col-lg-3">
-                                                    <div class="form-group">
-                                                        <label for="datimeEdit">Date and time</label>
-                                                        <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-                                                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3" id="datetimeExit" name="datetime_it"/>
-                                                            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
-                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-lg-5">
-                                                    <div class="form-group">
-                                                        <label for="addressExit">Address</label>
-                                                        <input type="text" name="ubication_it" id="addressExit" class="form-control shadow-sm">
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-lg-4">
-                                                    <div class="form-group">
-                                                        <label for="subCustomerExit">Customer</label>
-                                                        <select name="sub_customer_id" id="subCustomerExit" class="form-control shadow-sm customerDinamico">
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12 col-lg-4">
-                                                    <div class="form-group">
-                                                        <label for="statusExit">Status</label>
-                                                        <select name="status_id" id="statusExit" class="form-control shadow-sm">
-                                                            @foreach ($status as $statu)
-                                                                <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-lg-4">
-                                                    <div class="form-group">
-                                                        <label for="shipmentExit">Shipment</label>
-                                                        <select name="shipment_id" id="shipmentExit" class="form-control shadow-sm">
-                                                            @foreach ($shipments as $shipment)
-                                                                <option value="{{ $shipment->id }}">{{ $shipment->shipment_sh }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-lg-4">
-                                                    <div class="form-group">
-                                                        <label for="employeeExit">Employee</label>
-                                                        <select name="employee_id" id="employeeExit" class="form-control shadow-sm">
-                                                            @foreach ($users as $user)
-                                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="observationExit">Observation</label>
-                                                <textarea name="observation_it" id="observationExit" cols="12" rows="2" class="form-control shadow-sm"></textarea>
-                                            </div>
-                                        </form>
-                                        <div id="alertDangerExit"></div>
-                                        <div id="alertSuccessExit"></div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <button type="button" form="updateExitInfo" class="btn btn-warning" onclick="updateExitInfo();">Update</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="cleanAlertsModal();">Close</button>
                     </div>
                 </div>
@@ -735,6 +566,13 @@
             });
         });
 
+        $(function () {
+            $('#datetimepicker4').datetimepicker({
+                defaultDate: new Date(),
+                format: 'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+
         $(document).ready( function () {
             $('#dtItems').DataTable({
                 order: [[ 1, "desc" ]],
@@ -762,8 +600,8 @@
                     {data: 'quanty_it'},
                     {data: 'qty_boxes_it'},
                     {data: 'ubication_it'},
-                    {data: 'condition_id'},
-                    {data: 'status_id'},
+                    {data: 'id'},
+                    {data: 'id'},
                     {data: 'shipment_id'},
                     {data: 'address_it'},
                     {width: "20%", orderable: false, data: 'id',
@@ -787,9 +625,14 @@
                     $('#quantyInsert').val('');
                     $('#qtyBoxesInsert').val('');
                     $('#ubicationInsert').val('');
+                    $('#vendorBrandInsert').val('');
                     $('#customerInsert').val('');
                     $('#conditionInsert').val('');
                     $('#statusInsert').val('');
+                    $('#employeeInsert').val('');
+                    $('#shipmentInsert').val('');
+                    $('#datetimeInsert').val('');
+                    $('#addressInsert').val('');
                     $('#observationInsert').val('');
                     $('#dtItems').DataTable().ajax.reload();
                     $('#alertSuccess').empty();
@@ -808,6 +651,27 @@
             });
         }
 
+        $('#vendorBrandInsert').click( function(){
+            $.ajax({
+                type: "GET",
+                url: 'consult-sub-customer/'+$('#vendorBrandInsert').val(),
+                success: function(data){
+                    var tamano = data.length;
+                    var contenido = '';
+                    contenido += '<option value="">Select an option</option>';
+                    for (var i=0; i<tamano; i++) {
+                        contenido += '<option value="'+data[i].id+'">'+data[i].name_cu+'</option>';
+                    }
+                    $("#customerInsert").html(contenido);
+                },
+                error: function(data){
+                    $('#insertItem').modal('hide');
+                    $('#alertDanger').empty();
+                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                }
+            });
+        });
+
         function consultItem(idItem){
             $.ajax({
                 type: "GET",
@@ -815,40 +679,22 @@
                 success: function(data){
                     console.log(data);
                     $('#consultItem').modal('show');
-                    var status = data[0];
-                    if (status === 'open'){
-                        $('#titleInput').prop('hidden',true);
-                        $('#dateInputConsult').val(data[1][0].datetime_it).prop('disabled', true);
-                        $('#itemConsult').val(data[1][0].item_it).prop('disabled', true);
-                        $('#quantyConsult').val(data[1][0].quanty_it).prop('disabled', true);
-                        $('#qtyBoxesConsult').val(data[1][0].qty_boxes_it).prop('disabled', true);
-                        $('#ubicationConsult').val(data[1][0].ubication_it).prop('disabled', true);
-                        $('#observationInputConsult').val(data[1][0].observation_it).prop('disabled', true);
-                        $('#customerPrimConsult').val(data[1][0].name_cu).prop('disabled', true);
-                        $('#conditionInputConsult').val(data[2].condition_co).prop('disabled', true);
-                        $('#statusInputConsult').val(data[1][0].status[0].status_st).prop('disabled', true);
-                        $('#infoExit').prop('hidden',true);
-                    }else if (status == 'close'){
-                        $('#titleInput').prop('hidden',false);
-                        $('#dateInputConsult').val(data[1][0].datetime_it).prop('disabled', true);
-                        $('#itemConsult').val(data[1][0].item_it).prop('disabled', true);
-                        $('#quantyConsult').val(data[1][0].quanty_it).prop('disabled', true);
-                        $('#qtyBoxesConsult').val(data[1][0].qty_boxes_it).prop('disabled', true);
-                        $('#ubicationConsult').val(data[1][0].ubication_it).prop('disabled', true);
-                        $('#observationInputConsult').val(data[1][0].observation_it).prop('disabled', true);
-                        $('#customerPrimConsult').val(data[1][0].name_cu).prop('disabled', true);
-                        $('#conditionInputConsult').val(data[1][0].conditions[0].condition_co).prop('disabled', true);
-                        $('#statusInputConsult').val(data[1][0].status[0].status_st).prop('disabled', true);
-                        $('#infoExit').prop('hidden',false);
-                        $('#datetimeExitConsult').val(data[2][0].datetime_it).prop('disabled', true);
-                        $('#addressConsult').val(data[2][0].ubication_it).prop('disabled', true);
-                        $('#observationConsult').val(data[2][0].observation_it).prop('disabled', true);
-                        $('#customerSecoConsult').val(data[2][0].name_cu).prop('disabled', true);
-                        $('#statusExitConsult').val(data[1][0].status[0].status_st).prop('disabled', true);
-                        $('#shipmentExitConsult').val(data[2][0].shipment_sh).prop('disabled', true);
-                        $('#employeeExitConsult').val(data[2][0].name).prop('disabled', true);
-                        $('#observationExitConsult').val(data[2][0].observation_it).prop('disabled', true);
-                    }
+                    $('#dateInputConsult').val(data[0].datetime_input_it).prop('disabled', true);
+                    $('#itemConsult').val(data[0].item_it).prop('disabled', true);
+                    $('#quantyConsult').val(data[0].quanty_it).prop('disabled', true);
+                    $('#qtyBoxesConsult').val(data[0].qty_boxes_it).prop('disabled', true);
+                    $('#ubicationConsult').val(data[0].ubication_it).prop('disabled', true);
+                    $('#conditionInputConsult').val(data[0].condition_co).prop('disabled', true);
+                    $('#statusInputConsult').val(data[0].status_st).prop('disabled', true);
+                    $('#vendorBrandConsult').val(data[1].name_cu).prop('disabled', true);
+                    $('#observationInputConsult').val(data[0].observation_input_it).prop('disabled', true);
+                    $('#datetimeExitConsult').val(data[0].datetime_exit_it).prop('disabled', true);
+                    $('#addressConsult').val(data[0].address_it).prop('disabled', true);
+                    $('#observationExitConsult').val(data[0].observation_exit_it).prop('disabled', true);
+                    $('#customerConsult').val(data[2].name_cu).prop('disabled', true);
+                    $('#shipmentExitConsult').val(data[5].shipment_sh).prop('disabled', true);
+                    $('#employeeExitConsult').val(data[6].name).prop('disabled', true);
+
                 },
                 error: function(data){
                     console.log(data);
@@ -1093,7 +939,7 @@
                     }
                 },
                 error: function(data){
-                    $('#closeItem').modal('hide');
+                    $('#insertItem').modal('hide');
                     $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }

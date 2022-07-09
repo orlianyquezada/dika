@@ -75,7 +75,7 @@ class ItemsController extends Controller
 
         $validator = Validator::make($input,$rules,$messagges)->validate();
 
-        $item = Item::create($request->all()); //Guardar item
+        $item = Item::create($request->all());
         $idItem = $item->id;
         $conditionItem = new ConditionItem; //Guardar condition
         $conditionItem->item_id = $idItem;
@@ -98,44 +98,14 @@ class ItemsController extends Controller
 
     public function consultItem($idItem){
         $item = Item::find($idItem);
-        $customer = $item->customers()->get();
-        $subCustomer = $item->subCustomer()->get();
-        $conditions = $item->conditions()->get();
-        $status = $item->status()->get();
-        return response()->json([$item,$customer,$subCustomer,$conditions,$status],200);
-        // $verify = Item::where('item_id',$idItem)->first();
-        // if ($verify){
-        //     $status = 'close';
-        //     $itemOpen = Item::join('customers','customers.id','=','items.customer_id')
-        //                     ->where('items.id','=',$idItem)
-        //                     ->select('customers.*','items.*')
-        //                     ->with('conditions')
-        //                     ->with('status')
-        //                     ->get();
-        //     $itemClose = Item::join('customers','customers.id','=','items.sub_customer_id')
-        //                     ->join('shipments','shipments.id','=','items.shipment_id')
-        //                     ->join('users','users.id','=','items.employee_id')
-        //                     ->where('items.item_id','=',$idItem)
-        //                     ->select('customers.*','shipments.shipment_sh','users.name','items.*')
-        //                     ->with('status')
-        //                     ->get();
-        //     $customer = Item::where('id',$idItem)
-        //                     ->select('customer_id')
-        //                     ->first()
-        //                     ->customer_id;
-        //     $subCustomers = SubCustomer::join('customers','customers.id','=','sub_customers.customer_id')
-        //                                 ->where('sub_customers.customer_id',$customer)
-        //                                 ->get();
-        //     return response()->json([$status,$itemOpen,$itemClose,$subCustomers], 200);
-        // }else{
-        //     $status ='open';
-        //     $item = Item::join('customers','customers.id','=','items.customer_id')
-        //                 ->where('items.id','=',$idItem)
-        //                 ->select('customers.*','items.*')
-        //                 ->get();
-        //     $condition = Item::find($idItem)->conditions()->get();
-        //     return response()->json([$status,$item,$condition], 200);
-        // }
+        $customer = $item->customers()->first();
+        $subCustomer = $item->subCustomer()->first();
+        $conditions = $item->conditions()->orderBy('created_at','ASC')->get();
+        $status = $item->status()->orderBy('created_at','ASC')->get();
+        $shipment = $item->shipment()->first();
+        $employee = $item->employee()->first();
+        $user = $item->user()->first();
+        return response()->json([$item,$customer,$subCustomer,$conditions,$status,$shipment,$employee,$user],200);
     }
 
     public function consultSubCustomer($idCustomer){
