@@ -257,7 +257,7 @@ return [
                     'route' => 'conditions',
                 ],
                 [
-                    'text' => 'items',
+                    'text' => 'Items',
                     'route' => 'items',
                 ],
                 [
