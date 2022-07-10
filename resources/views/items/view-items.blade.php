@@ -153,7 +153,7 @@
                                 <div class="col-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="customerInsert">Customer</label>
-                                        <select name="sub_customer_id" id="customerInsert" class="form-control shadow-sm"></select>
+                                        <select name="sub_customer_id" id="customerInsert" class="form-control shadow-sm" disabled></select>
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-4">
@@ -324,24 +324,24 @@
         </div>
 
         <!-- Modal's update open item -->
-        <div class="modal fade" id="editItemOpen" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editItemOpenLabel" aria-hidden="true">
+        <div class="modal fade" id="editItem" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editItemLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-warning">
-                        <h5 class="modal-title" id="editItemOpenLabel"><strong>Edit Item</strong></h5>
+                        <h5 class="modal-title" id="editItemLabel"><strong>Edit Item</strong></h5>
                     </div>
                     <div class="modal-body">
-                        <form id="updateItemOpen" autocomplete="off">
+                        <form id="updateItem" autocomplete="off">
                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                             <input type="hidden" name="id" id="idItemEdit">
                             <div class="row">
                                 <div class="col-12 col-lg-3">
                                     <div class="form-group">
-                                        <label for="datimeEdit">Date and time</label>
-                                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="datetimeEdit" name="datetime_it"/>
-                                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                        <label for="datetimeInputEdit">Date and time of input</label>
+                                        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" id="datetimeInputEdit" name="datetime_input_it"/>
+                                            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                             </div>
                                         </div>
@@ -373,22 +373,53 @@
                                         <input type="text" name="ubication_it" id="ubicationEdit" class="form-control shadow-sm" placeholder="Ubication">
                                     </div>
                                 </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="conditionEdit">Conditions</label>
+                                        <select name="condition_id" id="conditionEdit" class="form-control shadow-sm">
+                                            <option value="">Select an option</option>
+                                            @foreach ($conditions as $condition)
+                                                <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="statusEdit">Status of Entry</label>
+                                        <select name="status_id" id="statusEdit" class="form-control shadow-sm">
+                                            <option value="">Select an option</option>
+                                            @foreach ($status as $statu)
+                                                <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-12 col-lg-4">
                                     <div class="form-group">
-                                        <label for="customerPrimEdit">Customers</label>
-                                        <select name="customer_id" id="customerPrimEdit" class="form-control shadow-sm">
+                                        <label for="vendorBrandEdit">Vendor/Brand</label>
+                                        <select name="customer_id" id="vendorBrandEdit" class="form-control shadow-sm">
                                             @foreach ($customers as $customer)
                                                 <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-2">
+                                <div class="col-12 col-lg-4">
                                     <div class="form-group">
-                                        <label for="conditionEdit">Conditions</label>
-                                        <select name="condition_id" id="conditionEdit" class="form-control shadow-sm">
-                                            @foreach ($conditions as $condition)
-                                                <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
+                                        <label for="customerEdit">Customer</label>
+                                        <select name="sub_customer_id" id="customerEdit" class="form-control shadow-sm"></select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="employeeEdit">Employee</label>
+                                        <select name="employee_id" id="employeeEdit" class="form-control shadow-sm">
+                                            <option value="">Select an option</option>
+                                            @foreach ($users as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -397,25 +428,45 @@
                             <div class="row">
                                 <div class="col-12 col-lg-3">
                                     <div class="form-group">
-                                        <label for="statusEdit">Status</label>
-                                        <select name="status_id" id="statusEdit" class="form-control shadow-sm">
-                                            @foreach ($status as $statu)
-                                                <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
+                                        <label for="datetimeExitEdit">Date and time of exit</label>
+                                        <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3" id="datetimeExitEdit" name="datetime_exit_it"/>
+                                            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="shipmentExitEdit">Shipment</label>
+                                        <select name="shipment_id" id="shipmentExitEdit" class="form-control shadow-sm">
+                                            <option value="">Select an option</option>
+                                            @foreach ($shipments as $shipment)
+                                                <option value="{{ $shipment->id }}">{{ $shipment->shipment_sh }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-12 col-lg-6">
+                                    <label for="addressEdit">Address</label>
+                                    <input type="text" name="address_it" id="addressEdit" class="form-control shadow-sm" placeholder="Address">
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="observationEdit">Observation</label>
-                                <textarea name="observation_it" id="observationEdit" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
+                                <label for="observationInputEdit">Observation of Input</label>
+                                <textarea name="observation_input_it" id="observationInputEdit" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="observationExitEdit">Observation of Exit</label>
+                                <textarea name="observation_exit_it" id="observationExitEdit" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
                             </div>
                         </form>
                         <div id="alertDangerUpdate"></div>
                         <div id="alertSuccessUpdate"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" form="updateItemOpen" class="btn btn-warning" onclick="updateItemOpen();">Update</button>
+                        <button type="button" form="updateItem" class="btn btn-warning" onclick="updateItem();">Update</button>
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" onclick="cleanAlertsModal();">Close</button>
                     </div>
                 </div>
@@ -451,14 +502,14 @@
                     <div class="modal-body">
                         <form id="itemClose" autocomplete="off">
                             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="item_id" id="idItemClose">
+                            <input type="hidden" name="id" id="idItemClose">
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                            <input type="hidden" name="datetime_it" id="datetimeClose" value="@php date_default_timezone_set('America/Caracas'); echo $DateAndTime = date('Y-m-d H:i:s', time()); @endphp ">
+                            <input type="hidden" name="datetime_exit_it" id="datetimeClose" value="@php date_default_timezone_set('America/Caracas'); echo $DateAndTime = date('Y-m-d H:i:s', time()); @endphp ">
                             <div class="row">
                                 <div class="col-12 col-lg-5">
                                     <div class="form-group">
                                         <label for="addressClose">Address</label>
-                                        <input type="text" name="ubication_it" id="addressClose" class="form-control shadow-sm" placeholder="Address">
+                                        <input type="text" name="address_it" id="addressClose" class="form-control shadow-sm" placeholder="Address">
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-4">
@@ -495,7 +546,6 @@
                                     <div class="form-group">
                                         <label for="customerClose">Customer</label>
                                         <select name="sub_customer_id" id="customerClose" class="form-control shadow-sm customerDinamico">
-                                            <option value="">Select an opcion</option>
                                         </select>
                                     </div>
                                 </div>
@@ -513,7 +563,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="observationClose">Observation</label>
-                                <textarea name="observation_it" id="observationClose" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
+                                <textarea name="observation_exit_it" id="observationClose" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
                             </div>
                         </form>
                         <div id="alertDangerClose"></div>
@@ -552,7 +602,7 @@
 
         $(function () {
             $('#datetimepicker2').datetimepicker({
-                defaultDate: $('#datetimeInput').val(),
+                defaultDate: $('#datetimeInputEdit').val(),
                 maxDate: new Date(),
                 format: 'YYYY-MM-DD HH:mm:ss'
             });
@@ -568,7 +618,6 @@
 
         $(function () {
             $('#datetimepicker4').datetimepicker({
-                defaultDate: new Date(),
                 format: 'YYYY-MM-DD HH:mm:ss'
             });
         });
@@ -656,6 +705,7 @@
                 type: "GET",
                 url: 'consult-sub-customer/'+$('#vendorBrandInsert').val(),
                 success: function(data){
+                    $("#customerInsert").prop('disabled',false);
                     var tamano = data.length;
                     var contenido = '';
                     contenido += '<option value="">Select an option</option>';
@@ -677,27 +727,33 @@
                 type: "GET",
                 url: 'consult-item/'+idItem,
                 success: function(data){
-                    console.log(data);
                     $('#consultItem').modal('show');
                     $('#dateInputConsult').val(data[0].datetime_input_it).prop('disabled', true);
                     $('#itemConsult').val(data[0].item_it).prop('disabled', true);
                     $('#quantyConsult').val(data[0].quanty_it).prop('disabled', true);
                     $('#qtyBoxesConsult').val(data[0].qty_boxes_it).prop('disabled', true);
                     $('#ubicationConsult').val(data[0].ubication_it).prop('disabled', true);
-                    $('#conditionInputConsult').val(data[0].condition_co).prop('disabled', true);
-                    $('#statusInputConsult').val(data[0].status_st).prop('disabled', true);
+                    $('#conditionInputConsult').val(data[3].condition_co).prop('disabled', true);
+                    $('#statusInputConsult').val(data[4].status_st).prop('disabled', true);
                     $('#vendorBrandConsult').val(data[1].name_cu).prop('disabled', true);
                     $('#observationInputConsult').val(data[0].observation_input_it).prop('disabled', true);
-                    $('#datetimeExitConsult').val(data[0].datetime_exit_it).prop('disabled', true);
-                    $('#addressConsult').val(data[0].address_it).prop('disabled', true);
-                    $('#observationExitConsult').val(data[0].observation_exit_it).prop('disabled', true);
-                    $('#customerConsult').val(data[2].name_cu).prop('disabled', true);
-                    $('#shipmentExitConsult').val(data[5].shipment_sh).prop('disabled', true);
-                    $('#employeeExitConsult').val(data[6].name).prop('disabled', true);
-
+                    if (data[0].datetime_exit_it == null && data[0].address_it == null && data[0].observation_exit_it == null && data[2] == null && data[5] == null && data[6] == null){
+                        $('#datetimeExitConsult').val('Not assigned yet').prop('disabled', true);
+                        $('#addressConsult').val('Not assigned yet').prop('disabled', true);
+                        $('#observationExitConsult').val('Not assigned yet').prop('disabled', true);
+                        $('#customerConsult').val('Not assigned yet').prop('disabled', true);
+                        $('#shipmentExitConsult').val('Not assigned yet').prop('disabled', true);
+                        $('#employeeExitConsult').val('Not assigned yet').prop('disabled', true);
+                    }else{
+                        $('#datetimeExitConsult').val(data[0].datetime_exit_it).prop('disabled', true);
+                        $('#addressConsult').val(data[0].address_it).prop('disabled', true);
+                        $('#observationExitConsult').val(data[0].observation_exit_it).prop('disabled', true);
+                        $('#customerConsult').val(data[2].name_cu).prop('disabled', true);
+                        $('#shipmentExitConsult').val(data[5].shipment_sh).prop('disabled', true);
+                        $('#employeeExitConsult').val(data[6].name).prop('disabled', true);
+                    }
                 },
                 error: function(data){
-                    console.log(data);
                     $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }
@@ -709,11 +765,55 @@
                 type: "GET",
                 url: 'consult-item/'+idItem,
                 success: function(data){
-                    var status = data[0];
-                    if (status == 'close'){
-                        itemClose(idItem);
-                    }else if (status == 'open'){
-                        itemOpen(idItem);
+                    console.log(data[9]);
+                    $('#editItem').modal('show');
+                    $('#idItemEdit').val(data[0].id);
+                    $('#datetimeInputEdit').val(data[0].datetime_input_it);
+                    $('#itemEdit').val(data[0].item_it);
+                    $('#quantyEdit').val(data[0].quanty_it);
+                    $('#qtyBoxesEdit').val(data[0].qty_boxes_it);
+                    $('#ubicationEdit').val(data[0].ubication_it);
+                    $('#conditionEdit').val(data[3].id);
+                    $('#statusEdit').val(data[4].id);
+                    $('#vendorBrandEdit').val(data[0].customer_id);
+                    $('#observationInputEdit').val(data[0].observation_input_it);
+                    if (data[0].datetime_exit_it == null && data[0].address_it == null && data[0].observation_exit_it == null && data[2] == null && data[5] == null && data[6] == null){
+                        $('#datetimeExitEdit').val('Not assigned yet').prop('disabled', true);
+                        $('#addressEdit').val('Not assigned yet').prop('disabled', true);
+                        $('#observationExitEdit').val('Not assigned yet').prop('disabled', true);
+                        var contenido = '';
+                        contenido += '<option value="">Not assigned yet</option>';
+                        $("#customerEdit").html(contenido);
+                        $("#shipmentExitEdit").html(contenido);
+                        $("#employeeEdit").html(contenido);
+                        $('#customerEdit').prop('disabled', true);
+                        $('#shipmentExitEdit').prop('disabled', true);
+                        $('#employeeEdit').prop('disabled', true);
+                    }else{
+                        $('#datetimeExitEdit').val(data[0].datetime_exit_it).prop('disabled',false);
+                        $('#addressEdit').val(data[0].address_it).prop('disabled',false);
+                        $('#observationExitEdit').val(data[0].observation_exit_it).prop('disabled',false);
+                        var tamano1 = data[8].length;
+                        var contenido1 = '';
+                        for (var i=0; i<tamano1; i++) {
+                            contenido1 += '<option value="'+data[8][i].id+'">'+data[8][i].name_cu+'</option>';
+                        }
+                        $("#customerEdit").html(contenido1);
+                        $('#customerEdit').val(data[2].id).prop('disabled',false);
+                        var tamano2 = data[9].length;
+                        var contenido2 = '';
+                        for (var i=0; i<tamano2; i++) {
+                            contenido2 += '<option value="'+data[9][i].id+'">'+data[9][i].shipment_sh+'</option>';
+                        }
+                        $("#shipmentExitEdit").html(contenido2);
+                        $('#shipmentExitEdit').val(data[5].id).prop('disabled',false);
+                        var tamano3 = data[10].length;
+                        var contenido3 = '';
+                        for (var i=0; i<tamano3; i++) {
+                            contenido3 += '<option value="'+data[10][i].id+'">'+data[10][i].name+'</option>';
+                        }
+                        $("#employeeEdit").html(contenido3);
+                        $('#employeeEdit').val(data[6].id).prop('disabled',false);
                     }
                 },
                 error: function(data){
@@ -723,74 +823,35 @@
             });
         }
 
-        function itemOpen(idItem){
+        $('#vendorBrandEdit').change( function(){
             $.ajax({
                 type: "GET",
-                url: 'consult-item/'+idItem,
+                url: 'consult-sub-customer/'+$('#vendorBrandEdit').val(),
                 success: function(data){
-                    $('#datetimeEdit').val(data[1][0].datetime_it);
-                    $('#itemEdit').val(data[1][0].item_it);
-                    $('#quantyEdit').val(data[1][0].quanty_it);
-                    $('#qtyBoxesEdit').val(data[1][0].qty_boxes_it);
-                    $('#ubicationEdit').val(data[1][0].ubication_it);
-                    $('#observationEdit').val(data[1][0].observation_it);
-                    $('#customerPrimEdit').val(data[1][0].customer_id);
-                    $('#conditionInputEdit').val(data[1][0].condition_id);
-                    $('#statusInputEdit').val(data[1][0].status_id);
+                    var tamano = data.length;
+                    var contenido = '';
+                    contenido += '<option value="">Select an option</option>';
+                    for (var i=0; i<tamano; i++) {
+                        contenido += '<option value="'+data[i].id+'">'+data[i].name_cu+'</option>';
+                    }
+                    $("#customerEdit").html(contenido);
                 },
                 error: function(data){
-                    $('#editItemOpen').modal('hide');
+                    $('#insertItem').modal('hide');
                     $('#alertDanger').empty();
                     $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 }
             });
-            $('#editItemOpen').modal('show');
-            $('#idItemEdit').val(idItem);
-        }
+        });
 
-        function itemClose(idItem){
-            $.ajax({
-                type: "GET",
-                url: 'consult-item/'+idItem,
-                success: function(data){
-                    $('#datetimeInput').val(data[1][0].datetime_it);
-                    $('#itemInput').val(data[1][0].item_it);
-                    $('#quantyInput').val(data[1][0].quanty_it);
-                    $('#qtyBoxesInput').val(data[1][0].qty_boxes_it);
-                    $('#ubicationInput').val(data[1][0].ubication_it);
-                    $('#observationInput').val(data[1][0].observation_it);
-                    $('#customerPrimInput').val(data[1][0].customer_id);
-                    $('#conditionInputInput').val(data[1][0].condition_id);
-                    $('#statusInputInput').val(data[1][0].status_id);
-                    $('#datetimeExit').val(data[2][0].datetime_it);
-                    $('#addressExit').val(data[2][0].ubication_it);
-                    $('#observationExit').val(data[2][0].observation_it);
-                    $('#subCustomerExit').val(data[2][0].sub_customer_id);
-                    $('#conditionExit').val(data[2][0].condition_id);
-                    $('#statusExit').val(data[2][0].status_id);
-                    $('#shipmentExit').val(data[2][0].shipment_id);
-                    $('#employeeExit').val(data[2][0].employee_id);
-                    subCustomersDinamicos(data[1][0].customer_id,data[2][0].sub_customer_id);
-                },
-                error: function(data){
-                    $('#editItemOpen').modal('hide');
-                    $('#alertDanger').empty();
-                    $('#alertDanger').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">¡Information not available!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                }
-            });
-            $('#editItemClose').modal('show');
-            $('#idItemInputInfo').val(idItem);
-            $('#itemIdExitInfo').val(idItem);
-        }
-
-        function updateItemOpen(){
+        function updateItem(){
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('input[name=_token]').val()},
                 type: "POST",
                 url: 'update-item/'+$('#idItemEdit').val(),
-                data: $('form#updateItemOpen').serialize(),
+                data: $('form#updateItem').serialize(),
                 success: function(data){
-                    $('#editItemOpen').modal('hide');
+                    $('#editItem').modal('hide');
                     $('#dtItems').DataTable().ajax.reload();
                     $('#alertSuccess').empty();
                     $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
@@ -798,54 +859,6 @@
                 error: function(data){
                     $('#alertDangerUpdate').empty();
                     $('#alertDangerUpdate').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                    var resultado = data.responseJSON.errors;
-                    var contenido = '';
-                    $.each(resultado, function(index, value) {
-                        contenido += '<li>'+value+'</li>';
-                    });
-                    $("#listAlert").html(contenido);
-                }
-            });
-        }
-
-        function updateInputInfo(){
-            $.ajax({
-                headers: {'X-CSRF-TOKEN': $('input[name=_token]').val()},
-                type: "POST",
-                url: 'update-item/'+$('#idItemInpu').val(),
-                data: $('form#updateInputInfo').serialize(),
-                success: function(data){
-                    $('#dtItems').DataTable().ajax.reload();
-                    $('#alertSuccessInput').empty();
-                    $('#alertSuccessInput').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                },
-                error: function(data){
-                    $('#alertDangerInput').empty();
-                    $('#alertDangerInput').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                    var resultado = data.responseJSON.errors;
-                    var contenido = '';
-                    $.each(resultado, function(index, value) {
-                        contenido += '<li>'+value+'</li>';
-                    });
-                    $("#listAlert").html(contenido);
-                }
-            });
-        }
-
-        function updateExitInfo(){
-            $.ajax({
-                headers: {'X-CSRF-TOKEN': $('input[name=_token]').val()},
-                type: "POST",
-                url: 'update-item/'+$('#itemIdExitInfo').val(),
-                data: $('form#updateExitInfo').serialize(),
-                success: function(data){
-                    $('#dtItems').DataTable().ajax.reload();
-                    $('#alertSuccessExit').empty();
-                    $('#alertSuccessExit').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully edited!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                },
-                error: function(data){
-                    $('#alertDangerExit').empty();
-                    $('#alertDangerExit').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     var resultado = data.responseJSON.errors;
                     var contenido = '';
                     $.each(resultado, function(index, value) {
@@ -884,8 +897,9 @@
                 type: "GET",
                 url: 'consult-item/'+idItem,
                 success: function(data){
-                    $('#vendorBrandClose').val(data[1][0].name_cu).prop('disabled',true);
-                    var customer = data[1][0].customer_id;
+                    console.log(data[1].name_cu);
+                    $('#vendorBrandClose').val(data[1].name_cu).prop('disabled',true);
+                    var customer = data[1].id;
                     subCustomersDinamicos(customer);
                 },
                 error: function(data){
@@ -911,6 +925,7 @@
                     $('#alertSuccess').html('<div class="alert alert-success alert-dismissible fade show" role="alert">¡The item has been successfully closed!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                 },
                 error: function(data){
+                    console.log(data);
                     $('#alertDangerClose').empty();
                     $('#alertDangerClose').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul id="listAlert"></ul><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     var resultado = data.responseJSON.errors;
@@ -923,20 +938,18 @@
             });
         }
 
-        function subCustomersDinamicos(customer,subcustomer){
+        function subCustomersDinamicos(customer){
             $.ajax({
                 type: "GET",
                 url: 'consult-sub-customer/'+customer,
                 success: function(data){
                     var tamano = data.length;
                     var contenido = '';
+                    contenido += '<option value="">Select an opcion</option>';
                     for (var i=0; i<tamano; i++) {
                         contenido += '<option value="'+data[i].id+'">'+data[i].name_cu+'</option>';
                     }
-                    $(".customerDinamico").html(contenido);
-                    if (subcustomer != undefined){
-                        $('#subCustomerExit').val(subcustomer);
-                    }
+                    $("#customerClose").html(contenido);
                 },
                 error: function(data){
                     $('#insertItem').modal('hide');
@@ -951,17 +964,31 @@
             $('#quantyInsert').val('');
             $('#qtyBoxesInsert').val('');
             $('#ubicationInsert').val('');
-            $('#customerInsert').val('');
             $('#conditionInsert').val('');
             $('#statusInsert').val('');
+            $('#vendorBrandInsert').val('');
             $('#observationInsert').val('');
-            $('.alertDangerModal').empty();
-            $('#alertDangerUpdate').empty();
-            $('#alertDangerUpdate').empty();
-            $('#alertSuccessInput').empty();
-            $('#alertDangerInput').empty();
-            $('#alertSuccessExit').empty();
-            $('#alertDangerExit').empty();
+            $('#datetimeInsert').val('');
+            $('#addressInsert').val('');
+            $('#observationInsert').val('');
+            $('#customerInsert').val('').prop('disabled',true);
+            $('#shipmentInsert').val('');
+            $('#employeeInsert').val('');
+            $('#dateInputConsult').val('');
+            $('#itemConsult').val('');
+            $('#quantyConsult').val('');
+            $('#qtyBoxesConsult').val('');
+            $('#ubicationConsult').val('');
+            $('#conditionInputConsult').val('');
+            $('#statusInputConsult').val('');
+            $('#vendorBrandConsult').val('');
+            $('#observationInputConsult').val('');
+            $('#datetimeExitConsult').val('');
+            $('#addressConsult').val('');
+            $('#observationExitConsult').val('');
+            $('#customerConsult').val('');
+            $('#shipmentExitConsult').val('');
+            $('#employeeExitConsult').val('');
             $('#addressClose').val('');
             $('#conditionClose').val('');
             $('#employeeClose').val('');
@@ -969,6 +996,13 @@
             $('#shipementClose').val('');
             $('#observationClose').val('');
             $('#alertDangerClose').empty();
+            $('.alertDangerModal').empty();
+            $('#alertDangerUpdate').empty();
+            $('#alertDangerUpdate').empty();
+            $('#alertSuccessInput').empty();
+            $('#alertDangerInput').empty();
+            $('#alertSuccessExit').empty();
+            $('#alertDangerExit').empty();
         }
 
         //Validaciones
