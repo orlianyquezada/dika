@@ -171,7 +171,10 @@
                     {data: 'email_cu'},
                     {width: "5%", orderable:false, data: 'id',
                     render: function(data,t,w,meta){
-                        return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteSubCustomer('+data+')"><i class="fa fa-fw fa-trash"></i></button></div>';
+                        if (data != $('#idCustomerPrimary').val()){
+                            return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteSubCustomer('+data+')"><i class="fa fa-fw fa-trash"></i></button></div>';
+                        }
+                        return '<div hidden>'+data+'</div>';
                     }}
                 ]
             });
