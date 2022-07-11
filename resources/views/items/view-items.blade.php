@@ -674,7 +674,6 @@
                     $('#quantyInsert').val('');
                     $('#qtyBoxesInsert').val('');
                     $('#ubicationInsert').val('');
-                    $('#vendorBrandInsert').val('');
                     $('#customerInsert').val('');
                     $('#conditionInsert').val('');
                     $('#statusInsert').val('');
@@ -966,7 +965,6 @@
             $('#ubicationInsert').val('');
             $('#conditionInsert').val('');
             $('#statusInsert').val('');
-            $('#vendorBrandInsert').val('');
             $('#observationInsert').val('');
             $('#datetimeInsert').val('');
             $('#addressInsert').val('');
