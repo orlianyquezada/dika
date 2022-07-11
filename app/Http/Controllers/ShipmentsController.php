@@ -97,16 +97,16 @@ class ShipmentsController extends Controller
         ];
 
         $validator = Validator::make($input,$rules,$messagges)->validate();
-
         $verify = Shipment::where('shipment_sh',$request->input('shipment_sh'))->where('id','!=',$id)->first();
+
+<<<<<<< HEAD
+        $verify = Shipment::where('shipment_sh',$request->input('shipment_sh'))->where('id','!=',$id)->first();
+=======
+>>>>>>> 0d9c874984d3522b67540437f85792f848eff05b
         if ($verify){
             return response()->json(0);
         }else{
-            $shipment = Shipment::find($id);
-            if ($shipment){
-                $shipment->shipment_sh = $request->input('shipment_sh');
-                $shipment->save();
-            }
+            $shipment = Shipment::find($id)->update($request->all());
             return response()->json(1);
         }
     }

@@ -4,7 +4,7 @@
 
 @section('content_header')
     <!-- Container's info -->
-    <div class="container mt-3">
+    <div class="mt-3">
         <!-- Messages alert -->
         @if (session('flash'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -49,14 +49,13 @@
 @stop
 
 @section('content')
-    <div class="container">
+    <div class="">
         <!-- Items's table -->
         <div class="card border-white shadow">
             <div class="card-body">
                 <table class="table table-striped table-bordered dt-responsive nowrap dataTable_width_auto display" id="dtItems" style="width:100%">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Date</th>
                             <th>Vendor/Brand</th>
                             <th>Item</th>
@@ -110,13 +109,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12">
                                     <div class="form-group">
                                         <label for="ubicationInsert">Ubication</label>
                                         <input type="text" name="ubication_it" id="ubicationInsert" class="form-control shadow-sm" placeholder="Ubication">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-3">
+                                <div class="col-sm-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="conditionInsert">Conditions</label>
                                         <select name="condition_id" id="conditionInsert" class="form-control shadow-sm">
@@ -127,73 +126,29 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-sm-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="statusInsert">Status</label>
                                         <select name="status_id" id="statusInsert" class="form-control shadow-sm">
                                             <option value="">Select an option</option>
                                             @foreach ($status as $statu)
-                                                <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
+                                                @if ($statu->status_st == 'Entry')
+                                                    <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-4">
+                                <div class="col-sm-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="vendorBrandInsert">Vendor/Brand</label>
-                                        <select name="customer_id" id="vendorBrandInsert" class="form-control shadow-sm">
+                                        <select name="customer_id" class="form-control shadow-sm">
+                                            <option value="" selected disabled>Select an option</option>
                                             @foreach ($customers as $customer)
                                                 <option value="{{ $customer->id }}">{{ $customer->name_cu }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="customerInsert">Customer</label>
-                                        <select name="sub_customer_id" id="customerInsert" class="form-control shadow-sm" disabled></select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group">
-                                        <label for="employeeInsert">Employee</label>
-                                        <select name="employee_id" id="employeeInsert" class="form-control shadow-sm">
-                                            <option value="">Select an option</option>
-                                            @foreach ($users as $user)
-                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-3">
-                                    <div class="form-group">
-                                        <label for="datimeEdit">Date and time of exit</label>
-                                        <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" id="datetimeInsert" name="datetime_exit_it"/>
-                                            <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-3">
-                                    <div class="form-group">
-                                        <label for="shipmentInsert">Shipment</label>
-                                        <select name="shipment_id" id="shipmentInsert" class="form-control shadow-sm">
-                                            <option value="">Select an option</option>
-                                            @foreach ($shipments as $shipment)
-                                                <option value="{{ $shipment->id }}">{{ $shipment->shipment_sh }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-6">
-                                    <label for="addressInsert">Address</label>
-                                    <input type="text" name="address_it" id="addressInsert" class="form-control shadow-sm" placeholder="Address">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -264,24 +219,32 @@
                                     <input type="text" name="status_id" id="statusInputConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="observationInputConsult">Observation of entry</label>
+                                    <textarea name="observation_it" id="observationInputConsult" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
-                            <div class="col-12 col-lg-4">
+                            <div class="col-sm-12 col-lg-4">
                                 <div class="form-group">
                                     <label for="vendorBrandConsult">Vendor/Brand</label>
                                     <input type="text" name="customer_id" id="vendorBrandConsult" class="form-control shadow-sm">
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-4">
+                            <div class="col-sm-12 col-lg-4">
                                 <div class="form-group">
                                     <label for="customerConsult">Customer</label>
-                                    <input type="text" name="customer_id" id="customerConsult" class="form-control shadow-sm">
+                                    <input type="text" name="customer_id" id="customerConsult" readonly class="form-control shadow-sm">
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="observationInputConsult">Observation of entry</label>
-                            <textarea name="observation_it" id="observationInputConsult" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
+                            <div class="col-sm-12 col-lg-4">
+                                <div class="form-group">
+                                    <label for="employeeExitConsult">Employee</label>
+                                    <input type="text" name="employee_id" id="employeeExitConsult" readonly class="form-control shadow-sm">
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-12 col-lg-2">
@@ -299,18 +262,11 @@
                             <div class="col-12 col-lg-3">
                                 <div class="form-group">
                                     <label for="shipmentExitConsult">Shipment</label>
-                                    <input type="text" name="shipment_id" id="shipmentExitConsult" class="form-control shadow-sm">
+                                    <input type="text" name="shipment_id" id="shipmentExitConsult" readonly class="form-control shadow-sm">
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-12 col-lg-4">
-                                <div class="form-group">
-                                    <label for="employeeExitConsult">Employee</label>
-                                    <input type="text" name="employee_id" id="employeeExitConsult" class="form-control shadow-sm">
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="form-group">
                             <label for="observationExitConsult">Observation of Exit</label>
                             <textarea name="observation_it" id="observationExitConsult" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
@@ -373,31 +329,7 @@
                                         <input type="text" name="ubication_it" id="ubicationEdit" class="form-control shadow-sm" placeholder="Ubication">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-3">
-                                    <div class="form-group">
-                                        <label for="conditionEdit">Conditions</label>
-                                        <select name="condition_id" id="conditionEdit" class="form-control shadow-sm">
-                                            <option value="">Select an option</option>
-                                            @foreach ($conditions as $condition)
-                                                <option value="{{ $condition->id }}">{{ $condition->condition_co }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-3">
-                                    <div class="form-group">
-                                        <label for="statusEdit">Status of Entry</label>
-                                        <select name="status_id" id="statusEdit" class="form-control shadow-sm">
-                                            <option value="">Select an option</option>
-                                            @foreach ($status as $statu)
-                                                <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-lg-4">
+                                <div class="col-sm-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="vendorBrandEdit">Vendor/Brand</label>
                                         <select name="customer_id" id="vendorBrandEdit" class="form-control shadow-sm">
@@ -508,11 +440,11 @@
                             <div class="row">
                                 <div class="col-12 col-lg-5">
                                     <div class="form-group">
-                                        <label for="addressClose">Address</label>
-                                        <input type="text" name="address_it" id="addressClose" class="form-control shadow-sm" placeholder="Address">
+                                        <label for="address_it">Address</label>
+                                        <input type="text" name="address_it" id="address_it" class="form-control shadow-sm" placeholder="Address">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-4">
+                                <div class="col-sm-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="employeeClose">Employee</label>
                                         <select name="employee_id" id="employeeClose" class="form-control shadow-sm">
@@ -529,6 +461,7 @@
                                         <select name="status_id" id="statusClose" class="form-control shadow-sm">
                                             <option value="">Select an opcion</option>
                                             @foreach ($status as $statu)
+                                                @if ($statu->status_st == 'Entry') @continue @endif
                                                 <option value="{{ $statu->id }}">{{ $statu->status_st }}</option>
                                             @endforeach
                                         </select>
@@ -536,20 +469,20 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-lg-4">
+                                <div class="col-sm-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="vendorBrandClose">Vendor/Brand</label>
-                                        <input type="text" name="customer_id" id="vendorBrandClose" class="form-control shadow-sm">
+                                        <input type="text" name="customer_id" id="vendorBrandClose" readonly class="form-control shadow-sm">
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-4">
+                                <div class="col-sm-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="customerClose">Customer</label>
                                         <select name="sub_customer_id" id="customerClose" class="form-control shadow-sm customerDinamico">
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-lg-4">
+                                <div class="col-sm-12 col-lg-4">
                                     <div class="form-group">
                                         <label for="shipmentClose">Shipment</label>
                                         <select name="shipment_id" id="shipmentClose" class="form-control shadow-sm">
@@ -562,8 +495,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="observationClose">Observation</label>
-                                <textarea name="observation_exit_it" id="observationClose" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
+                                <label for="observationExitIt">Observation</label>
+                                <textarea name="observation_exit_it" id="observationExitIt" cols="12" rows="2" class="form-control shadow-sm" placeholder="Observation"></textarea>
                             </div>
                         </form>
                         <div id="alertDangerClose"></div>
@@ -621,45 +554,6 @@
                 format: 'YYYY-MM-DD HH:mm:ss'
             });
         });
-
-        $(document).ready( function () {
-            $('#dtItems').DataTable({
-                order: [[ 1, "desc" ]],
-                responsive: true,
-                autoWidth: false,
-                buttons:[
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="fas fa-file-excel"></i>',
-                        titleAttr: 'Export to excel',
-                        className: 'btn btn-success'
-                    }
-                ],
-                ajax:{
-                    url: 'all-items',
-                    method: "GET",
-                },
-                dom: '<"row"<"col-sm-12 col-md-1"<"dt-buttons btn-group flex-wrap"B>><"col-sm-12 col-md-11"f>>t<"row justify-content-between"<"col-sm-12 col-md-4 pt-2"l><"col-sm-12 col-md-3 pt-0"i><"col-sm-12 col-md-4"p>>',
-                columns:[
-                    {data: 'id'},
-                    {data: 'datetime_input_it'},
-                    {data: 'customer_id'},
-                    {data: 'item_it'},
-                    {data: 'sub_customer_id'},
-                    {data: 'quanty_it'},
-                    {data: 'qty_boxes_it'},
-                    {data: 'ubication_it'},
-                    {data: 'id'},
-                    {data: 'id'},
-                    {data: 'shipment_id'},
-                    {data: 'address_it'},
-                    {width: "20%", orderable: false, data: 'id',
-                    render: function(data,t,w,meta){
-                        return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="consultItem('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-eye"></i></button><button onclick="editItem('+data+');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-pen"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteItem('+data+')"><i class="fa fa-fw fa-trash"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Close" onclick="openClose('+data+');"><i class="fa fa-fw fa-lock"></i></button></div>';
-                    }}
-                ]
-            });
-        } );
 
         function registerItem(event){
             event.preventDefault();
@@ -732,25 +626,22 @@
                     $('#quantyConsult').val(data[0].quanty_it).prop('disabled', true);
                     $('#qtyBoxesConsult').val(data[0].qty_boxes_it).prop('disabled', true);
                     $('#ubicationConsult').val(data[0].ubication_it).prop('disabled', true);
-                    $('#conditionInputConsult').val(data[3].condition_co).prop('disabled', true);
-                    $('#statusInputConsult').val(data[4].status_st).prop('disabled', true);
+                    $('#conditionInputConsult').val(data[3]).prop('disabled', true);
+                    $('#statusInputConsult').val(data[4]).prop('disabled', true);
                     $('#vendorBrandConsult').val(data[1].name_cu).prop('disabled', true);
                     $('#observationInputConsult').val(data[0].observation_input_it).prop('disabled', true);
-                    if (data[0].datetime_exit_it == null && data[0].address_it == null && data[0].observation_exit_it == null && data[2] == null && data[5] == null && data[6] == null){
-                        $('#datetimeExitConsult').val('Not assigned yet').prop('disabled', true);
-                        $('#addressConsult').val('Not assigned yet').prop('disabled', true);
-                        $('#observationExitConsult').val('Not assigned yet').prop('disabled', true);
-                        $('#customerConsult').val('Not assigned yet').prop('disabled', true);
-                        $('#shipmentExitConsult').val('Not assigned yet').prop('disabled', true);
-                        $('#employeeExitConsult').val('Not assigned yet').prop('disabled', true);
-                    }else{
-                        $('#datetimeExitConsult').val(data[0].datetime_exit_it).prop('disabled', true);
-                        $('#addressConsult').val(data[0].address_it).prop('disabled', true);
-                        $('#observationExitConsult').val(data[0].observation_exit_it).prop('disabled', true);
+                    $('#datetimeExitConsult').val(data[0].datetime_exit_it).prop('disabled', true);
+                    $('#addressConsult').val(data[0].address_it).prop('disabled', true);
+                    $('#observationExitConsult').val(data[0].observation_exit_it).prop('disabled', true);
+
+                    if (data[2])
                         $('#customerConsult').val(data[2].name_cu).prop('disabled', true);
+
+                    if (data[5])
                         $('#shipmentExitConsult').val(data[5].shipment_sh).prop('disabled', true);
+
+                    if (data[6])
                         $('#employeeExitConsult').val(data[6].name).prop('disabled', true);
-                    }
                 },
                 error: function(data){
                     $('#alertDanger').empty();
@@ -896,10 +787,35 @@
                 type: "GET",
                 url: 'consult-item/'+idItem,
                 success: function(data){
-                    console.log(data[1].name_cu);
+                    console.log(data)
+                    document.querySelectorAll('#employeeClose option').forEach(element => {
+                        if (data[6]) {
+                            if (element.value == data[6].id) {
+                                element.setAttribute('selected', 'true')
+                            }
+                        }
+                    });
+
+                    document.querySelectorAll('#statusClose option').forEach(element => {
+                        if (data[4]) {
+                            if (element.value == data[4].id) {
+                                element.setAttribute('selected', 'true')
+                            }
+                        }
+                    });
+
+                    document.querySelectorAll('#shipmentClose option').forEach(element => {
+                        if (data[0]) {
+                            if (element.value == data[0].shipment_id) {
+                                element.setAttribute('selected', 'true')
+                            }
+                        }
+                    });
+
+                    $('#address_it').val(data[0].address_it);
                     $('#vendorBrandClose').val(data[1].name_cu).prop('disabled',true);
-                    var customer = data[1].id;
-                    subCustomersDinamicos(customer);
+                    $('#observationExitIt').val(data[0].observation_exit_it);
+                    subCustomersDinamicos(data[1].id, data[0].sub_customer_id);
                 },
                 error: function(data){
                     $('#editItemOpen').modal('hide');
@@ -937,18 +853,29 @@
             });
         }
 
-        function subCustomersDinamicos(customer){
+        function subCustomersDinamicos(customer, subcustomer = null){
             $.ajax({
                 type: "GET",
                 url: 'consult-sub-customer/'+customer,
                 success: function(data){
-                    var tamano = data.length;
-                    var contenido = '';
-                    contenido += '<option value="">Select an opcion</option>';
-                    for (var i=0; i<tamano; i++) {
-                        contenido += '<option value="'+data[i].id+'">'+data[i].name_cu+'</option>';
+                    if (data.length) {
+                        let contenido = '<option value="">Select an opcion</option>';
+
+                        for (let i=0; i<data.length; i++) {
+                            contenido += '<option value="'+data[i].id+'">'+data[i].name_cu+'</option>';
+                        }
+                        $(".customerDinamico").html(contenido);
                     }
-                    $("#customerClose").html(contenido);
+
+                    if (subcustomer){
+                        document.querySelectorAll('#customerClose option').forEach(element => {
+                            if (element.value == subcustomer) {
+                                element.setAttribute('selected', 'true')
+                            }
+                        });
+                    }
+
+
                 },
                 error: function(data){
                     $('#insertItem').modal('hide');
@@ -1027,5 +954,38 @@
             var valor = e.value.replace(/^0*/, '');
             e.value = valor;
         }
+    </script>
+
+    <script>
+        let table = $('#dtItems').DataTable({
+            serverSide: true,
+            dom: 'Bfrtip',
+            buttons: ['excel'],
+            ajax:{
+                    url: 'all-items',
+                    method: "GET",
+            },
+            bSort: true,
+            order: [],
+            destroy: true,
+            columns: [
+                { data: "datetime_input_it" },
+                { data: "customer", name: "customers.name_cu"},
+                { data: "item_it" },
+                { data: "subcustomer", name: "customers.name_cu"},
+                { data: "quanty_it" },
+                { data: "qty_boxes_it" },
+                { data: "ubication" },
+                { data: "condition", name: "conditions.condition_co"},
+                { data: "status", name: "status.status_st" },
+                { data: "shipment", name: "shipments.shipment_sh" },
+                { data: "address_it" },
+                { data: 'actions', name: 'actions', orderable: false, searchable: false }
+            ],
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json",
+            },
+        });
+
     </script>
 @stop

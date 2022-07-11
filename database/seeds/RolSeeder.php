@@ -18,35 +18,33 @@ class RolSeeder extends Seeder
      */
     public function run()
     {
-        $administrator = Role::create(['name' => 'Administrador']);
-        Role::create(['name' => 'Gestor']);
-        Role::create(['name' => 'Gerente']);
-        Role::create(['name' => 'Coordinador']);
-        Role::create(['name' => 'Transportista']);
+        
+        Role::create(['name' => 'Manager']);
+        Role::create(['name' => 'Coordinator']);
+        Role::create(['name' => 'Carrier']);
 
         Permission::create(['name' => 'user']);
+
+        $administrator = Role::create(['name' => 'Administrator']);
         $administrator->givePermissionTo('user');
 
         $user = User::create([
             'name'      => 'admin',
-            'email'     => 'admin@admin.com',
-            'password'  =>  Hash::make('Caracas.03')
+            'email'     => 'a@a.com',
+            'password'  =>  Hash::make('12345678')
         ]);
 
-        $user->assignRole('Administrador');
+        $user->assignRole('Administrator');
 
-        //Conditions
-        $conditions = Condition::create(['condition_co' => 'Good']);
+        
+        Condition::create(['condition_co' => 'Good']);
         Condition::create(['condition_co' => 'Bad']);
 
-        //Status
-        $status = Status::create(['status_st' => 'Entrada']);
-        Status::create(['status_st' => 'Almacen']);
-        Status::create(['status_st' => 'Proceso de entrega']);
-        Status::create(['status_st' => 'Entregado']);
+        Status::create(['status_st' => 'Entry']);
+        Status::create(['status_st' => 'exit']);
 
-        //Shipments
-        $shipments = Shipment::create(['shipment_sh' => 'Car']);
-        Shipment::create(['shipment_sh' => 'Motocycle']);
+        
+        Shipment::create(['shipment_sh' => 'Pick up']);
+        Shipment::create(['shipment_sh' => 'Delivery']);
     }
 }

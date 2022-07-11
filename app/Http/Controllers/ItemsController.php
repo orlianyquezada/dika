@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use DB;
+use App\User;
+use DataTables;
 use App\Models\Item;
-use App\Models\ConditionItem;
+use App\Models\Status;
+use App\Models\Customer;
+use App\Models\Shipment;
 use App\Models\Condition;
 use App\Models\ItemStatus;
-use App\Models\Status;
-use App\Models\Shipment;
-use App\Models\Customer;
 use App\Models\SubCustomer;
-use App\User;
-use DB;
+use Illuminate\Http\Request;
+use App\Models\ConditionItem;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ItemsController extends Controller
 {
@@ -37,7 +39,7 @@ class ItemsController extends Controller
         $status =  Status::all();
         $shipments = Shipment::all();
         $users = User::all();
-        $customers = DB::select('SELECT * FROM customers WHERE id IN (SELECT a.id FROM customers a, sub_customers b WHERE a.id=b.customer_id)');
+        $customers = Customer::orderBy('name_cu', 'ASC')->get();;
         return view('items.view-items',compact('conditions','status','customers','shipments','users'));
     }
 
@@ -136,13 +138,57 @@ class ItemsController extends Controller
         return response()->json(1,200);
     }
 
-    public function getItems(){
-        $consult = Item::all();
-        $forDtt['data'] = $consult;
-        return response()->json($forDtt, 200);
+    public function getItems()
+    {
+        return DataTables::of(Item::orderBy('created_at', 'DESC'))
+        ->addColumn('customer', function($item){
+            if ($item->customers) 
+                return $item->customers->name_cu;
+        })
+        ->addColumn('subcustomer', function($item){
+            if ($item->subCustomer) 
+                return $item->subCustomer->name_cu;
+        })
+        ->addColumn('condition', function($item){
+            if (count($item->conditions)){
+                $condition = $item->conditions;
+                return $condition->reverse()->first()->condition_co;
+            }
+        })
+        ->addColumn('status', function($item){
+            if (count($item->status))
+            {
+                $status = $item->status;
+                return $status->reverse()->first()->status_st;
+            }     
+        })
+        ->editColumn('ubication', function($item){
+            if (count($item->status))
+            {
+                $status = $item->status;
+                if ($status->reverse()->first()->status_st == 'Exit')
+                    return $item->address_it;
+                else
+                    return $item->ubication_it;
+                                
+                $status = $item->status;
+                return $status->reverse()->first()->status_st;
+            }     
+        })
+        ->addColumn('shipment', function($item){
+            if ($item->shipment) 
+                return $item->shipment->shipment_sh;
+        })
+        ->addColumn('actions', function($item) {
+            /*<button class="btn btn-xs btn-ligth text-dark" title="Delete" onclick="deleteItem('.$item->id.')"><i class="fa fa-fw fa-trash"></i></button>*/
+            return '<div class="btn-group btn-group-sm justify-content-end" role="group" aria-label=""><button onclick="consultItem('.$item->id.');" class="btn btn-xs btn-ligth text-dark" title="Edit"><i class="fa fa-fw fa-eye"></i></button><button class="btn btn-xs btn-ligth text-dark" title="Close" onclick="openClose('.$item->id.');"><i class="fa fa-fw fa-pen"></i></button></div>';
+        })
+        ->rawColumns(['actions'])
+        ->make(true);
     }
 
     public function consultItem($idItem){
+<<<<<<< HEAD
         $item = Item::find($idItem);
         $customer = $item->customers()->first();
         $subCustomer = $item->subCustomer()->first();
@@ -157,11 +203,21 @@ class ItemsController extends Controller
         $allShipments = Shipment::all();
         $allUsers = User::all();
         return response()->json([$item,$customer,$subCustomer,$conditions,$status,$shipment,$employee,$user,$consultSubCustomers,$allShipments,$allUsers],200);
+=======
+        $item           = Item::find($idItem);
+        $customer       = $item->customers()->first();
+        $subCustomer    = $item->subCustomer()->first();
+        $condition      = $item->conditions->reverse()->first()->condition_co;
+        $status         = $item->status->reverse()->first();
+        $shipment       = $item->shipment;
+        $employee       = $item->employee;
+        $user           = $item->user;
+        return response()->json([$item,$customer,$subCustomer,$condition,$status,$shipment,$employee,$user],200);
+>>>>>>> 0d9c874984d3522b67540437f85792f848eff05b
     }
 
     public function consultSubCustomer($idCustomer){
-        $subCustomers = Customer::find($idCustomer)->customerAsSubCustomer()->get();
-        return response()->json($subCustomers,200);
+        return response()->json(Customer::find($idCustomer)->subCustomer,200);
     }
 
     public function updateItem(Request $request){
@@ -290,6 +346,7 @@ class ItemsController extends Controller
     public function closeItem(Request $request){
         $input = $request->all();
         $rules = [
+<<<<<<< HEAD
             'datetime_exit_it' => 'required|date',
             'address_it' => 'required',
             'sub_customer_id' => 'required|integer',
@@ -333,5 +390,39 @@ class ItemsController extends Controller
         $itemStatus->status_id = $request->input("status_id");
         $itemStatus->user_id = $request->input("user_id");
         $itemStatus->save();
+=======
+            //'datetime_it' => 'required|date',
+            'address_it'        => 'required',
+            'employee_id'       => 'required|integer',
+            'status_id'         => 'required|integer',
+            'sub_customer_id'   => 'required|integer',
+            'shipment_id'       => 'required|integer',
+            'item_id'           => 'required|integer',
+            'user_id'           => 'required|integer',
+        ];
+        $messagges = [
+            'datetime_it.required'      => 'The datetime field is required',
+            'datetime_it.date'          => 'The date field must be date-formatted',
+            'address_it.required'       => 'The ubication field is required',
+            'sub_customer_id.required'  => 'The customer field is required',
+            'sub_customer_id.integer'   => 'The customer field must have numbers',
+            'status_id.required'        => 'The status field is required',
+            'status_id.integer'         => 'The status field must have numbers',
+            'shipment_id.required'      => 'The shipment field is required',
+            'shipment_id.integer'       => 'The shipment field must have numbers',
+            'employee_id.required'      => 'The employee field is required',
+            'employee_id.integer'       => 'The employee field must have numbers',
+            'item_id.required'          => 'The item ID field is required',
+            'item_id.integer'           => 'The item ID field must have numbers',
+            'user_id.required'          => 'The user field is required',
+            'user_id.integer'           => 'The user field must have numbers'
+        ];
+
+        $validator = Validator::make($input,$rules,$messagges)->validate();
+        $item = Item::find($request->input('item_id'));
+        $item->update($request->all());
+        $item->status()->attach($request->input('status_id'), [ 'user_id' => $request->input('user_id')]);
+        return response()->json([],200);
+>>>>>>> 0d9c874984d3522b67540437f85792f848eff05b
     }
 }

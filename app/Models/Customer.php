@@ -14,7 +14,7 @@ class Customer extends Model
 
     protected $fillable = ['name_cu','phone_cu','email_cu'];
 
-    public function customerAsSubCustomer(){
+    public function subCustomer(){
         return $this->belongsToMany(Customer::class, 'sub_customers', 'customer_id', 'sub_customer_id');
     }
 
