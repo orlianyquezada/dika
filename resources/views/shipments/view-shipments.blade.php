@@ -4,7 +4,7 @@
 
 @section('content_header')
     <!-- Container's info -->
-    <div class="container mt-3 col-lg-8">
+    <div class="container mt-3">
         <!-- Messages alert -->
         @if (session('flash'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -36,12 +36,14 @@
                     <div class="col-12 col-lg-6">
                         <h3><strong>Shipments</strong></h3>
                     </div>
-                    <div class="col-12 col-lg-6">
+                    {{-- 
+                    <div class="col-12 col-lg-3">
                         <!-- shipment register button -->
                         <button type="button" class="btn btn-warning shadow-sm w-100" data-toggle="modal" data-target="#insertShipments">
                             <strong>Register</strong>
                         </button>
-                    </div>
+                    </div>             
+                    --}}
                 </div>
             </div>
         </div>
@@ -49,7 +51,7 @@
 @stop
 
 @section('content')
-    <div class="container col-lg-8">
+    <div class="container">
         <!-- Shipment's table -->
         <div class="card shadow border-white">
            <div class="card-body">

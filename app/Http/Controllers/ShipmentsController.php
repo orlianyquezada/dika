@@ -52,7 +52,7 @@ class ShipmentsController extends Controller
         if ($validator->fails()) {
             return redirect()->route('shipments')->withErrors($validator);
         }else{
-            $verify = Shipment::where('shipment_sh',$request->input('shipment_sh'))->get()->first();
+            $verify = Shipment::where('shipment_sh',$request->input('shipment_sh'))->first();
             if ($verify){
                 return redirect()->route('shipments')->withErrors('¡There is a shipment with that name!');
             }else{
@@ -97,16 +97,12 @@ class ShipmentsController extends Controller
         ];
 
         $validator = Validator::make($input,$rules,$messagges)->validate();
+        $verify = Shipment::where('shipment_sh',$request->input('shipment_sh'))->where('id','!=',$id)->first();
 
-        $verify = Shipment::where('shipment_sh',$request->input('shipment_sh'))->where('id','!=',$id)->get()->first();
         if ($verify){
             return response()->json(0);
         }else{
-            $shipment = Shipment::find($id);
-            if ($shipment){
-                $shipment->shipment_sh = $request->input('shipment_sh');
-                $shipment->save();
-            }
+            $shipment = Shipment::find($id)->update($request->all());
             return response()->json(1);
         }
     }

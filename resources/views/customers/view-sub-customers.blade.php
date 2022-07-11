@@ -107,7 +107,9 @@
                             <input type="hidden" name="customer_id" value="{{ $customer->id }}">
                             <div class="form-group">
                                 <label for="subCustomerInsert">Customers</label>
-                                <select name="sub_customer_id" id="subCustomerInsert" class="form-control shadow-sm"></select>
+                                <select name="sub_customer_id" id="subCustomerInsert" class="form-control shadow-sm">
+                                    <option value="">select an option</option>
+                                </select>
                             </div>
                         </form>
                         <div id="alertDangerRegister"></div>

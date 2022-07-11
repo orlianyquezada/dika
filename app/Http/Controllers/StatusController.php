@@ -52,7 +52,7 @@ class StatusController extends Controller
         if ($validator->fails()) {
             return redirect()->route('status')->withErrors($validator);
         }else{
-            $verify = Status::where('status_st',$request->input('status_st'))->get()->first();
+            $verify = Status::where('status_st',$request->input('status_st'))->first();
             if ($verify){
                 return redirect()->route('status')->withErrors('¡There is a status with that name!');
             }else{
@@ -102,11 +102,7 @@ class StatusController extends Controller
         if ($verify){
             return response()->json(0);
         }else{
-            $status = Status::find($id);
-            if ($status){
-                $status->status_st = $request->input('status_st');
-                $status->save();
-            }
+            Status::find($id)->update($request->all());
             return response()->json(1);
         }
     }

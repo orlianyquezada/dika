@@ -52,7 +52,7 @@ class ConditionsController extends Controller
         if ($validator->fails()) {
             return redirect()->route('conditions')->withErrors($validator);
         }else{
-            $verify = Condition::where('condition_co',$request->input('condition_co'))->get()->first();
+            $verify = Condition::where('condition_co',$request->input('condition_co'))->first();
             if ($verify){
                 return redirect()->route('conditions')->withErrors('¡There is a condition with that name!');
             }else{
@@ -98,7 +98,7 @@ class ConditionsController extends Controller
 
         $validator = Validator::make($input,$rules,$messagges)->validate();
 
-        $verify = Condition::where('condition_co',$request->input('condition_co'))->where('id','!=',$id)->get()->first();
+        $verify = Condition::where('condition_co',$request->input('condition_co'))->where('id','!=',$id)->first();
         if ($verify){
             return response()->json(0);
         }else{

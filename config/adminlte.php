@@ -257,16 +257,16 @@ return [
                     'route' => 'conditions',
                 ],
                 [
-                    'text' => 'items',
-                    'route' => 'items',
-                ],
-                [
                     'text' => 'Shipments',
                     'route' => 'shipments',
                 ],
                 [
                     'text' => 'Status',
                     'route' => 'status',
+                ],
+                [
+                    'text' => 'items',
+                    'route' => 'items',
                 ],
             ]
         ],

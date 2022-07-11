@@ -40,19 +40,15 @@ class CustomersController extends Controller
     }
 
     public function store(RegisterCustomerRequest $request){
-        $verify = Customer::where('phone_cu',$request->input('phone_cu'))
-                            ->where('email_cu',$request->input('email_cu'))
-                            ->where('name_cu',$request->input('name_cu'))
-                            ->first();
+        $verify = Customer::where('phone_cu',$request->input('phone_cu'))->where('email_cu',$request->input('email_cu'))
+            ->where('name_cu',$request->input('name_cu'))
+            ->first();
+
         if ($verify){
             return response()->json(0);
         }else{
-            $saved = Customer::create($request->all());
-            $idCustomer = $saved->id;
-            $subCustomer = new SubCustomer; //Guardar así mismo como sub customer
-            $subCustomer->customer_id = $idCustomer;
-            $subCustomer->sub_customer_id = $idCustomer;
-            $subCustomer->save();
+            $customer = Customer::create($request->all());
+            $customer->subCustomer()->attach($customer->id);
             return response()->json(1);
         }
     }
@@ -64,10 +60,10 @@ class CustomersController extends Controller
 
     public function updateCustomer(UpdateCustomerRequest $request){
         $verify = Customer::where('phone_cu',$request->input('phone_cu'))
-                            ->where('email_cu',$request->input('email_cu'))
-                            ->where('name_cu',$request->input('name_cu'))
-                            ->where('id','!=',$request->input('id'))
-                            ->first();
+                ->where('email_cu',$request->input('email_cu'))
+                ->where('name_cu',$request->input('name_cu'))
+                ->where('id','!=',$request->input('id'))
+                ->first();
         if ($verify){
             return response()->json(0);
         }else{
@@ -83,11 +79,7 @@ class CustomersController extends Controller
     }
 
     public function deleteCustomer($idCustomer){
-        $subCustomer = Customer::find($idCustomer)->customerAsCustomer()->detach();
-        $subCustomers = Customer::find($idCustomer)
-                                ->customerAsSubCustomer()
-                                ->detach();
-        $customer = Customer::find($idCustomer)->delete();
+        Customer::find($idCustomer)->delete();
         return response()->json(0);
     }
 
@@ -99,12 +91,12 @@ class CustomersController extends Controller
     }
 
     public function getSubCustomerOfCustomer($idCustomer){
-        $subCustomers = DB::select('SELECT * FROM customers WHERE id NOT IN (SELECT a.id FROM customers a, sub_customers b WHERE a.id=b.sub_customer_id AND b.customer_id=?)',[$idCustomer]);
+        $subCustomers = Customer::where('id', '<>', $idCustomer)->get();
         return response()->json($subCustomers,200);
     }
 
     public function getSubCustomers($idCustomer){
-        $subCustomers = Customer::find($idCustomer)->customerAsSubCustomer()->get();
+        $subCustomers = Customer::find($idCustomer)->subCustomer()->where('sub_customer_id', '<>', $idCustomer)->get();
         $forDtt['data'] = $subCustomers;
         return response()->json($forDtt,200);
     }
@@ -136,13 +128,7 @@ class CustomersController extends Controller
     }
 
     public function deleteSubCustomer(Request $request){
-        $idCustomer = $request->input('customer_id');
-        $idSubCustomer = $request->input('sub_customer_id');
-        if ($idCustomer == $idSubCustomer){
-            return response()->json(0,200);
-        }else{
-            $subCustomer = Customer::find($idCustomer)->customerAsSubCustomer()->detach($idSubCustomer);
-            return response()->json(1,200);
-        }
+        $subCustomer = Customer::find($request->input('customer_id'))->subCustomer()->detach($request->input('sub_customer_id'));
+        return response()->json(1,200);
     }
 }
